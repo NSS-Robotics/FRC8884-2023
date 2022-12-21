@@ -1,7 +1,7 @@
-package frc.robot.subsystems;
+package frc.robot.commands.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C.Port;
 
 import frc.robot.SwerveModule;
 import frc.robot.Constants;
@@ -19,11 +19,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
-    public PigeonIMU gyro;
+    public AHRS gyro;
 
     public Swerve() {
         gyro = new AHRS(Port.kMXP, (byte) 200);
-        gyro.configFactoryDefault();
         gyro.reset();
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
