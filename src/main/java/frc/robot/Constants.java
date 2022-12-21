@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
@@ -17,7 +16,7 @@ public final class Constants {
         /* Drivetrain Constants */
         public static final double trackWidth = 0.473;
         public static final double wheelBase = 0.473;
-        public static final double wheelDiameter = Units.inchesToMeters(3.94);
+        public static final double wheelDiameter = 0.10033;
         public static final double wheelCircumference = wheelDiameter * Math.PI;
 
         public static final double openLoopRamp = 0.25;
