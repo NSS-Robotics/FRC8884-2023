@@ -49,9 +49,12 @@ public class Swerve extends SubsystemBase {
                                 );
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
 
-        for(SwerveModule mod : mSwerveMods){
-            mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
-        }
+       mSwerveMods[0].setDesiredState(swerveModuleStates[3], isOpenLoop);
+       mSwerveMods[1].setDesiredState(swerveModuleStates[2], isOpenLoop);
+       mSwerveMods[2].setDesiredState(swerveModuleStates[0], isOpenLoop);
+       mSwerveMods[3].setDesiredState(swerveModuleStates[1], isOpenLoop);
+        
+        
     }    
 
     /* Used by SwerveControllerCommand in Auto */
