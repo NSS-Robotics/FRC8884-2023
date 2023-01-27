@@ -3,7 +3,7 @@ package frc.robot.commands.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C.Port;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -22,6 +22,7 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         gyro = new AHRS(Port.kMXP, (byte) 200);
         gyro.reset();
+        zeroGyro();
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
 
@@ -54,9 +55,6 @@ public class Swerve extends SubsystemBase {
        mSwerveMods[1].setDesiredState(swerveModuleStates[2], isOpenLoop);
        mSwerveMods[2].setDesiredState(swerveModuleStates[0], isOpenLoop);
        mSwerveMods[3].setDesiredState(swerveModuleStates[1], isOpenLoop);
-        
-       Timer.delay(1.0);
-       resetModulesToAbsolute();
     }    
     
     /* Used by SwerveControllerCommand in Auto */
@@ -93,13 +91,6 @@ public class Swerve extends SubsystemBase {
         gyro.getYaw();
         return (Constants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - ypr[0]) : Rotation2d.fromDegrees(ypr[0]);
     }
-
-    public void resetModulesToAbsolute(){
-        for(SwerveModule mod : mSwerveMods){
-            mod.resetToAbsolute();
-        }
-    }
-
 
     @Override
     public void periodic(){

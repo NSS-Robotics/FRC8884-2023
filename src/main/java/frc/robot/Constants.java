@@ -14,8 +14,8 @@ public final class Constants {
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         /* Drivetrain Constants */
-        public static final double trackWidth = 0.473;
-        public static final double wheelBase = 0.473;
+        public static final double trackWidth = 0.609;
+        public static final double wheelBase = 0.609;
         public static final double wheelDiameter = 0.10033;
         public static final double wheelCircumference = wheelDiameter * Math.PI;
 
@@ -90,7 +90,7 @@ public final class Constants {
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 11;
-            public static final double angleOffset = 176;
+            public static final double angleOffset = 174.4;
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
@@ -100,7 +100,7 @@ public final class Constants {
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 1;
             public static final int canCoderID = 8;
-            public static final double angleOffset = 177;
+            public static final double angleOffset = 166.4;
             public static final SwerveModuleConstants constants = 
                 new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
         }
