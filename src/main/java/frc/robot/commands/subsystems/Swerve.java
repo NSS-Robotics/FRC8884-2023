@@ -55,9 +55,10 @@ public class Swerve extends SubsystemBase {
        mSwerveMods[2].setDesiredState(swerveModuleStates[0], isOpenLoop);
        mSwerveMods[3].setDesiredState(swerveModuleStates[1], isOpenLoop);
         
-        
+       Timer.delay(1.0);
+       resetModulesToAbsolute();
     }    
-
+    
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.Swerve.maxSpeed);
@@ -103,9 +104,7 @@ public class Swerve extends SubsystemBase {
     @Override
     public void periodic(){
         swerveOdometry.update(getYaw(), getStates()); 
-        Timer.delay(1.0);
-        resetModulesToAbsolute();
-        
+
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
