@@ -14,15 +14,15 @@ public final class Constants {
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         /* Drivetrain Constants */
-        public static final double trackWidth = 0.609;
-        public static final double wheelBase = 0.609;
+        public static final double trackWidth = 0.712;
+        public static final double wheelBase = 0.712;
         public static final double wheelDiameter = 0.10033;
         public static final double wheelCircumference = wheelDiameter * Math.PI;
 
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
 
-        public static final double driveGearRatio = (6.75 / 1.0); //6.86:1
+        public static final double driveGearRatio = (6.75 / 1.0); //6.75:1
         public static final double angleGearRatio = (21.428 / 1.0); //150/7:1
 
         public static final SwerveDriveKinematics swerveKinematics = new SwerveDriveKinematics(
