@@ -127,6 +127,31 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void limelightRotateLeft() {
+
+    
+    SwerveModuleState[] desiredStates = {
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(221)), //fl
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(123)), //fr
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(276)), //rl
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(161)) //rr
+    };
+    setModuleStates(desiredStates);
+    
+  }
+  public void limelightRotateRight() {
+
+    
+    SwerveModuleState[] desiredStates = {
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(221)), //fl
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(123)), //fr
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(276)), //rl
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(161)) //rr
+    };
+    setModuleStates(desiredStates);
+    
+  }
+
   @Override
   public void periodic() {
     swerveOdometry.update(getYaw(), getModulePositions());
@@ -148,6 +173,9 @@ public class Swerve extends SubsystemBase {
         "Mod " + mod.moduleNumber + " Velocity",
         mod.getState().speedMetersPerSecond
       );
+
+      
     }
+    
   }
 }

@@ -11,6 +11,8 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,6 +30,7 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+
   /* Driver Buttons */
   private final JoystickButton zeroGyro = new JoystickButton(
     driver,
@@ -40,6 +43,7 @@ public class RobotContainer {
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
+  public final Limelight limelight = new Limelight();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -52,6 +56,7 @@ public class RobotContainer {
         () -> robotCentric.getAsBoolean()
       )
     );
+    
 
     // Configure the button bindings
     configureButtonBindings();
@@ -66,7 +71,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-  }
+    
+  } 
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
