@@ -28,6 +28,13 @@ public class Limelight extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
     }
 
+    public double estimateDistance() {
+        double targetOffsetAngle_Vertical = ty;
+        double angletoGoalRad = (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
+        return (Constants.TargetHeight - Constants.MountHeight) / Math.tan(angletoGoalRad);
+
+    }
+
     public void updateLimelightTracking() {
         tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
         tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
@@ -37,13 +44,7 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("LimelightY", ty);
         SmartDashboard.putNumber("LimelightV", tv);
         SmartDashboard.putNumber("LimelightA", ta);
-
-        
-        
-
     }
-
-    
 
     public double gettx() {
         updateLimelightTracking();
@@ -61,6 +62,9 @@ public class Limelight extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("RotateLimelight", -1);
         updateLimelightTracking();
+
+        SmartDashboard.putNumber("Dist to Target", estimateDistance());
+
         if (hasValidTarget()) {
             //TODO: make steering adjustment variable.
             double headingError = tx;

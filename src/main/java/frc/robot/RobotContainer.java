@@ -71,7 +71,23 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+
+    //TODO: Alter this to turn curr only placeholder template
+    if (limelight.hasValidTarget()) {
+        new PIDCommand(new PIDController(Constants.turn_P, 
+        Constants.turn_I, 
+        Constants.turn_D),
+
+        Limelight.gettx(), 
+
+        0,
+
+        (s_Swerve.drive(placeholder1, placeholder2, placeholder3, placeholder4), //placeholder shit
     
+    
+        s_Swerve));
+        
+        }
   } 
 
   /**
