@@ -12,6 +12,9 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 
 
 /**
@@ -53,7 +56,7 @@ public class RobotContainer {
         () -> -driver.getRawAxis(translationAxis),
         () -> -driver.getRawAxis(strafeAxis),
         () -> -driver.getRawAxis(rotationAxis),
-        () -> robotCentric.getAsBoolean()
+        robotCentric::getAsBoolean
       )
     );
     
@@ -62,33 +65,37 @@ public class RobotContainer {
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
+    /**
+     * Use this method to define your button->command mappings. Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zeroGyro.onTrue(
+        new InstantCommand(s_Swerve::zeroGyro)
+    );
 
     //TODO: Alter this to turn curr only placeholder template
-    if (limelight.hasValidTarget()) {
-        new PIDCommand(new PIDController(Constants.turn_P, 
-        Constants.turn_I, 
-        Constants.turn_D),
-
-        Limelight.gettx(), 
-
-        0,
-
-        (s_Swerve.drive(placeholder1, placeholder2, placeholder3, placeholder4), //placeholder shit
-    
-    
-        s_Swerve));
-        
+        if (limelight.hasValidTarget()) {
+            new PIDCommand(
+                new PIDController(
+                    Constants.turn_P, 
+                    Constants.turn_I, 
+                    Constants.turn_D
+                ),
+                limelight::gettx, 
+                0.0,
+                x -> s_Swerve.drive(
+                    new Translation2d(20, 0),
+                    0,
+                    true, true
+                ),
+                s_Swerve
+            );
         }
-  } 
+    } 
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
