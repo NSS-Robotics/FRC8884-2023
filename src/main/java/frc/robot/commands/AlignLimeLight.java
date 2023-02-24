@@ -6,33 +6,45 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Limelight;
 import java.util.function.DoubleSupplier;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import java.util.function.DoubleConsumer;
+import java.util.function.DoubleSupplier;
+import edu.wpi.first.math.geometry.Translation2d;
 
 
 import frc.robot.subsystems.Swerve;
 
-/*public class AlignLimeLight extends PIDCommand {
+public class AlignLimeLight extends PIDCommand {
+    private Swerve swerve;
+    
 
-    private final Swerve swerve;
+    public AlignLimeLight(PIDController controller, DoubleSupplier measurementSource, double setpoint,
+    DoubleConsumer useOutput, Subsystem[] requirements) {
+
+        super(controller, measurementSource, setpoint, useOutput, requirements);
+
+    }
+
     
 
     //TODO: Fix this constructor shit
-    //DriveSubsystem drive;
     
-    public AlignLimelight(Swerve s_Swerve) {
-            
-            super(
-            new PIDController(Constants.turn_P, 
-                Constants.turn_I, 
-                Constants.turn_D),
-
-            Limelight.gettx(), 
-
-            0,
-
-            (s_Swerve.drive(placeholder1, placeholder2, placeholder3, placeholder4), //placeholder shit
-            
-            
-            s_Swerve);
+    
+    public AlignLimeLight(Swerve s_Swerve, Limelight limelight) {
+        super(
+                new PIDController(
+                    Constants.turn_P, 
+                    Constants.turn_I, 
+                    Constants.turn_D
+                ),
+                limelight::gettx, 
+                0.0,
+                x -> s_Swerve.drive(
+                    new Translation2d(3, 0),
+                    0,
+                    false, false),
+                    s_Swerve
+                );
     
             
 
@@ -59,10 +71,10 @@ import frc.robot.subsystems.Swerve;
     @Override
     public void end(boolean interrupted) {
       
-        //swerve.drive(0, 0, false, false);
+        swerve.drive(new Translation2d(0,0), 0, false, false);
         System.out.println("Align With Limelight - End");
     }
-}*/
+}
 
 /** A command that will turn the robot to the specified angle. */
 

@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSFalconSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -16,10 +17,12 @@ public final class Constants {
     public static final double MountAngle = 25.0; //angle from 90 vertical
     public static final double MountHeight = 10.0; //Mount height in cm
     public static final double TargetHeight = 60.0; //Target height in cm
-
-    public static final double turn_P = 0.0;
+    public static final double turnTolerance = 2.0; //degrees per turn
+    //Limelight PID
+    public static final double turn_P = 0.2;
     public static final double turn_I = 0.0;
     public static final double turn_D = 0.0;
+
 
 
     public static final class Swerve {
@@ -27,7 +30,7 @@ public final class Constants {
         public static final boolean invertGyro = false; // Always ensure Gyro is CCW+ CW-
 
         public static final COTSFalconSwerveConstants chosenModule =  //TODO: This must be tuned to specific robot
-            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2);
+            COTSFalconSwerveConstants.SDSMK4i(COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2); 
 
         /* Drivetrain Constants */
         public static final double trackWidth = 0.712;

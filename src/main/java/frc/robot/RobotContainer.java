@@ -12,9 +12,14 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.AlignLimeLight;
+
+
+
+
+
 
 
 /**
@@ -43,6 +48,11 @@ public class RobotContainer {
     driver,
     XboxController.Button.kLeftBumper.value
   );
+  private final JoystickButton rightBumper = new JoystickButton(
+    driver,
+    XboxController.Button.kRightBumper.value
+  );
+
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -73,29 +83,14 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
     /* Driver Buttons */
-    zeroGyro.onTrue(
-        new InstantCommand(s_Swerve::zeroGyro)
-    );
-
-    //TODO: Alter this to turn curr only placeholder template
-        if (limelight.hasValidTarget()) {
-            new PIDCommand(
-                new PIDController(
-                    Constants.turn_P, 
-                    Constants.turn_I, 
-                    Constants.turn_D
-                ),
-                limelight::gettx, 
-                0.0,
-                x -> s_Swerve.drive(
-                    new Translation2d(20, 0),
-                    0,
-                    true, true
-                ),
-                s_Swerve
-            );
+        zeroGyro.onTrue(
+            new InstantCommand(s_Swerve::zeroGyro)
+        );
+        rightBumper.whileTrue(
+            new AlignLimeLight(s_Swerve, limelight)
+        );
         }
-    } 
+     
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
