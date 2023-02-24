@@ -31,12 +31,14 @@ import frc.robot.commands.AlignLimeLight;
 public class RobotContainer {
 
   /* Controllers */
-  private final Joystick driver = new Joystick(0);
-
+  private final XboxController driver = new XboxController(0);
+  private final XboxController operator = new XboxController(1); 
   /* Drive Controls */
-  private final int translationAxis = XboxController.Axis.kRightY.value;
+  private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kRightX.value;
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
+  private final int heightAxis = XboxController.Axis.kLeftY.value;
+
 
 
   /* Driver Buttons */
@@ -58,6 +60,7 @@ public class RobotContainer {
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
   public final Limelight limelight = new Limelight();
+  public final Elevator elevator = new Elevator();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,8 +71,14 @@ public class RobotContainer {
         () -> -driver.getRawAxis(strafeAxis),
         () -> -driver.getRawAxis(rotationAxis),
         robotCentric::getAsBoolean
-      )
-    );
+
+    ));
+      elevator.setDefaultCommand(
+        new RunCommand(
+                        () ->
+                              elevator.Extend(heightAxis),
+                              elevator
+                ));
     
 
     // Configure the button bindings

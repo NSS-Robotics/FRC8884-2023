@@ -13,13 +13,13 @@ public class Elevator extends SubsystemBase {
   private MotorControllerGroup elevator = new MotorControllerGroup(Lmotor, Rmotor);
 
   public Elevator() {
-        Lmotor = new CANSparkMax(0, MotorType.kBrushless);
+        Lmotor = new CANSparkMax(12, MotorType.kBrushless);
         Lmotor.setIdleMode(IdleMode.kBrake);
         Lmotor.setSmartCurrentLimit(40);
         Lmotor.setOpenLoopRampRate(0.5);
         Lmotor.setClosedLoopRampRate(0.5);
 
-        Rmotor = new CANSparkMax(0, MotorType.kBrushless);
+        Rmotor = new CANSparkMax(13, MotorType.kBrushless);
         Rmotor.setIdleMode(IdleMode.kBrake);
         Rmotor.setSmartCurrentLimit(40);
         Rmotor.setOpenLoopRampRate(0.5);
