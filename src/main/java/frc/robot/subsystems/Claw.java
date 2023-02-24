@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Claw {
+public class Claw extends SubsystemBase {
     private CANSparkMax clawMotor;
     private DoubleSolenoid clawSolenoid;
     private Compressor compressor;
