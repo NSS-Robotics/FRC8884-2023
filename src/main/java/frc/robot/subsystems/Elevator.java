@@ -26,12 +26,12 @@ public class Elevator extends SubsystemBase {
         Rmotor.setClosedLoopRampRate(0.5);
   }
 
-  public void Extend(int speed) {
-    elevator.set(speed);
+  public void Extend() {
+    elevator.set(20);
   }
   
-  public void Retract(int speed) {
-    elevator.set(speed);
+  public void Retract() {
+    elevator.set(-20);
   }
 
   @Override

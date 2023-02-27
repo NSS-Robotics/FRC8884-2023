@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.hal.communication.NIRioStatus;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -54,6 +55,8 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
+  private final JoystickButton elevatorup = new JoystickButton(operator, XboxController.Button.kA.value);
+  private final JoystickButton elevatordown = new JoystickButton(operator, XboxController.Button.kX.value);
   
 
 
@@ -73,12 +76,6 @@ public class RobotContainer {
         robotCentric::getAsBoolean
 
     ));
-      elevator.setDefaultCommand(
-        new RunCommand(
-                        () ->
-                              elevator.Extend(heightAxis),
-                              elevator
-                ));
     
 
     // Configure the button bindings
@@ -98,6 +95,12 @@ public class RobotContainer {
         );
         rightBumper.whileTrue(
             new AlignLimeLight(s_Swerve, limelight)
+        );
+        elevatorup.whileTrue(
+          new InstantCommand(elevator::Extend)
+        );
+        elevatordown.whileTrue(
+          new InstantCommand(elevator::Retract)
         );
         }
      
