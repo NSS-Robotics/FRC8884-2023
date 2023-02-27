@@ -30,11 +30,7 @@ public class AlignLimeLight extends PIDCommand {
             ),
             limelight::gettx, 
             0.0,
-            x -> s_Swerve.drive(
-                new Translation2d(3, 0),
-                0,
-                false, false
-            ),
+            x -> s_Swerve.TurnStates(x),
             s_Swerve
         );
 

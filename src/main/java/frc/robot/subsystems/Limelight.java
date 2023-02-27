@@ -65,20 +65,7 @@ public class Limelight extends SubsystemBase {
 
         SmartDashboard.putNumber("Dist to Target", estimateDistance());
 
-        if (hasValidTarget()) {
-            //TODO: make steering adjustment variable.
-            double headingError = tx;
-            //double steeringAdjust = 0.0;
-            if (Math.abs(headingError) > 1.0) {
-                if (headingError < 0) {
-                    swerve.limelightRotateLeft();
-                    SmartDashboard.putNumber("RotateLimelight", 1);
-                } else {
-                    swerve.limelightRotateRight();
-                    SmartDashboard.putNumber("RotateLimelight", 0);
-                }
-            }
-        }
+        
         
     }
 
