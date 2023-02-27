@@ -54,8 +54,8 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton elevatorup = new JoystickButton(operator, XboxController.Button.kA.value);
-  private final JoystickButton elevatordown = new JoystickButton(operator, XboxController.Button.kX.value);
+  private final JoystickButton elevatorup = new JoystickButton(operator, XboxController.Button.kY.value);
+  private final JoystickButton elevatordown = new JoystickButton(operator, XboxController.Button.kA.value);
   
 
 

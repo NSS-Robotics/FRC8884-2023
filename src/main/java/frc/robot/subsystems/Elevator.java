@@ -10,28 +10,30 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 public class Elevator extends SubsystemBase {
   public CANSparkMax Lmotor;
   public CANSparkMax Rmotor;
-  private MotorControllerGroup elevator = new MotorControllerGroup(Lmotor, Rmotor);
 
   public Elevator() {
         Lmotor = new CANSparkMax(12, MotorType.kBrushless);
         Lmotor.setIdleMode(IdleMode.kBrake);
         Lmotor.setSmartCurrentLimit(40);
-        Lmotor.setOpenLoopRampRate(0.5);
-        Lmotor.setClosedLoopRampRate(0.5);
+        Lmotor.setOpenLoopRampRate(0.3);
+        Lmotor.setClosedLoopRampRate(0.3);
 
         Rmotor = new CANSparkMax(13, MotorType.kBrushless);
         Rmotor.setIdleMode(IdleMode.kBrake);
         Rmotor.setSmartCurrentLimit(40);
-        Rmotor.setOpenLoopRampRate(0.5);
-        Rmotor.setClosedLoopRampRate(0.5);
+        Rmotor.setOpenLoopRampRate(0.3);
+        Rmotor.setClosedLoopRampRate(0.3);
   }
 
   public void Extend() {
-    elevator.set(0.2);
+    Lmotor.set(1);
+    Rmotor.set(-1);
+
   }
   
   public void Retract() {
-    elevator.set(-0.2);
+    Lmotor.set(-1);
+    Rmotor.set(1);
   }
 
   @Override
