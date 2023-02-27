@@ -27,11 +27,11 @@ public class Elevator extends SubsystemBase {
   }
 
   public void Extend() {
-    elevator.set(20);
+    elevator.set(0.2);
   }
   
   public void Retract() {
-    elevator.set(-20);
+    elevator.set(-0.2);
   }
 
   @Override
