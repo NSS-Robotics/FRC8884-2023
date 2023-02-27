@@ -35,10 +35,9 @@ public class RobotContainer {
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1); 
   /* Drive Controls */
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
+  private final int translationAxis = XboxController.Axis.kRightY.value;
   private final int strafeAxis = XboxController.Axis.kRightX.value;
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
-  private final int heightAxis = XboxController.Axis.kLeftY.value;
 
 
 
