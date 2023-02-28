@@ -15,25 +15,25 @@ public class Elevator extends SubsystemBase {
         Lmotor = new CANSparkMax(12, MotorType.kBrushless);
         Lmotor.setIdleMode(IdleMode.kBrake);
         Lmotor.setSmartCurrentLimit(40);
-        Lmotor.setOpenLoopRampRate(0.3);
-        Lmotor.setClosedLoopRampRate(0.3);
+        Lmotor.setOpenLoopRampRate(0.5);
+        Lmotor.setClosedLoopRampRate(0.5);
 
         Rmotor = new CANSparkMax(13, MotorType.kBrushless);
         Rmotor.setIdleMode(IdleMode.kBrake);
         Rmotor.setSmartCurrentLimit(40);
-        Rmotor.setOpenLoopRampRate(0.3);
-        Rmotor.setClosedLoopRampRate(0.3);
+        Rmotor.setOpenLoopRampRate(0.5);
+        Rmotor.setClosedLoopRampRate(0.5);
   }
 
   public void Extend() {
-    Lmotor.set(1);
-    Rmotor.set(-1);
+    Lmotor.set(.3);
+    Rmotor.set(.3);
 
   }
   
   public void Retract() {
-    Lmotor.set(-1);
-    Rmotor.set(1);
+    Lmotor.set(-.3);
+    Rmotor.set(-.3);
   }
 
   @Override
