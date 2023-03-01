@@ -9,7 +9,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,11 +20,11 @@ public class Swerve extends SubsystemBase {
 
   public SwerveDriveOdometry swerveOdometry;
   public SwerveModule[] mSwerveMods;
-  public AHRS gyro;
+  private final AHRS gyro;
 
   public Swerve() {
-    gyro = new AHRS(Port.kMXP, (byte) 200);
-    gyro.reset();
+    gyro = new AHRS(SPI.Port.kMXP);
+
     zeroGyro();
 
     mSwerveMods =
@@ -118,7 +118,7 @@ public class Swerve extends SubsystemBase {
   public Rotation2d getYaw() {
     return (Constants.Swerve.invertGyro)
       ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-      : gyro.getRotation2d();
+      : Rotation2d.fromDegrees(gyro.getYaw());
   }
 
   public void resetModulesToAbsolute() {
@@ -136,13 +136,13 @@ public class Swerve extends SubsystemBase {
         gyro.getRotation2d()
       )
     );
-
     setModuleStates(swerveModuleStates);
   }
 
   @Override
   public void periodic() {
     swerveOdometry.update(getYaw(), getModulePositions());
+
     SmartDashboard.putString(
       "Robot Location",
       getPose().getTranslation().toString()
