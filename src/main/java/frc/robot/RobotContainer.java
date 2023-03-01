@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.AlignLimeLight;
-import com.ctre.phoenix.music.Orchestra;
+
 
 
 
@@ -57,7 +57,7 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton resetElevator = new JoystickButton(operator, XboxController.Button.kX.value);
   private final JoystickButton bottomnode = new JoystickButton(operator, XboxController.Button.kY.value);
   private final JoystickButton midnode = new JoystickButton(operator, XboxController.Button.kA.value);
   private final JoystickButton topnode = new JoystickButton(operator, XboxController.Button.kB.value);
@@ -101,12 +101,19 @@ public class RobotContainer {
         rightBumper.whileTrue(
             new AlignLimeLight(s_Swerve, limelight)
         );
-        music.whileTrue(
-            new InstantCommand(boombox::play)
+        bottomnode.onTrue(
+            new BottomNode(elevator)
         );
         bottomnode.whileActiveContinuous(
             new BottomNode(elevator)
         );
+        midnode.onTrue(
+            new MidNode(elevator)
+        );
+        topnode.onTrue(
+            new TopNode(elevator)
+        );
+        
         }
      
 
