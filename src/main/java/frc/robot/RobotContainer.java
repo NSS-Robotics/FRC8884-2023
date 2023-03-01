@@ -101,9 +101,6 @@ public class RobotContainer {
         rightBumper.whileTrue(
             new AlignLimeLight(s_Swerve, limelight)
         );
-        bottomnode.onTrue(
-            new BottomNode(elevator)
-        );
         bottomnode.whileActiveContinuous(
             new BottomNode(elevator)
         );
