@@ -13,39 +13,52 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
-    private CANSparkMax clawMotor;
-    private DoubleSolenoid clawSolenoid;
+    private CANSparkMax LMotor;
+    private CANSparkMax RMotor;
+    private DoubleSolenoid LSolenoid;
+    private DoubleSolenoid RSolenoid;
     private Compressor compressor;
 
     public Claw() {
-        clawMotor = new CANSparkMax(0, MotorType.kBrushless);
-        clawMotor.setIdleMode(IdleMode.kBrake);
-        clawMotor.setSmartCurrentLimit(40);
-        clawMotor.setOpenLoopRampRate(0.5);
-        clawMotor.setClosedLoopRampRate(0.5);
+        LMotor = new CANSparkMax(0, MotorType.kBrushless);
+        LMotor.setIdleMode(IdleMode.kBrake);
+        LMotor.setSmartCurrentLimit(40);
+        LMotor.setOpenLoopRampRate(0.5);
+        LMotor.setClosedLoopRampRate(0.5);
+
+        RMotor = new CANSparkMax(0, MotorType.kBrushless);
+        RMotor.setIdleMode(IdleMode.kBrake);
+        RMotor.setSmartCurrentLimit(40);
+        RMotor.setOpenLoopRampRate(0.5);
+        RMotor.setClosedLoopRampRate(0.5);
 
         clawSolenoid = new DoubleSolenoid(null, 0, 1);
         compressor = new Compressor(0, null);
     }
 
     public void openClaw() {
-        clawSolenoid.set(Value.kForward);
+        LSolenoid.set(Value.kForward);
+        RSolenoid.set(Value.kForward);
     }
 
     public void closeClaw() {
-        clawSolenoid.set(Value.kReverse);
+        LSolenoid.set(Value.kReverse);
+        RSolenoid.set(Value.kReverse);
     }
 
     public void stopClaw() {
-        clawSolenoid.set(Value.kOff);
+        LSolenoid.set(Value.kOff);
+        RSolenoid.set(Value.kOff);
     }
 
     public void runClaw(double speed) {
-        clawMotor.set(speed);
+        LMotor.set(speed);
+        RMotor.set(speed);
     }
 
     public void stop() {
-        clawMotor.set(0);
+        LMotor.set(0);
+        RMotor.set(0)
     }
 
     public void startCompressor() {

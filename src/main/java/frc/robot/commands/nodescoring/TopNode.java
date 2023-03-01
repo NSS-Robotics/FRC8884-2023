@@ -1,6 +1,5 @@
 package frc.robot.commands.nodescoring;
 
-import edu.wpi.first.networktables.Topic;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Elevator;
 import frc.robot.Constants;

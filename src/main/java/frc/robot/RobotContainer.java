@@ -66,9 +66,9 @@ public class RobotContainer {
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
-  public final Limelight limelight = new Limelight();
-  public final Elevator elevator = new Elevator();
-  public final BoomBox boombox  = new BoomBox();
+  private final Limelight limelight = new Limelight();
+  private final Elevator elevator = new Elevator();
+  private final BoomBox boombox  = new BoomBox();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -103,6 +103,9 @@ public class RobotContainer {
         );
         music.whileTrue(
             new InstantCommand(boombox::play)
+        );
+        bottomnode.whileActiveContinuous(
+            new BottomNode(elevator)
         );
         }
      

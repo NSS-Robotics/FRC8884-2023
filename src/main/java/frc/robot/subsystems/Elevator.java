@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
 
 
   public void elevatorsetup() {
-    //Lmotor Setup
+    /* Lmotor Setup */
     Lmotor.restoreFactoryDefaults();
     Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
     Lmotor.setIdleMode(IdleMode.kBrake);
@@ -33,8 +33,12 @@ public class Elevator extends SubsystemBase {
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
     Lmotorpid = Lmotor.getPIDController();
+    Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    Lmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
-    //Rmotor Setup
+    /* Rmotor Setup */
     Rmotor.restoreFactoryDefaults();
     Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
     Rmotor.setIdleMode(IdleMode.kBrake);
@@ -43,6 +47,14 @@ public class Elevator extends SubsystemBase {
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
+    Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+
+    resetEncoders();
+    Lmotor.burnFlash();
+    Rmotor.burnFlash();
   }
 
   public void resetEncoders(){

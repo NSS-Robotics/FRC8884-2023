@@ -26,7 +26,7 @@ public final class Constants {
     public static final class ElevatorConstants {
         public static final int LMotorID = 12;
         public static final int RMotorID = 13;
-        public static final int BottomNodeDistance = 0;
+        public static final int BottomNodeDistance = 50;
         public static final int MidNodeDistance = 0;
         public static final int TopNodeDistance = 0;
     }
