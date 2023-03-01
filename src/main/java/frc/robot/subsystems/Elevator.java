@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -11,6 +10,7 @@ import com.revrobotics.SparkMaxPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
   private CANSparkMax Lmotor;
@@ -33,6 +33,10 @@ public class Elevator extends SubsystemBase {
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
     Lmotorpid = Lmotor.getPIDController();
+    Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    Lmotor.setSoftLimit(SoftLimitDirection.kForward, 50);
+    Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);;
 
     //Rmotor Setup
     Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
@@ -43,6 +47,14 @@ public class Elevator extends SubsystemBase {
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
+    Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    Rmotor.setSoftLimit(SoftLimitDirection.kForward, 50);
+    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+
+    resetEncoders();
+    Lmotor.burnFlash();
+    Rmotor.burnFlash();
   }
 
   public void resetEncoders(){
