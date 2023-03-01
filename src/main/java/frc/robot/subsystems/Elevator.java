@@ -7,12 +7,12 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
+
   private CANSparkMax Lmotor;
   private CANSparkMax Rmotor;
   private RelativeEncoder LmotorEncoder;
@@ -22,10 +22,13 @@ public class Elevator extends SubsystemBase {
 
   public boolean elevatorreset = false;
 
-
   public void elevatorsetup() {
     //Lmotor Setup
-    Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
+    Lmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.LMotorID,
+        MotorType.kBrushless
+      );
     Lmotor.restoreFactoryDefaults();
     Lmotor.setIdleMode(IdleMode.kBrake);
     Lmotor.setSmartCurrentLimit(40);
@@ -35,11 +38,18 @@ public class Elevator extends SubsystemBase {
     Lmotorpid = Lmotor.getPIDController();
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Lmotor.setSoftLimit(SoftLimitDirection.kForward, 50);
-    Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);;
-
+    Lmotor.setSoftLimit(
+      SoftLimitDirection.kForward,
+      Constants.ElevatorConstants.MaxHeight
+    );
+    Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
     //Rmotor Setup
-    Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
+    Rmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.RMotorID,
+        MotorType.kBrushless
+      );
+
     Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
     Rmotor.setSmartCurrentLimit(40);
@@ -49,68 +59,70 @@ public class Elevator extends SubsystemBase {
     Rmotorpid = Rmotor.getPIDController();
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Rmotor.setSoftLimit(SoftLimitDirection.kForward, 50);
-    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
-
+    Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    Rmotor.setSoftLimit(
+      SoftLimitDirection.kReverse,
+      -Constants.ElevatorConstants.MaxHeight
+    );
     resetEncoders();
+
     Lmotor.burnFlash();
     Rmotor.burnFlash();
   }
 
-  public void resetEncoders(){
+  public void resetEncoders() {
     LmotorEncoder.setPosition(0);
     RmotorEncoder.setPosition(0);
   }
 
-public void setElevator(double value) {
+  public void setElevator(double value) {
     Lmotorpid.setReference(value, ControlType.kPosition, 0);
     Rmotorpid.setReference(value, ControlType.kPosition, 0);
-
   }
 
-public void stopElevator(){
+  public void stopElevator() {
     Lmotor.set(0);
     Rmotor.set(0);
-}
+  }
 
-public void disableElevatorLimits() {
+  public void disableElevatorLimits() {
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, false);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, false);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
   }
 
-public void enableElevatorLimits() {
+  public void enableElevatorLimits() {
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
   }
 
-public void resetElevator(){
+  public void resetElevator() {
     elevatorreset = true;
     LmotorEncoder.setPosition(0);
     RmotorEncoder.setPosition(0);
   }
 
-public double[] getElevatorCurrent(){
-    double outputcurrent [] = new double[2];
+  public double[] getElevatorCurrent() {
+    double outputcurrent[] = new double[2];
     outputcurrent[0] = Lmotor.getOutputCurrent();
     outputcurrent[1] = Rmotor.getOutputCurrent();
-  return outputcurrent;
+    return outputcurrent;
   }
 
-public void setElevatorSpeed(double value){
+  public void setElevatorSpeed(double value) {
     Lmotor.set(value);
     Rmotor.set(value);
   }
 
-public Elevator(){
+  public Elevator() {
     elevatorsetup();
   }
 
-@Override
-public void periodic() {
+  @Override
+  public void periodic() {
     SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
     SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
   }
