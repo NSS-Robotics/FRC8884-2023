@@ -58,6 +58,8 @@ public class RobotContainer {
     XboxController.Button.kRightBumper.value
   );
   private final JoystickButton resetElevator = new JoystickButton(operator, XboxController.Button.kX.value);
+  private final JoystickButton runelevator = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rundelevator = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
   private final JoystickButton bottomnode = new JoystickButton(operator, XboxController.Button.kY.value);
   private final JoystickButton midnode = new JoystickButton(operator, XboxController.Button.kA.value);
   private final JoystickButton topnode = new JoystickButton(operator, XboxController.Button.kB.value);
@@ -68,6 +70,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
+  private final RunMotor runmotor = new RunMotor();
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -100,6 +103,12 @@ public class RobotContainer {
         );
         rightBumper.whileTrue(
             new AlignLimeLight(s_Swerve, limelight)
+        );
+        runelevator.whileTrue(
+            new InstantCommand(runmotor::Extend)
+        );
+        rundelevator.whileTrue(
+            new InstantCommand(runmotor::Retract)
         );
         bottomnode.whileTrue(
             new BottomNode(elevator)
