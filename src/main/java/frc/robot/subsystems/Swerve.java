@@ -139,11 +139,6 @@ public class Swerve extends SubsystemBase {
 
     setModuleStates(swerveModuleStates);
   }
-  public void TurnStates(double angularSpeed) {
-    var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-                     ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, angularSpeed, gyro.getRotation2d()));
-        setModuleStates(swerveModuleStates);
-  }
 
   @Override
   public void periodic() {
