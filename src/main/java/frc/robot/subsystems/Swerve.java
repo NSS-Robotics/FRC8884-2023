@@ -127,6 +127,17 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void TurnStates(double angularSpeed) {
+    var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+      ChassisSpeeds.fromFieldRelativeSpeeds(
+        0,
+        0,
+        angularSpeed,
+        gyro.getRotation2d()
+      )
+    );
+    
+    setModuleStates(swerveModuleStates);
   public void limelightRotateLeft() {
 
     
