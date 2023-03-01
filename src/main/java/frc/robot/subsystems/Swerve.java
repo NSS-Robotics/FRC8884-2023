@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,11 +20,10 @@ public class Swerve extends SubsystemBase {
 
   public SwerveDriveOdometry swerveOdometry;
   public SwerveModule[] mSwerveMods;
-  public AHRS gyro;
+  private final AHRS gyro;
 
   public Swerve() {
-    gyro = new AHRS(Port.kMXP, (byte) 200);
-    gyro.reset();
+    gyro = new AHRS(SPI.Port.kMXP);
     zeroGyro();
 
     mSwerveMods =
@@ -35,7 +34,9 @@ public class Swerve extends SubsystemBase {
         new SwerveModule(3, Constants.Swerve.Mod3.constants),
       };
 
-    /* By pausing init for a second before setting module offsets, we avoid a bug with inverting motors.
+    /*
+     * By pausing init for a second before setting module offsets, we avoid a bug
+     * with inverting motors.
      * See https://github.com/Team364/BaseFalconSwerve/issues/8 for more info.
      */
     Timer.delay(1.0);
@@ -112,13 +113,13 @@ public class Swerve extends SubsystemBase {
   }
 
   public void zeroGyro() {
-    gyro.zeroYaw();;
+    gyro.zeroYaw();
   }
 
   public Rotation2d getYaw() {
     return (Constants.Swerve.invertGyro)
       ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-      : gyro.getRotation2d();
+      : Rotation2d.fromDegrees(gyro.getYaw());
   }
 
   public void resetModulesToAbsolute() {
@@ -127,19 +128,9 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-    public void TurnStates(double angularSpeed) {
-        var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-        ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, angularSpeed, gyro.getRotation2d()));
-        setModuleStates(swerveModuleStates);
-    }
-
   @Override
   public void periodic() {
     swerveOdometry.update(getYaw(), getModulePositions());
-    SmartDashboard.putString(
-      "Robot Location",
-      getPose().getTranslation().toString()
-    );
 
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(
@@ -154,9 +145,6 @@ public class Swerve extends SubsystemBase {
         "Mod " + mod.moduleNumber + " Velocity",
         mod.getState().speedMetersPerSecond
       );
-
-      
     }
-    
   }
 }
