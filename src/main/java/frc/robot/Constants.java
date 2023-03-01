@@ -22,7 +22,14 @@ public final class Constants {
     public static final double turn_I = 0.0;
     public static final double turn_D = 0.0;
 
-
+    /* Elevator Constants */
+    public static final class ElevatorConstants {
+        public static final int LMotorID = 12;
+        public static final int RMotorID = 13;
+        public static final int BottomNodeDistance = 0;
+        public static final int MidNodeDistance = 0;
+        public static final int TopNodeDistance = 0;
+    }
 
     public static final class Swerve {
         public static final int pigeonID = 1;

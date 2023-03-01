@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -127,16 +127,41 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-  public void TurnStates(double angularSpeed) {
-    var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
-      ChassisSpeeds.fromFieldRelativeSpeeds(
-        0,
-        0,
-        angularSpeed,
-        gyro.getRotation2d()
-      )
-    );
-    setModuleStates(swerveModuleStates);
+  public void limelightRotateLeft() {
+
+    
+    SwerveModuleState[] desiredStates = {
+        //turn all modules 45 and rotate slightly
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(221)), //fl
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(123)), //fr
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(276)), //rl
+        new SwerveModuleState(0.01, Rotation2d.fromDegrees(161)) //rr
+        
+    };
+    setModuleStates(desiredStates);
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    
+  }
+  public void limelightRotateRight() {
+
+    
+    SwerveModuleState[] desiredStates = {
+        //turn all modules 45 and rotate slightly
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(221)), //fl
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(123)), //fr
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(276)), //rl
+        new SwerveModuleState(-0.01, Rotation2d.fromDegrees(161)) //rr
+    };
+    setModuleStates(desiredStates);
+    try {
+        Thread.sleep(500);
+    } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
   }
 
   @Override
@@ -160,6 +185,9 @@ public class Swerve extends SubsystemBase {
         "Mod " + mod.moduleNumber + " Velocity",
         mod.getState().speedMetersPerSecond
       );
+
+      
     }
+    
   }
 }

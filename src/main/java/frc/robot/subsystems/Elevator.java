@@ -1,43 +1,105 @@
 package frc.robot.subsystems;
 
+import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 public class Elevator extends SubsystemBase {
-  public CANSparkMax Lmotor;
-  public CANSparkMax Rmotor;
+  private CANSparkMax Lmotor;
+  private CANSparkMax Rmotor;
+  private RelativeEncoder LmotorEncoder;
+  private RelativeEncoder RmotorEncoder;
+  private SparkMaxPIDController Lmotorpid;
+  private SparkMaxPIDController Rmotorpid;
 
-  public Elevator() {
-        Lmotor = new CANSparkMax(12, MotorType.kBrushless);
-        Lmotor.setIdleMode(IdleMode.kBrake);
-        Lmotor.setSmartCurrentLimit(40);
-        Lmotor.setOpenLoopRampRate(0.5);
-        Lmotor.setClosedLoopRampRate(0.5);
+  public boolean elevatorreset = false;
 
-        Rmotor = new CANSparkMax(13, MotorType.kBrushless);
-        Rmotor.setIdleMode(IdleMode.kBrake);
-        Rmotor.setSmartCurrentLimit(40);
-        Rmotor.setOpenLoopRampRate(0.5);
-        Rmotor.setClosedLoopRampRate(0.5);
+
+  public void elevatorsetup() {
+    //Lmotor Setup
+    Lmotor.restoreFactoryDefaults();
+    Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
+    Lmotor.setIdleMode(IdleMode.kBrake);
+    Lmotor.setSmartCurrentLimit(40);
+    Lmotor.setOpenLoopRampRate(0.5);
+    Lmotor.setClosedLoopRampRate(0.5);
+    LmotorEncoder = Lmotor.getEncoder();
+    Lmotorpid = Lmotor.getPIDController();
+
+    //Rmotor Setup
+    Rmotor.restoreFactoryDefaults();
+    Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
+    Rmotor.setIdleMode(IdleMode.kBrake);
+    Rmotor.setSmartCurrentLimit(40);
+    Rmotor.setOpenLoopRampRate(0.5);
+    Rmotor.setClosedLoopRampRate(0.5);
+    RmotorEncoder = Rmotor.getEncoder();
+    Rmotorpid = Rmotor.getPIDController();
   }
 
-  public void Extend() {
-    Lmotor.set(.3);
-    Rmotor.set(.3);
-
-  }
-  
-  public void Retract() {
-    Lmotor.set(-.3);
-    Rmotor.set(-.3);
+  public void resetEncoders(){
+    LmotorEncoder.setPosition(0);
+    RmotorEncoder.setPosition(0);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+public void setElevator(double value) {
+    Lmotorpid.setReference(value, ControlType.kPosition, 0);
+    Rmotorpid.setReference(value, ControlType.kPosition, 0);
+
+  }
+
+public void stopElevator(){
+    Lmotor.set(0);
+    Rmotor.set(0);
+  }
+
+public void disableElevatorLimits() {
+    Lmotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+  }
+
+public void enableElevatorLimits() {
+    Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+  }
+
+public void resetElevator(){
+    elevatorreset = true;
+    LmotorEncoder.setPosition(0);
+    RmotorEncoder.setPosition(0);
+  }
+
+public double[] getElevatorCurrent(){
+    double outputcurrent [] = new double[2];
+    outputcurrent[0] = Lmotor.getOutputCurrent();
+    outputcurrent[1] = Rmotor.getOutputCurrent();
+  return outputcurrent;
+  }
+
+public void setElevatorSpeed(double value){
+    Lmotor.set(value);
+    Rmotor.set(value);
+  }
+
+public Elevator(){
+    elevatorsetup();
+  }
+
+@Override
+public void periodic() {
+    SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
+    SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
   }
 }
