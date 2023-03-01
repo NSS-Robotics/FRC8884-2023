@@ -139,37 +139,10 @@ public class Swerve extends SubsystemBase {
 
     setModuleStates(swerveModuleStates);
   }
-
-  public void limelightRotateLeft() {
-    SwerveModuleState[] desiredStates = {
-      //turn all modules 45 and rotate slightly
-      new SwerveModuleState(0.01, Rotation2d.fromDegrees(221)), //fl
-      new SwerveModuleState(0.01, Rotation2d.fromDegrees(123)), //fr
-      new SwerveModuleState(0.01, Rotation2d.fromDegrees(276)), //rl
-      new SwerveModuleState(0.01, Rotation2d.fromDegrees(161)), //rr
-    };
-    setModuleStates(desiredStates);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
-  }
-
-  public void limelightRotateRight() {
-    SwerveModuleState[] desiredStates = {
-      //turn all modules 45 and rotate slightly
-      new SwerveModuleState(-0.01, Rotation2d.fromDegrees(221)), //fl
-      new SwerveModuleState(-0.01, Rotation2d.fromDegrees(123)), //fr
-      new SwerveModuleState(-0.01, Rotation2d.fromDegrees(276)), //rl
-      new SwerveModuleState(-0.01, Rotation2d.fromDegrees(161)), //rr
-    };
-    setModuleStates(desiredStates);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-    }
+  public void TurnStates(double angularSpeed) {
+    var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
+                     ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, angularSpeed, gyro.getRotation2d()));
+        setModuleStates(swerveModuleStates);
   }
 
   @Override

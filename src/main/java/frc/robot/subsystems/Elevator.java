@@ -24,37 +24,25 @@ public class Elevator extends SubsystemBase {
 
 
   public void elevatorsetup() {
-    /* Lmotor Setup */
-    Lmotor.restoreFactoryDefaults();
+    //Lmotor Setup
     Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
+    Lmotor.restoreFactoryDefaults();
     Lmotor.setIdleMode(IdleMode.kBrake);
     Lmotor.setSmartCurrentLimit(40);
     Lmotor.setOpenLoopRampRate(0.5);
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
     Lmotorpid = Lmotor.getPIDController();
-    Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Lmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
-    /* Rmotor Setup */
-    Rmotor.restoreFactoryDefaults();
+    //Rmotor Setup
     Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
+    Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
     Rmotor.setSmartCurrentLimit(40);
     Rmotor.setOpenLoopRampRate(0.5);
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
-    Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
-
-    resetEncoders();
-    Lmotor.burnFlash();
-    Rmotor.burnFlash();
   }
 
   public void resetEncoders(){
@@ -71,7 +59,7 @@ public void setElevator(double value) {
 public void stopElevator(){
     Lmotor.set(0);
     Rmotor.set(0);
-  }
+}
 
 public void disableElevatorLimits() {
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, false);
