@@ -17,6 +17,7 @@ public class Claw extends SubsystemBase {
     private CANSparkMax RMotor;
     private DoubleSolenoid LSolenoid;
     private DoubleSolenoid RSolenoid;
+    private DoubleSolenoid clawSolenoid;
     private Compressor compressor;
 
     public Claw() {
@@ -58,7 +59,7 @@ public class Claw extends SubsystemBase {
 
     public void stop() {
         LMotor.set(0);
-        RMotor.set(0)
+        RMotor.set(0);
     }
 
     public void startCompressor() {

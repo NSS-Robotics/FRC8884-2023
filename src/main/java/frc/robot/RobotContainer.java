@@ -68,7 +68,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
-  private final BoomBox boombox  = new BoomBox();
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -101,7 +101,7 @@ public class RobotContainer {
         rightBumper.whileTrue(
             new AlignLimeLight(s_Swerve, limelight)
         );
-        bottomnode.whileActiveContinuous(
+        bottomnode.whileTrue(
             new BottomNode(elevator)
         );
         midnode.onTrue(
