@@ -15,7 +15,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
-//import frc.robot.commands.nodescoring.*;
+import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -47,18 +47,30 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
-  // private final JoystickButton resetElevator = new JoystickButton(
-  //   operator,
-  //   XboxController.Button.kX.value
-  // );
-  private final JoystickButton up = new JoystickButton(
+  private final JoystickButton resetElevator = new JoystickButton(
+    operator,
+    XboxController.Button.kX.value
+  );
+  private final JoystickButton bottomNode = new JoystickButton(
     operator,
     XboxController.Button.kA.value
   );
-  private final JoystickButton down = new JoystickButton(
+  private final JoystickButton midNode = new JoystickButton(
     operator,
     XboxController.Button.kB.value
   );
+  private final JoystickButton topNode = new JoystickButton(
+    operator,
+    XboxController.Button.kY.value
+  );
+  // private final JoystickButton up = new JoystickButton(
+  //   operator,
+  //   XboxController.Button.kA.value
+  // );
+  // private final JoystickButton down = new JoystickButton(
+  //   operator,
+  //   XboxController.Button.kB.value
+  // );
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -99,6 +111,9 @@ public class RobotContainer {
     //   down
     //     .onTrue(new InstantCommand(runmotor::Retract))
     //     .onFalse(new InstantCommand(runmotor::Stop));
+    bottomNode.whileTrue(new BottomNode(elevator));
+    midNode.whileTrue(new MidNode(elevator));
+    topNode.whileTrue(new TopNode(elevator));
   }
 
   /**
