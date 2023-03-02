@@ -34,6 +34,17 @@ public final class Constants {
     public static final int MaxHeight = 48;
   }
 
+  /* Arm Constants */
+    public static final class ArmConstants {
+        //TODO: check if this is right
+        public static final int MotorID = 14;
+        public static final int ExtendTopNode = 0;
+        public static final int ExtendBottomNode = 0;
+        public static final int ExtendMidNode = 0;
+        public static final int ExtendMax = 0;
+
+    }
+
   public static final class Swerve {
 
     public static final int pigeonID = 1;

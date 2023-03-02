@@ -47,10 +47,7 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton resetElevator = new JoystickButton(
-    operator,
-    XboxController.Button.kX.value
-  );
+  
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
     XboxController.Button.kA.value
@@ -63,6 +60,7 @@ public class RobotContainer {
     operator,
     XboxController.Button.kY.value
   );
+
   // private final JoystickButton up = new JoystickButton(
   //   operator,
   //   XboxController.Button.kA.value
@@ -76,6 +74,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
+  private final Arm arm = new Arm();
 
   //private final RunMotor runmotor = new RunMotor();
 
@@ -111,6 +110,14 @@ public class RobotContainer {
     //   down
     //     .onTrue(new InstantCommand(runmotor::Retract))
     //     .onFalse(new InstantCommand(runmotor::Stop));
+
+    //TODO: Extend Arm and Elevator simulataneously?
+    //bottomNode.whileTrue(new BottomNode(elevator), 
+    //new BottomExtend(arm));
+    //MidNode.whileTrue(new MidNode(elevator), 
+    //new MidExtend(arm));
+    //TopNode.whileTrue(new TopNode(elevator), 
+    //new TopExtend(arm));
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
