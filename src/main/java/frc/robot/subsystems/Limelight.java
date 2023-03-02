@@ -30,8 +30,11 @@ public class Limelight extends SubsystemBase {
 
     public double estimateDistance() {
         double targetOffsetAngle_Vertical = ty;
-        double angletoGoalRad = (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
-        return (Constants.TargetHeight - Constants.MountHeight) / Math.tan(angletoGoalRad);
+        double angletoGoalRad = (Constants.MountAngle + 
+                                targetOffsetAngle_Vertical) * 
+                                (Math.PI / 180.0);
+        return (Constants.TargetHeight - Constants.MountHeight) / 
+                Math.tan(angletoGoalRad);
 
     }
 
@@ -60,7 +63,6 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("RotateLimelight", -1);
         updateLimelightTracking();
 
         SmartDashboard.putNumber("Dist to Target", estimateDistance());
