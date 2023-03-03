@@ -16,6 +16,9 @@ public class TopExtend extends CommandBase {
     @Override
     public void execute() {
         arm.setArm(Constants.ArmConstants.ExtendTopNode);
+        if (arm.getArmEncoder() < Constants.ArmConstants.ExtendTopNode) {
+            arm.setArmSpeed(0.1);
+        }
     }
 
     @Override

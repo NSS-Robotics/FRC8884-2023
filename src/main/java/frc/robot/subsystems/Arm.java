@@ -78,7 +78,9 @@ public class Arm extends SubsystemBase {
     outputcurrent[0] = Motor.getOutputCurrent();
     return outputcurrent;
   }
-
+ public double getArmEncoder() {
+    return MotorEncoder.getPosition();
+ }
   public void setArmSpeed(double value) {
     Motor.set(value);
   }
@@ -90,5 +92,15 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ArmMotorEncoder", MotorEncoder.getPosition());
+    if (getArmEncoder() > Constants.ArmConstants.ExtendMidNode - 0.2 && 
+        getArmEncoder() < Constants.ArmConstants.ExtendMidNode + 0.2) {
+        stopArm();
+    }
+    if (getArmEncoder() >= Constants.ArmConstants.ExtendTopNode) {
+        stopArm();
+    }
+    if (getArmEncoder() <= Constants.ElevatorConstants.BottomNodeDistance) {
+        stopArm();
+    }
   }
 }
