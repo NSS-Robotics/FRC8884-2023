@@ -23,6 +23,6 @@ public class TopNode extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("BottomNode Command Ended");
+    System.out.println("TopNode Command Ended");
   }
 }

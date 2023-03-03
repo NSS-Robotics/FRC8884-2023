@@ -62,7 +62,7 @@ public class Elevator extends SubsystemBase {
     Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
     Rmotor.setSoftLimit(
       SoftLimitDirection.kReverse,
-      -Constants.ElevatorConstants.MaxHeight
+      -Constants.ElevatorConstants.MaxHeight 
     );
     resetEncoders();
 
@@ -77,6 +77,7 @@ public class Elevator extends SubsystemBase {
 
   public void setElevator(double value) {
     Lmotorpid.setReference(value, ControlType.kPosition, 0);
+    //try negative
     Rmotorpid.setReference(value, ControlType.kPosition, 0);
   }
 
@@ -111,6 +112,12 @@ public class Elevator extends SubsystemBase {
     outputcurrent[1] = Rmotor.getOutputCurrent();
     return outputcurrent;
   }
+  public double[] getElevatorEncoder() {
+    double outputencoder[] = new double[2];
+    outputencoder[0] = LmotorEncoder.getPosition();
+    outputencoder[1] = RmotorEncoder.getPosition();
+    return outputencoder;
+  }
 
   public void setElevatorSpeed(double value) {
     Lmotor.set(value);
@@ -125,5 +132,15 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
     SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
+    if (getElevatorEncoder()[0] > 21.8 && getElevatorEncoder()[1] > 21.8 && 
+        getElevatorEncoder()[0] < 22.2 && getElevatorEncoder()[1] < 22.2) {
+        stopElevator();
+    }
+    if (getElevatorEncoder()[0] >= 48 && getElevatorEncoder()[1] >= 48) {
+        stopElevator();
+    }
+    if (getElevatorEncoder()[0] <= 0 && getElevatorEncoder()[1] <= 0) {
+        stopElevator();
+    }
   }
 }

@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
 import frc.robot.commands.nodescoring.*;
+import frc.robot.commands.ArmLengths.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -61,6 +63,7 @@ public class RobotContainer {
     XboxController.Button.kY.value
   );
 
+
   // private final JoystickButton up = new JoystickButton(
   //   operator,
   //   XboxController.Button.kA.value
@@ -74,7 +77,7 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
-  private final Arm arm = new Arm();
+  //private final Arm arm = new Arm();
 
   //private final RunMotor runmotor = new RunMotor();
 
@@ -110,14 +113,24 @@ public class RobotContainer {
     //   down
     //     .onTrue(new InstantCommand(runmotor::Retract))
     //     .onFalse(new InstantCommand(runmotor::Stop));
-
-    //TODO: Extend Arm and Elevator simulataneously?
-    //bottomNode.whileTrue(new BottomNode(elevator), 
-    //new BottomExtend(arm));
-    //MidNode.whileTrue(new MidNode(elevator), 
-    //new MidExtend(arm));
-    //TopNode.whileTrue(new TopNode(elevator), 
-    //new TopExtend(arm));
+    /* 
+    bottomNode.whileTrue(
+        new ParallelCommandGroup(
+            new BottomNode(elevator), 
+            new BottomExtend(arm))
+            );
+    
+    midNode.whileTrue(
+        new ParallelCommandGroup( 
+            new MidNode(elevator), 
+            new MidExtend(arm))
+        );
+    topNode.whileTrue(
+        new ParallelCommandGroup(
+            new TopNode(elevator), 
+            new TopExtend(arm))
+        );
+     */
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));

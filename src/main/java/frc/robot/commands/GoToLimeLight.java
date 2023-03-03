@@ -29,8 +29,8 @@ public class GoToLimeLight extends PIDCommand {
                 Constants.turn_D
             ),
             limelight::estimateDistance, 
-            0.0,
-            x -> s_Swerve.TurnStates(x),
+            10,
+            x -> s_Swerve.drive(new Translation2d(x,0), 0, true, false),
             s_Swerve
         );
 
