@@ -26,14 +26,17 @@ public class One_Piece extends SequentialCommandGroup {
                 .setKinematics(Constants.Swerve.swerveKinematics);
 
         // An example trajectory to follow.  All units in meters.
+
+        //Back wall to game piece is 569 cm forward and 92 cm from side between each piece is 122 cm
+
         Trajectory exampleTrajectory =
             TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
+                // Start at the origin facing the forward
                 new Pose2d(0, 0, new Rotation2d(0)),
                 List.of(
-                    new Translation2d(2, 0)),
-                // End 1 metre behind where we started, facing forward
-                new Pose2d(3, 0, new Rotation2d(0)),
+                    new Translation2d(5.55, 0.9)),
+                // Endup right in front of the game piece with the arm facing it (i think)
+                new Pose2d(5.55, 0.9, new Rotation2d(90)),
                 config);
 
         var thetaController =

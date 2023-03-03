@@ -132,14 +132,18 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
     SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
-    if (getElevatorEncoder()[0] > 21.8 && getElevatorEncoder()[1] > 21.8 && 
-        getElevatorEncoder()[0] < 22.2 && getElevatorEncoder()[1] < 22.2) {
+    if (getElevatorEncoder()[0] > Constants.ElevatorConstants.MidNodeDistance - 0.2 && 
+    getElevatorEncoder()[1] > Constants.ElevatorConstants.MidNodeDistance - 0.2 && 
+        getElevatorEncoder()[0] < Constants.ElevatorConstants.MidNodeDistance + 0.2 && 
+        getElevatorEncoder()[1] < Constants.ElevatorConstants.MidNodeDistance + 0.2) {
         stopElevator();
     }
-    if (getElevatorEncoder()[0] >= 48 && getElevatorEncoder()[1] >= 48) {
+    if (getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance
+     && getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance) {
         stopElevator();
     }
-    if (getElevatorEncoder()[0] <= 0 && getElevatorEncoder()[1] <= 0) {
+    if (getElevatorEncoder()[0] <= Constants.ElevatorConstants.BottomNodeDistance
+     && getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
         stopElevator();
     }
   }
