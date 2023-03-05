@@ -6,26 +6,26 @@ import frc.robot.subsystems.Arm;
 
 public class TopExtend extends CommandBase {
 
-    Arm arm;
+  Arm arm;
 
-    public TopExtend(Arm arm) {
-        arm = this.arm;
-        addRequirements(arm);
+  public TopExtend(Arm arm) {
+    arm = this.arm;
+    addRequirements(arm);
+  }
+
+  @Override
+  public void execute() {
+    arm.setArm(Constants.ArmConstants.ExtendTopNode);
+    if (arm.getArmEncoder() < Constants.ArmConstants.ExtendTopNode) {
+      arm.setArmSpeed(0.1);
     }
+  }
 
-    @Override
-    public void execute() {
-        arm.setArm(Constants.ArmConstants.ExtendTopNode);
-        if (arm.getArmEncoder() < Constants.ArmConstants.ExtendTopNode) {
-            arm.setArmSpeed(0.1);
-        }
-    }
+  @Override
+  public void initialize() {}
 
-    @Override
-    public void initialize() {}
-
-    @Override
-    public void end(boolean interrupted) {
-        System.out.println("TopExtend Command Ended");
-    }
+  @Override
+  public void end(boolean interrupted) {
+    System.out.println("TopExtend Command Ended");
+  }
 }

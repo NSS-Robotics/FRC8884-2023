@@ -23,12 +23,8 @@ public class Elevator extends SubsystemBase {
   public boolean elevatorreset = false;
 
   public void elevatorsetup() {
-    //Lmotor Setup
-    Lmotor =
-      new CANSparkMax(
-        Constants.ElevatorConstants.LMotorID,
-        MotorType.kBrushless
-      );
+    // Lmotor Setup
+    Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
     Lmotor.restoreFactoryDefaults();
     Lmotor.setIdleMode(IdleMode.kBrake);
     Lmotor.setSmartCurrentLimit(40);
@@ -38,17 +34,10 @@ public class Elevator extends SubsystemBase {
     Lmotorpid = Lmotor.getPIDController();
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Lmotor.setSoftLimit(
-      SoftLimitDirection.kForward,
-      Constants.ElevatorConstants.MaxHeight
-    );
+    Lmotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
     Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
-    //Rmotor Setup
-    Rmotor =
-      new CANSparkMax(
-        Constants.ElevatorConstants.RMotorID,
-        MotorType.kBrushless
-      );
+    // Rmotor Setup
+    Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
 
     Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
@@ -60,10 +49,7 @@ public class Elevator extends SubsystemBase {
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    Rmotor.setSoftLimit(
-      SoftLimitDirection.kReverse,
-      -Constants.ElevatorConstants.MaxHeight 
-    );
+    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, -Constants.ElevatorConstants.MaxHeight);
     resetEncoders();
 
     Lmotor.burnFlash();
@@ -77,7 +63,7 @@ public class Elevator extends SubsystemBase {
 
   public void setElevator(double value) {
     Lmotorpid.setReference(value, ControlType.kPosition, 0);
-    //try negative
+    // try negative
     Rmotorpid.setReference(value, ControlType.kPosition, 0);
   }
 
@@ -112,6 +98,7 @@ public class Elevator extends SubsystemBase {
     outputcurrent[1] = Rmotor.getOutputCurrent();
     return outputcurrent;
   }
+
   public double[] getElevatorEncoder() {
     double outputencoder[] = new double[2];
     outputencoder[0] = LmotorEncoder.getPosition();
@@ -132,19 +119,19 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
     SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
-    if (getElevatorEncoder()[0] > Constants.ElevatorConstants.MidNodeDistance - 0.2 && 
-    getElevatorEncoder()[1] > Constants.ElevatorConstants.MidNodeDistance - 0.2 && 
-        getElevatorEncoder()[0] < Constants.ElevatorConstants.MidNodeDistance + 0.2 && 
-        getElevatorEncoder()[1] < Constants.ElevatorConstants.MidNodeDistance + 0.2) {
-        stopElevator();
+    if (getElevatorEncoder()[0] > Constants.ElevatorConstants.MidNodeDistance - 0.2
+        && getElevatorEncoder()[1] > Constants.ElevatorConstants.MidNodeDistance - 0.2
+        && getElevatorEncoder()[0] < Constants.ElevatorConstants.MidNodeDistance + 0.2
+        && getElevatorEncoder()[1] < Constants.ElevatorConstants.MidNodeDistance + 0.2) {
+      stopElevator();
     }
     if (getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance
-     && getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance) {
-        stopElevator();
+        && getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance) {
+      stopElevator();
     }
     if (getElevatorEncoder()[0] <= Constants.ElevatorConstants.BottomNodeDistance
-     && getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
-        stopElevator();
+        && getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
+      stopElevator();
     }
   }
 }

@@ -17,8 +17,8 @@ public class BottomNode extends CommandBase {
   public void execute() {
     elevator.setElevator(Constants.ElevatorConstants.BottomNodeDistance);
     if (elevator.getElevatorEncoder()[0] > Constants.ElevatorConstants.BottomNodeDistance
-     && elevator.getElevatorEncoder()[1] > Constants.ElevatorConstants.BottomNodeDistance) {
-        elevator.setElevatorSpeed(-0.1);
+        && elevator.getElevatorEncoder()[1] > Constants.ElevatorConstants.BottomNodeDistance) {
+      elevator.setElevatorSpeed(-0.1);
     }
   }
 
@@ -29,8 +29,8 @@ public class BottomNode extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("BottomNode Command Ended");
     if (elevator.getElevatorEncoder()[0] <= Constants.ElevatorConstants.BottomNodeDistance
-     && elevator.getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
-        elevator.stopElevator();
+        && elevator.getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
+      elevator.stopElevator();
     }
   }
 }
