@@ -27,7 +27,7 @@ public class One_Piece extends SequentialCommandGroup {
 
     // An example trajectory to follow.  All units in meters.
 
-    // Back wall to game piece is 569 cm forward and 92 cm from side between each piece is 122 cm
+    // Back wall to game piece is 569 cm forward and 92 cm from side, between each piece is 122 cm
 
     Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(

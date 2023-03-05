@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -10,6 +11,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.ArmLengths.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Claw.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,8 +34,8 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton rightBumper =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  //private final JoystickButton rightBumper =
+      //new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
 
   private final JoystickButton bottomNode =
@@ -42,6 +44,10 @@ public class RobotContainer {
       new JoystickButton(operator, XboxController.Button.kB.value);
   private final JoystickButton topNode =
       new JoystickButton(operator, XboxController.Button.kY.value);
+  private final JoystickButton openClaw = 
+      new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    private final JoystickButton closeClaw = 
+      new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
 
   // private final JoystickButton up = new JoystickButton(
   //   operator,
@@ -57,6 +63,7 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
   private final BoomBox boombox = new BoomBox("kv545.chrp");
+  private final Claw claw = new Claw();
   // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
@@ -84,7 +91,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
+    //.whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
     music.whileTrue(new InstantCommand(boombox::play));
     //   up
     //     .onTrue(new InstantCommand(runmotor::Extend))
@@ -113,6 +120,10 @@ public class RobotContainer {
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
+
+    openClaw.whileTrue(new openClaw(claw));
+    closeClaw.whileTrue(new closeClaw(claw));
+
   }
 
   /**
