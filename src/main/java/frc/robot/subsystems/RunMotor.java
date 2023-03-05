@@ -28,16 +28,13 @@
 
 //   public void Extend() {
 //     Lmotor.set(-.5);
-//     Rmotor.set(.5);
 //   }
 
 //   public void Retract() {
 //     Lmotor.set(.5);
-//     Rmotor.set(-.5);
 //   }
 
 //   public void Stop() {
 //     Lmotor.set(0);
-//     Rmotor.set(0);
 //   }
 // }
