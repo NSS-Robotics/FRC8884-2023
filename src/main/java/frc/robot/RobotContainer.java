@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -34,8 +33,8 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  //private final JoystickButton rightBumper =
-      //new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  // private final JoystickButton rightBumper =
+  // new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
 
   private final JoystickButton bottomNode =
@@ -44,9 +43,9 @@ public class RobotContainer {
       new JoystickButton(operator, XboxController.Button.kB.value);
   private final JoystickButton topNode =
       new JoystickButton(operator, XboxController.Button.kY.value);
-  private final JoystickButton openClaw = 
+  private final JoystickButton openClaw =
       new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-    private final JoystickButton closeClaw = 
+  private final JoystickButton closeClaw =
       new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
 
   // private final JoystickButton up = new JoystickButton(
@@ -91,7 +90,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    //.whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
+    // .whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
     music.whileTrue(new InstantCommand(boombox::play));
     //   up
     //     .onTrue(new InstantCommand(runmotor::Extend))
@@ -123,7 +122,6 @@ public class RobotContainer {
 
     openClaw.whileTrue(new openClaw(claw));
     closeClaw.whileTrue(new closeClaw(claw));
-
   }
 
   /**

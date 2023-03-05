@@ -1,7 +1,6 @@
 package frc.robot.commands.Claw;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Claw;
 
 public class openClaw extends CommandBase {
@@ -24,6 +23,5 @@ public class openClaw extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("BottomNode Command Ended");
-    
   }
 }
