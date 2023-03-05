@@ -21,7 +21,7 @@ public class AlignLimeLight extends PIDCommand {
     }
 
     
-    public AlignLimeLight(Swerve s_Swerve, Limelight limelight) {
+    public AlignLimeLight(Number pipelineID, Swerve s_Swerve, Limelight limelight) {
         super(
             new PIDController(
                 Constants.turn_P, 
@@ -33,6 +33,8 @@ public class AlignLimeLight extends PIDCommand {
             x -> s_Swerve.TurnStates(x),
             s_Swerve
         );
+
+        limelight.setPipeline(pipelineID);
 
         // Set the controller to be continuous (because it is an angle controller)
         getController().enableContinuousInput(-180, 180);

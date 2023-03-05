@@ -42,9 +42,7 @@ public class Arm extends SubsystemBase {
     Motor.setSoftLimit(SoftLimitDirection.kReverse, 0);
     
     resetArmEncoders();
-
-    
-    }
+  }
 
   public void resetArmEncoders() {
     MotorEncoder.setPosition(0);
