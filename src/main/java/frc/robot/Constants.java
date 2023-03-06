@@ -27,6 +27,11 @@ public final class Constants {
   public static final double TargetHeight = 60.0; //Target height in cm
   public static final double turnTolerance = 2.0; //degrees per turn
   //Limelight PID
+
+  // limelight constants
+  
+  // Limelight PID
+
   public static final double turn_P = 0.1;
   public static final double turn_I = 0.0;
   public static final double turn_D = 0.0;
@@ -45,7 +50,7 @@ public final class Constants {
   /* Arm Constants */
   public static final class ArmConstants {
 
-    //TODO: check if this is right
+    // TODO: check if this is right
     public static final int MotorID = 14;
     public static final int ExtendTopNode = 0;
     public static final int ExtendBottomNode = 0;
@@ -181,7 +186,7 @@ public final class Constants {
 
   public static final
   class AutoConstants { // TODO: The below constants are used in the example auto, and must be tuned
-                        // to specific robot
+    // to specific robot
 
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
