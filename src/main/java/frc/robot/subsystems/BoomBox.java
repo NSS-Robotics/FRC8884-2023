@@ -20,7 +20,7 @@ public class BoomBox extends SubsystemBase {
       Constants.Swerve.Mod3.driveMotorID,
       Constants.Swerve.Mod3.angleMotorID,
     };
-    
+
     ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
     for (int motor : motors) {
       instruments.add(new TalonFX(motor));
