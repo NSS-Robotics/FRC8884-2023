@@ -8,11 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
-<<<<<<< HEAD
-//import frc.robot.commands.ArmLengths.*;
-=======
-// import frc.robot.commands.ArmLengths.*;
->>>>>>> c50409ba5e9c105c8e0a383b8567b933ac7c0d55
+import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Claw.*;
