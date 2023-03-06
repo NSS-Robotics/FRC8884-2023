@@ -12,6 +12,13 @@ public final class Constants {
 
   public static final double stickDeadband = 0.1;
 
+  /*Field Constants*/
+  public static final int frontToChargeDist = 0;
+
+  public static final int frontToBlock = 569;
+
+  public static final double cornerToChargerMid = 274.5;
+
   // limelight constants
   public static final double MountAngle = 90.0; // angle from 90 vertical
   public static final double MountHeight = 74.7; // Mount height in cm
@@ -19,6 +26,11 @@ public final class Constants {
   public static final double TargetHeight = 60.0; // Target height in cm
   public static final double turnTolerance = 2.0; // degrees per turn
   // Limelight PID
+
+  // limelight constants
+
+  // Limelight PID
+
   public static final double turn_P = 0.1;
   public static final double turn_I = 0.0;
   public static final double turn_D = 0.0;
@@ -36,6 +48,7 @@ public final class Constants {
 
   /* Arm Constants */
   public static final class ArmConstants {
+
     // TODO: check if this is right
     public static final int MotorID = 14;
     public static final int ExtendTopNode = 0;
@@ -140,7 +153,7 @@ public final class Constants {
     public static final class Mod1 { // TODO: This must be tuned to specific robot
 
       public static final int driveMotorID = 6;
-      public static final int angleMotorID = 1;
+      public static final int angleMotorID = 16;
       public static final int canCoderID = 8;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(259);
       public static final SwerveModuleConstants constants =
@@ -162,7 +175,7 @@ public final class Constants {
     public static final class Mod3 { // TODO: This must be tuned to specific robot
 
       public static final int driveMotorID = 7;
-      public static final int angleMotorID = 0;
+      public static final int angleMotorID = 15;
       public static final int canCoderID = 9;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(206);
       public static final SwerveModuleConstants constants =

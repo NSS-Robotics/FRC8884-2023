@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,25 +30,25 @@ public class Elevator extends SubsystemBase {
     Lmotor.setOpenLoopRampRate(0.5);
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
-    Lmotorpid = Lmotor.getPIDController();
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Lmotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
     Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+    Lmotor.setCANTimeout(0);
     // Rmotor Setup
     Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
-
     Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
     Rmotor.setSmartCurrentLimit(40);
     Rmotor.setOpenLoopRampRate(0.5);
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
-    Rmotorpid = Rmotor.getPIDController();
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
     Rmotor.setSoftLimit(SoftLimitDirection.kReverse, -Constants.ElevatorConstants.MaxHeight);
+    Rmotor.setCANTimeout(0);
+    Rmotor.follow(Lmotor);
     resetEncoders();
 
     Lmotor.burnFlash();
@@ -69,7 +68,6 @@ public class Elevator extends SubsystemBase {
 
   public void stopElevator() {
     Lmotor.set(0);
-    Rmotor.set(0);
   }
 
   public void disableElevatorLimits() {
@@ -108,7 +106,7 @@ public class Elevator extends SubsystemBase {
 
   public void setElevatorSpeed(double value) {
     Lmotor.set(value);
-    Rmotor.set(value);
+    Rmotor.follow(Lmotor);
   }
 
   public Elevator() {
@@ -117,21 +115,36 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
-    SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
-    if (getElevatorEncoder()[0] > Constants.ElevatorConstants.MidNodeDistance - 0.2
-        && getElevatorEncoder()[1] > Constants.ElevatorConstants.MidNodeDistance - 0.2
-        && getElevatorEncoder()[0] < Constants.ElevatorConstants.MidNodeDistance + 0.2
-        && getElevatorEncoder()[1] < Constants.ElevatorConstants.MidNodeDistance + 0.2) {
-      stopElevator();
-    }
-    if (getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance
-        && getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance) {
-      stopElevator();
-    }
-    if (getElevatorEncoder()[0] <= Constants.ElevatorConstants.BottomNodeDistance
-        && getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance) {
-      stopElevator();
-    }
+    //   SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
+    //   SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
+    //   if (
+    //     getElevatorEncoder()[0] >
+    //     Constants.ElevatorConstants.MidNodeDistance -
+    //     0.2 &&
+    //     getElevatorEncoder()[1] >
+    //     Constants.ElevatorConstants.MidNodeDistance -
+    //     0.2 &&
+    //     getElevatorEncoder()[0] <
+    //     Constants.ElevatorConstants.MidNodeDistance +
+    //     0.2 &&
+    //     getElevatorEncoder()[1] <
+    //     Constants.ElevatorConstants.MidNodeDistance +
+    //     0.2
+    //   ) {
+    //     stopElevator();
+    //   }
+    //   if (
+    //     getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance &&
+    //     getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance
+    //   ) {
+    //     stopElevator();
+    //   }
+    //   if (
+    //     getElevatorEncoder()[0] <=
+    //     Constants.ElevatorConstants.BottomNodeDistance &&
+    //     getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance
+    //   ) {
+    //     stopElevator();
+    //   }
   }
 }

@@ -6,7 +6,7 @@ import frc.robot.subsystems.Elevator;
 
 public class TopNode extends CommandBase {
 
-  Elevator elevator;
+  private final Elevator elevator;
 
   public TopNode(Elevator _elevator) {
     elevator = _elevator;
@@ -16,10 +16,16 @@ public class TopNode extends CommandBase {
   @Override
   public void execute() {
     elevator.setElevator(Constants.ElevatorConstants.TopNodeDistance);
-    if (elevator.getElevatorEncoder()[0] < Constants.ElevatorConstants.TopNodeDistance
-        && elevator.getElevatorEncoder()[1] < Constants.ElevatorConstants.TopNodeDistance) {
+    /*
+    if (
+      elevator.getElevatorEncoder()[0] <
+      Constants.ElevatorConstants.TopNodeDistance &&
+      elevator.getElevatorEncoder()[1] <
+      Constants.ElevatorConstants.TopNodeDistance
+    ) {
       elevator.setElevatorSpeed(0.1);
     }
+    */
   }
 
   @Override
