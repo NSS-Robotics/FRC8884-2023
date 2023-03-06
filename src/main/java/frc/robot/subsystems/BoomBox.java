@@ -10,7 +10,7 @@ public class BoomBox extends SubsystemBase {
     Orchestra orchestra;
     
     public BoomBox(String song) {
-        int[] ids = {4, 3, 6, 1, 2, 5, 7, 0};
+        int[] ids = {4, 3, 6, 16, 2, 5, 7, 15};
         
         ArrayList<TalonFX> instruments = new ArrayList<TalonFX>();
         for (int id : ids) {
