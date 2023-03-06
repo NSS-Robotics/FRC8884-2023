@@ -13,6 +13,14 @@ public final class Constants {
 
   public static final double stickDeadband = 0.1;
 
+
+  /*Field Constants*/
+  public static final int frontToChargeDist = 0;
+
+  public static final int frontToBlock = 569;
+
+  public static final double cornerToChargerMid = 274.5;
+
   //limelight constants
   public static final double MountAngle = 90.0; //angle from 90 vertical
   public static final double MountHeight = 74.7; //Mount height in cm
