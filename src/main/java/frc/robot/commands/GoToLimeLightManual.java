@@ -10,10 +10,10 @@ import java.util.function.DoubleConsumer;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.Swerve;
 
-public class AlignLimeLight extends PIDCommand {
+public class GoToLimeLightManual extends PIDCommand {
   private Swerve swerve;
 
-  public AlignLimeLight(
+  public GoToLimeLightManual(
       PIDController controller,
       DoubleSupplier measurementSource,
       double setpoint,
@@ -22,15 +22,13 @@ public class AlignLimeLight extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public AlignLimeLight(Number pipelineID, Swerve s_Swerve, Limelight limelight) {
+  public GoToLimeLightManual(Swerve s_Swerve, Limelight limelight) {
     super(
         new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-        limelight::gettx,
-        0.0,
-        x -> s_Swerve.TurnStates(x),
+        limelight::estimateDistance,
+        1.5,
+        x -> s_Swerve.drive(new Translation2d(x, 0), 0, true, false),
         s_Swerve);
-
-    limelight.setPipeline(pipelineID);
 
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);

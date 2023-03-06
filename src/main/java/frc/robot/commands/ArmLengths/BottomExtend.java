@@ -6,23 +6,26 @@ import frc.robot.subsystems.Arm;
 
 public class BottomExtend extends CommandBase {
 
-    Arm arm;
+  Arm arm;
 
-    public BottomExtend(Arm arm) {
-        arm = this.arm;
-        addRequirements(arm);
+  public BottomExtend(Arm arm) {
+    arm = this.arm;
+    addRequirements(arm);
+  }
+
+  @Override
+  public void execute() {
+    arm.setArm(Constants.ArmConstants.ExtendBottomNode);
+    if (arm.getArmEncoder() < Constants.ArmConstants.ExtendBottomNode) {
+      arm.setArmSpeed(0.1);
     }
+  }
 
-    @Override
-    public void execute() {
-        arm.setArm(Constants.ArmConstants.ExtendBottomNode);
-    }
+  @Override
+  public void initialize() {}
 
-    @Override
-    public void initialize() {}
-
-    @Override
-    public void end(boolean interrupted) {
-        System.out.println("BottomExtend Command Ended");
-    }
+  @Override
+  public void end(boolean interrupted) {
+    System.out.println("BottomExtend Command Ended");
+  }
 }

@@ -1,13 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.hal.communication.NIRioStatus;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -15,8 +13,10 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
+//import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Claw.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,7 +47,7 @@ public class RobotContainer {
     driver,
     XboxController.Button.kRightBumper.value
   );
-  
+
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
     XboxController.Button.kA.value
@@ -74,21 +74,21 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
-  private final Arm arm = new Arm();
+  private final Claw claw = new Claw();
 
-  //private final RunMotor runmotor = new RunMotor();
+  //private final Arm arm = new Arm();
+
+  // private final RunMotor runmotor = new RunMotor();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-        s_Swerve,
-        () -> -driver.getRawAxis(translationAxis),
-        () -> -driver.getRawAxis(strafeAxis),
-        () -> -driver.getRawAxis(rotationAxis),
-        robotCentric::getAsBoolean
-      )
-    );
+        new TeleopSwerve(
+            s_Swerve,
+            () -> -driver.getRawAxis(translationAxis),
+            () -> -driver.getRawAxis(strafeAxis),
+            () -> -driver.getRawAxis(rotationAxis),
+            robotCentric::getAsBoolean));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -104,23 +104,39 @@ public class RobotContainer {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
     rightBumper.whileTrue(new AlignLimeLight(s_Swerve, limelight));
-    //   up
-    //     .onTrue(new InstantCommand(runmotor::Extend))
-    //     .onFalse(new InstantCommand(runmotor::Stop));
-    //   down
-    //     .onTrue(new InstantCommand(runmotor::Retract))
-    //     .onFalse(new InstantCommand(runmotor::Stop));
-
-    //TODO: Extend Arm and Elevator simulataneously?
-    //bottomNode.whileTrue(new BottomNode(elevator), 
-    //new BottomExtend(arm));
-    //MidNode.whileTrue(new MidNode(elevator), 
-    //new MidExtend(arm));
-    //TopNode.whileTrue(new TopNode(elevator), 
-    //new TopExtend(arm));
+    // up
+    //   .onTrue(new InstantCommand(runmotor::Extend))
+    //   .onFalse(new InstantCommand(runmotor::Stop));
+    // down
+    //   .onTrue(new InstantCommand(runmotor::Retract))
+    //   .onFalse(new InstantCommand(runmotor::Stop));
+    /*
+    bottomNode.whileTrue(
+      new ParallelCommandGroup(
+        new BottomNode(elevator)
+        //new BottomExtend(arm))
+      )
+    );
+    midNode.whileTrue(
+      new ParallelCommandGroup(
+        new MidNode(elevator)
+        //new MidExtend(arm))
+      )
+    );
+    topNode.whileTrue(
+      new ParallelCommandGroup(
+        new TopNode(elevator)
+        //new TopExtend(arm);
+      )
+    );
+    */
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
+
+    openClaw.whileTrue(new openClaw(claw));
+    closeClaw.whileTrue(new closeClaw(claw));
+
   }
 
   /**
