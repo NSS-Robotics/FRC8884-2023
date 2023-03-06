@@ -30,35 +30,20 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
-  private final JoystickButton robotCentric = new JoystickButton(
-    driver,
-    XboxController.Button.kLeftBumper.value
-  );
-  private final JoystickButton rightBumper = new JoystickButton(
-    driver,
-    XboxController.Button.kRightBumper.value
-  );
-  private final JoystickButton music = new JoystickButton(
-    driver,
-    XboxController.Button.kX.value
-  );
+  private final JoystickButton zeroGyro =
+      new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rightBumper =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
 
-  private final JoystickButton bottomNode = new JoystickButton(
-    operator,
-    XboxController.Button.kA.value
-  );
-  private final JoystickButton midNode = new JoystickButton(
-    operator,
-    XboxController.Button.kB.value
-  );
-  private final JoystickButton topNode = new JoystickButton(
-    operator,
-    XboxController.Button.kY.value
-  );
+  private final JoystickButton bottomNode =
+      new JoystickButton(operator, XboxController.Button.kA.value);
+  private final JoystickButton midNode =
+      new JoystickButton(operator, XboxController.Button.kB.value);
+  private final JoystickButton topNode =
+      new JoystickButton(operator, XboxController.Button.kY.value);
 
   // private final JoystickButton up = new JoystickButton(
   //   operator,
@@ -76,7 +61,7 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   private final BoomBox boombox = new BoomBox("kv545.chrp");
-  //private final Arm arm = new Arm();
+  // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
 
@@ -135,8 +120,8 @@ public class RobotContainer {
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
 
-    //openClaw.whileTrue(new openClaw(claw));
-    //closeClaw.whileTrue(new closeClaw(claw));
+    // openClaw.whileTrue(new openClaw(claw));
+    // closeClaw.whileTrue(new closeClaw(claw));
   }
 
   /**
