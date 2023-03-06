@@ -1,7 +1,5 @@
 package frc.robot.autos;
 
-
-
 /*
 public class Angled extends SequentialCommandGroup {
     public Angled(Swerve s_Swerve){

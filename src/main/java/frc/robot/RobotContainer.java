@@ -1,19 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
-//import frc.robot.commands.ArmLengths.*;
+// import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Claw.*;
@@ -35,31 +30,19 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
-  private final JoystickButton robotCentric = new JoystickButton(
-    driver,
-    XboxController.Button.kLeftBumper.value
-  );
-  private final JoystickButton rightBumper = new JoystickButton(
-    driver,
-    XboxController.Button.kRightBumper.value
-  );
+  private final JoystickButton zeroGyro =
+      new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rightBumper =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
-  private final JoystickButton bottomNode = new JoystickButton(
-    operator,
-    XboxController.Button.kA.value
-  );
-  private final JoystickButton midNode = new JoystickButton(
-    operator,
-    XboxController.Button.kB.value
-  );
-  private final JoystickButton topNode = new JoystickButton(
-    operator,
-    XboxController.Button.kY.value
-  );
+  private final JoystickButton bottomNode =
+      new JoystickButton(operator, XboxController.Button.kA.value);
+  private final JoystickButton midNode =
+      new JoystickButton(operator, XboxController.Button.kB.value);
+  private final JoystickButton topNode =
+      new JoystickButton(operator, XboxController.Button.kY.value);
 
   // private final JoystickButton up = new JoystickButton(
   //   operator,
@@ -76,7 +59,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Claw claw = new Claw();
 
-  //private final Arm arm = new Arm();
+  // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
 
@@ -136,7 +119,6 @@ public class RobotContainer {
 
     openClaw.whileTrue(new openClaw(claw));
     closeClaw.whileTrue(new closeClaw(claw));
-
   }
 
   /**

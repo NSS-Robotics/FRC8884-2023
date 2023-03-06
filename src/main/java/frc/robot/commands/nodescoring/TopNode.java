@@ -16,7 +16,7 @@ public class TopNode extends CommandBase {
   @Override
   public void execute() {
     elevator.setElevator(Constants.ElevatorConstants.TopNodeDistance);
-    /* 
+    /*
     if (
       elevator.getElevatorEncoder()[0] <
       Constants.ElevatorConstants.TopNodeDistance &&

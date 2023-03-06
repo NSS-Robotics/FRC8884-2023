@@ -16,7 +16,7 @@ public class MidNode extends CommandBase {
   @Override
   public void execute() {
     elevator.setElevator(Constants.ElevatorConstants.MidNodeDistance);
-    /* 
+    /*
     if (
       elevator.getElevatorEncoder()[0] <
       Constants.ElevatorConstants.MidNodeDistance &&
