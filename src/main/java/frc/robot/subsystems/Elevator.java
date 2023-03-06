@@ -121,7 +121,7 @@ public class Elevator extends SubsystemBase {
 
   public void setElevatorSpeed(double value) {
     Lmotor.set(value);
-    Rmotor.set(value);
+    Rmotor.follow(Lmotor);
   }
 
   public Elevator() {
@@ -130,36 +130,36 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
-    SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
-    if (
-      getElevatorEncoder()[0] >
-      Constants.ElevatorConstants.MidNodeDistance -
-      0.2 &&
-      getElevatorEncoder()[1] >
-      Constants.ElevatorConstants.MidNodeDistance -
-      0.2 &&
-      getElevatorEncoder()[0] <
-      Constants.ElevatorConstants.MidNodeDistance +
-      0.2 &&
-      getElevatorEncoder()[1] <
-      Constants.ElevatorConstants.MidNodeDistance +
-      0.2
-    ) {
-      stopElevator();
-    }
-    if (
-      getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance &&
-      getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance
-    ) {
-      stopElevator();
-    }
-    if (
-      getElevatorEncoder()[0] <=
-      Constants.ElevatorConstants.BottomNodeDistance &&
-      getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance
-    ) {
-      stopElevator();
-    }
+  //   SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
+  //   SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
+  //   if (
+  //     getElevatorEncoder()[0] >
+  //     Constants.ElevatorConstants.MidNodeDistance -
+  //     0.2 &&
+  //     getElevatorEncoder()[1] >
+  //     Constants.ElevatorConstants.MidNodeDistance -
+  //     0.2 &&
+  //     getElevatorEncoder()[0] <
+  //     Constants.ElevatorConstants.MidNodeDistance +
+  //     0.2 &&
+  //     getElevatorEncoder()[1] <
+  //     Constants.ElevatorConstants.MidNodeDistance +
+  //     0.2
+  //   ) {
+  //     stopElevator();
+  //   }
+  //   if (
+  //     getElevatorEncoder()[0] >= Constants.ElevatorConstants.TopNodeDistance &&
+  //     getElevatorEncoder()[1] >= Constants.ElevatorConstants.TopNodeDistance
+  //   ) {
+  //     stopElevator();
+  //   }
+  //   if (
+  //     getElevatorEncoder()[0] <=
+  //     Constants.ElevatorConstants.BottomNodeDistance &&
+  //     getElevatorEncoder()[1] <= Constants.ElevatorConstants.BottomNodeDistance
+  //   ) {
+  //     stopElevator();
+  //   }
   }
 }
