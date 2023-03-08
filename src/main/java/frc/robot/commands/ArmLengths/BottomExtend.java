@@ -16,9 +16,6 @@ public class BottomExtend extends CommandBase {
   @Override
   public void execute() {
     arm.setArm(Constants.ArmConstants.ExtendBottomNode);
-    if (arm.getArmEncoder() < Constants.ArmConstants.ExtendBottomNode) {
-      arm.setArmSpeed(0.1);
-    }
   }
 
   @Override
