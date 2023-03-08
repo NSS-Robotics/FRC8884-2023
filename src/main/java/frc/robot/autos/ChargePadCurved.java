@@ -3,7 +3,6 @@ package frc.robot.autos;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 
-
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 
