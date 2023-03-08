@@ -24,8 +24,6 @@ public class BottomNode extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("BottomNode Command Ended");
-<<<<<<< Updated upstream
-=======
     // if (
     //   elevator.getElevatorEncoder()[0] <=
     //   Constants.ElevatorConstants.BottomNodeDistance &&
@@ -34,6 +32,5 @@ public class BottomNode extends CommandBase {
     // ) {
     //   elevator.stopElevator();
     // }
->>>>>>> Stashed changes
   }
 }
