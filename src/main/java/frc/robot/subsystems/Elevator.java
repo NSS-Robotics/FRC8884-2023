@@ -9,7 +9,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;x
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {
@@ -25,7 +25,11 @@ public class Elevator extends SubsystemBase {
 
   public void elevatorsetup() {
     // Lmotor Setup
-    Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
+    Lmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.LMotorID,
+        MotorType.kBrushless
+      );
     Lmotor.restoreFactoryDefaults();
     Lmotor.setIdleMode(IdleMode.kBrake);
     Lmotor.setSmartCurrentLimit(40);
@@ -41,11 +45,18 @@ public class Elevator extends SubsystemBase {
 
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Lmotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
+    Lmotor.setSoftLimit(
+      SoftLimitDirection.kForward,
+      Constants.ElevatorConstants.MaxHeight
+    );
     Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
     Lmotor.setCANTimeout(0);
     // Rmotor Setup
-    Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
+    Rmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.RMotorID,
+        MotorType.kBrushless
+      );
     Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
     Rmotor.setSmartCurrentLimit(40);
@@ -61,7 +72,10 @@ public class Elevator extends SubsystemBase {
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, -Constants.ElevatorConstants.MaxHeight);
+    Rmotor.setSoftLimit(
+      SoftLimitDirection.kReverse,
+      -Constants.ElevatorConstants.MaxHeight
+    );
     Rmotor.setCANTimeout(0);
     resetEncoders();
 
@@ -118,14 +132,6 @@ public class Elevator extends SubsystemBase {
     return outputencoder;
   }
 
-<<<<<<< Updated upstream
-  public void setElevatorSpeed(double value) {
-    Lmotor.set(value);
-    Rmotor.follow(Lmotor);
-  }
-
-=======
->>>>>>> Stashed changes
   public Elevator() {
     elevatorsetup();
   }

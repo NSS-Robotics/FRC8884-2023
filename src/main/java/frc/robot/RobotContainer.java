@@ -9,9 +9,9 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
 import frc.robot.commands.ArmLengths.*;
+import frc.robot.commands.Claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.Claw.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,13 +30,22 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kY.value);
-  private final JoystickButton robotCentric =
-      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton rightBumper =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton zeroGyro = new JoystickButton(
+    driver,
+    XboxController.Button.kY.value
+  );
+  private final JoystickButton robotCentric = new JoystickButton(
+    driver,
+    XboxController.Button.kLeftBumper.value
+  );
+  private final JoystickButton rightBumper = new JoystickButton(
+    driver,
+    XboxController.Button.kRightBumper.value
+  );
+  private final JoystickButton music = new JoystickButton(
+    driver,
+    XboxController.Button.kX.value
+  );
 
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
@@ -75,6 +84,7 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   private final BoomBox boombox = new BoomBox("kv545.chrp");
+
   // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
@@ -82,12 +92,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-        new TeleopSwerve(
-            s_Swerve,
-            () -> -driver.getRawAxis(translationAxis),
-            () -> -driver.getRawAxis(strafeAxis),
-            () -> -driver.getRawAxis(rotationAxis),
-            robotCentric::getAsBoolean));
+      new TeleopSwerve(
+        s_Swerve,
+        () -> -driver.getRawAxis(translationAxis),
+        () -> -driver.getRawAxis(strafeAxis),
+        () -> -driver.getRawAxis(rotationAxis),
+        robotCentric::getAsBoolean
+      )
+    );
 
     // Configure the button bindings
     configureButtonBindings();
@@ -130,20 +142,11 @@ public class RobotContainer {
       )
     );
     */
-<<<<<<< Updated upstream
-    bottomNode.whileTrue(new BottomNode(elevator));
-    midNode.whileTrue(new MidNode(elevator));
-    topNode.whileTrue(new TopNode(elevator));
-
-    openClaw.whileTrue(new openClaw(claw));
-    closeClaw.whileTrue(new closeClaw(claw));
-=======
     bottomNode.onTrue(new BottomNode(elevator));
     midNode.onTrue(new MidNode(elevator));
     topNode.onTrue(new TopNode(elevator));
     openclaw.onTrue(new InstantCommand(claw::openClaw));
     closeclaw.onTrue(new InstantCommand(claw::closeClaw));
->>>>>>> Stashed changes
   }
 
   /**
