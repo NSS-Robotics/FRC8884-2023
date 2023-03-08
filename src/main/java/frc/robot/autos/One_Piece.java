@@ -18,47 +18,47 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
 public class One_Piece extends SequentialCommandGroup {
-    public One_Piece(Swerve s_Swerve){
-        TrajectoryConfig config =
-            new TrajectoryConfig(
-                    Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                    Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-                .setKinematics(Constants.Swerve.swerveKinematics);
+  public One_Piece(Swerve s_Swerve) {
+    TrajectoryConfig config =
+        new TrajectoryConfig(
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+            .setKinematics(Constants.Swerve.swerveKinematics);
 
-        // An example trajectory to follow.  All units in meters.
+    // An example trajectory to follow.  All units in meters.
 
-        //Back wall to game piece is 569 cm forward and 92 cm from side between each piece is 122 cm
+    // Back wall to game piece is 569 cm forward and 92 cm from side, between each piece is 122 cm
 
-        Trajectory exampleTrajectory =
-            TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the forward
-                new Pose2d(0, 0, new Rotation2d(0)),
-                List.of(
-                    new Translation2d(5.55, 0.9)),
-                // Endup right in front of the game piece with the arm facing it (i think)
-                new Pose2d(5.55, 0.9, new Rotation2d(90)),
-                config);
+    Trajectory exampleTrajectory =
+        TrajectoryGenerator.generateTrajectory(
+            // Start at the origin facing the forward
+            new Pose2d(0, 0, new Rotation2d(0)),
+            List.of(new Translation2d(5.55, 0.9)),
+            // Endup right in front of the game piece with the arm facing it (i think)
+            new Pose2d(5.55, 0.9, new Rotation2d(90)),
+            config);
 
-        var thetaController =
-            new ProfiledPIDController(
-                Constants.AutoConstants.kPThetaController, 0, 0, Constants.AutoConstants.kThetaControllerConstraints);
-        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    var thetaController =
+        new ProfiledPIDController(
+            Constants.AutoConstants.kPThetaController,
+            0,
+            0,
+            Constants.AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand =
-            new SwerveControllerCommand(
-                exampleTrajectory,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
+    SwerveControllerCommand swerveControllerCommand =
+        new SwerveControllerCommand(
+            exampleTrajectory,
+            s_Swerve::getPose,
+            Constants.Swerve.swerveKinematics,
+            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+            thetaController,
+            s_Swerve::setModuleStates,
+            s_Swerve);
 
-
-        addCommands(
-            new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-            swerveControllerCommand
-        );
-    }
+    addCommands(
+        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
+        swerveControllerCommand);
+  }
 }

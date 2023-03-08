@@ -1,24 +1,17 @@
 package frc.robot;
 
-import edu.wpi.first.hal.communication.NIRioStatus;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
 import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Claw.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,18 +30,13 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
-  private final JoystickButton robotCentric = new JoystickButton(
-    driver,
-    XboxController.Button.kLeftBumper.value
-  );
-  private final JoystickButton rightBumper = new JoystickButton(
-    driver,
-    XboxController.Button.kRightBumper.value
-  );
+  private final JoystickButton zeroGyro =
+      new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rightBumper =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
 
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
@@ -61,6 +49,14 @@ public class RobotContainer {
   private final JoystickButton topNode = new JoystickButton(
     operator,
     XboxController.Button.kY.value
+  );
+  private final JoystickButton openclaw = new JoystickButton(
+    operator,
+    XboxController.Button.kLeftBumper.value
+  );
+  private final JoystickButton closeclaw = new JoystickButton(
+    operator,
+    XboxController.Button.kRightBumper.value
   );
 
   // private final JoystickButton up = new JoystickButton(
@@ -78,21 +74,20 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Claw claw = new Claw();
 
-  //private final Arm arm = new Arm();
+  private final BoomBox boombox = new BoomBox("kv545.chrp");
+  // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-        s_Swerve,
-        () -> -driver.getRawAxis(translationAxis),
-        () -> -driver.getRawAxis(strafeAxis),
-        () -> -driver.getRawAxis(rotationAxis),
-        robotCentric::getAsBoolean
-      )
-    );
+        new TeleopSwerve(
+            s_Swerve,
+            () -> -driver.getRawAxis(translationAxis),
+            () -> -driver.getRawAxis(strafeAxis),
+            () -> -driver.getRawAxis(rotationAxis),
+            robotCentric::getAsBoolean));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -107,7 +102,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.whileTrue(new AlignLimeLight(s_Swerve, limelight));
+    rightBumper.whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
+    music.whileTrue(new InstantCommand(boombox::play));
     // up
     //   .onTrue(new InstantCommand(runmotor::Extend))
     //   .onFalse(new InstantCommand(runmotor::Stop));
@@ -134,9 +130,20 @@ public class RobotContainer {
       )
     );
     */
+<<<<<<< Updated upstream
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
+
+    openClaw.whileTrue(new openClaw(claw));
+    closeClaw.whileTrue(new closeClaw(claw));
+=======
+    bottomNode.onTrue(new BottomNode(elevator));
+    midNode.onTrue(new MidNode(elevator));
+    topNode.onTrue(new TopNode(elevator));
+    openclaw.onTrue(new InstantCommand(claw::openClaw));
+    closeclaw.onTrue(new InstantCommand(claw::closeClaw));
+>>>>>>> Stashed changes
   }
 
   /**
