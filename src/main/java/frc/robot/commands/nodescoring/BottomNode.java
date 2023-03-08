@@ -16,7 +16,6 @@ public class BottomNode extends CommandBase {
   @Override
   public void execute() {
     elevator.setElevator(Constants.ElevatorConstants.BottomNodeDistance);
-    
   }
 
   @Override
@@ -25,6 +24,5 @@ public class BottomNode extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("BottomNode Command Ended");
-    
-    }
   }
+}

@@ -16,7 +16,6 @@ public class TopExtend extends CommandBase {
   @Override
   public void execute() {
     arm.setArm(Constants.ArmConstants.ExtendTopNode);
-    
   }
 
   @Override

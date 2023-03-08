@@ -2,12 +2,9 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPRamseteCommand;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -126,33 +123,37 @@ public class Swerve extends SubsystemBase {
     setModuleStates(swerveModuleStates);
   }
 
-//for path following
+  // for path following
 
-  public Command FollowPath(PathPlannerTrajectory trajectory, boolean isFirstPath) { // FIXME: COMMANDS SHOULD NOT BE INSTANTIATED INSIDE A SUBSYSTEM!!!
-    //probably a bad idea to make a command in a subsystem
+  public Command FollowPath(
+      PathPlannerTrajectory trajectory,
+      boolean isFirstPath) { // FIXME: COMMANDS SHOULD NOT BE INSTANTIATED INSIDE A SUBSYSTEM!!!
+    // probably a bad idea to make a command in a subsystem
     return new SequentialCommandGroup(
-      new InstantCommand(() -> {
-        //Reset odometry for the first path ran during auto
-        if(isFirstPath){
-          this.resetOdometry(trajectory.getInitialPose());
-        }
-      }),
-
-      new PPSwerveControllerCommand(
-        trajectory, 
-        this::getPose,
-        Constants.Swerve.swerveKinematics,
-        //XY PID drive values, usually same
-        //TODO: May need to tune these PIDs
-        new PIDController(Constants.Swerve.driveKP,Constants.Swerve.driveKI,Constants.Swerve.driveKD),
-        new PIDController(Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-        //rotation PID
-        new PIDController(Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
-        this::setModuleStates,
-        //Alter path based on team colour (side of the field)
-        true,
-        this)
-    );
+        new InstantCommand(
+            () -> {
+              // Reset odometry for the first path ran during auto
+              if (isFirstPath) {
+                this.resetOdometry(trajectory.getInitialPose());
+              }
+            }),
+        new PPSwerveControllerCommand(
+            trajectory,
+            this::getPose,
+            Constants.Swerve.swerveKinematics,
+            // XY PID drive values, usually same
+            // TODO: May need to tune these PIDs
+            new PIDController(
+                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
+            new PIDController(
+                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
+            // rotation PID
+            new PIDController(
+                Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
+            this::setModuleStates,
+            // Alter path based on team colour (side of the field)
+            true,
+            this));
   }
 
   @Override
