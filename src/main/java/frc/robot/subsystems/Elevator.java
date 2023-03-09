@@ -43,6 +43,8 @@ public class Elevator extends SubsystemBase {
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
+
+    resetEncoders();
   }
 
   public void resetEncoders(){
