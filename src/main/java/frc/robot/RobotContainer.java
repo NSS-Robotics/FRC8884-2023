@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -23,7 +24,7 @@ public class RobotContainer {
 
   /* Controllers */
   private final XboxController driver = new XboxController(0);
-  private final XboxController operator = new XboxController(1);
+  private final PS4Controller operator = new PS4Controller(1);
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kRightY.value;
   private final int strafeAxis = XboxController.Axis.kRightX.value;
@@ -49,23 +50,23 @@ public class RobotContainer {
 
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
-    XboxController.Button.kA.value
+    PS4Controller.Button.kCross.value
   );
   private final JoystickButton midNode = new JoystickButton(
     operator,
-    XboxController.Button.kB.value
+    PS4Controller.Button.kCircle.value
   );
   private final JoystickButton topNode = new JoystickButton(
     operator,
-    XboxController.Button.kY.value
+    PS4Controller.Button.kTriangle.value
   );
   private final JoystickButton openclaw = new JoystickButton(
     operator,
-    XboxController.Button.kLeftBumper.value
+    PS4Controller.Button.kL1.value
   );
   private final JoystickButton closeclaw = new JoystickButton(
     operator,
-    XboxController.Button.kRightBumper.value
+    PS4Controller.Button.kR1.value
   );
 
   // private final JoystickButton up = new JoystickButton(

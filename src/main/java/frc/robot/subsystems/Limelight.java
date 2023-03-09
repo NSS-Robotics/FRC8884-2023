@@ -1,12 +1,13 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {
+
   public double Kp = -0.1;
   public double min_command = 0.05;
 
@@ -30,8 +31,12 @@ public class Limelight extends SubsystemBase {
 
   public double estimateDistance() {
     double targetOffsetAngle_Vertical = ty;
-    double angletoGoalRad = (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
-    return (Constants.TargetHeight - Constants.MountHeight) / Math.tan(angletoGoalRad);
+    double angletoGoalRad =
+      (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
+    return (
+      (Constants.TargetHeight - Constants.MountHeight) /
+      Math.tan(angletoGoalRad)
+    );
   }
 
   public void updateLimelightTracking() {
@@ -56,13 +61,13 @@ public class Limelight extends SubsystemBase {
   }
 
   public double getPipeline() {
-    pipeline = table.getEntry("getpipe").getDouble(0);
+    double pipeline = table.getEntry("getpipe").getDouble(0);
     return pipeline;
   }
 
-  public void setPipeline(Number pipeline) {
-    table.getEntry("pipeline").setNumber(pipeline);
-    SmartDashboard.putNumber("Pipeline", (double) pipeline);
+  public void setPipeline(double pipelineID) {
+    table.getEntry("pipeline").setNumber(pipelineID);
+    SmartDashboard.putNumber("Pipeline", pipelineID);
   }
 
   @Override
