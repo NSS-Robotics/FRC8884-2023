@@ -1,33 +1,43 @@
-// package frc.robot.autos;
+package frc.robot.autos;
 
-// import com.pathplanner.lib.PathConstraints;
-// import com.pathplanner.lib.PathPlanner;
-// import edu.wpi.first.wpilibj2.command.CommandBase;
-// import frc.robot.Constants;
-// import frc.robot.subsystems.Swerve;
+import frc.robot.Constants;
+import frc.robot.subsystems.Swerve;
 
-// public class ChargePadCurved extends CommandBase {
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
 
-//   private Swerve swerve;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-//   public ChargePadCurved(Swerve swerve) {
-//     swerve = this.swerve;
-//     addRequirements(swerve);
-//   }
+public class ChargePadCurved extends CommandBase {
+  private Swerve swerve;
 
-//   @Override
-//   public void initialize() {}
+  public ChargePadCurved(Swerve swerve) {
+    swerve = this.swerve;
+    addRequirements(swerve);
+  }
 
-//   // loads path and executes it, here you can alter speed etc.
-//   @Override
-//   public void execute() {}
+  @Override
+  public void initialize() {}
 
-//   @Override
-//   public void end(boolean interrupted) {}
+  // loads path and executes it, here you can alter speed etc.
+  @Override
+  public void execute() {
+    swerve.FollowPath(
+        PathPlanner.loadPath(
+            "ChargePathCurved",
+            new PathConstraints(
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared)),
+        true);
+  }
 
-//   // true when command ends successfully
-//   @Override
-//   public boolean isFinished() {
-//     return false;
-//   }
-// }
+  @Override
+  public void end(boolean interrupted) {}
+
+  // true when command ends successfully
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
+

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
-
   public double Kp = -0.1;
   public double min_command = 0.05;
 
@@ -31,12 +30,8 @@ public class Limelight extends SubsystemBase {
 
   public double estimateDistance() {
     double targetOffsetAngle_Vertical = ty;
-    double angletoGoalRad =
-      (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
-    return (
-      (Constants.TargetHeight - Constants.MountHeight) /
-      Math.tan(angletoGoalRad)
-    );
+    double angletoGoalRad = (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
+    return (Constants.TargetHeight - Constants.MountHeight) / Math.tan(angletoGoalRad);
   }
 
   public void updateLimelightTracking() {
@@ -68,6 +63,7 @@ public class Limelight extends SubsystemBase {
   public void setPipeline(double pipelineID) {
     table.getEntry("pipeline").setNumber(pipelineID);
     SmartDashboard.putNumber("Pipeline", pipelineID);
+
   }
 
   @Override

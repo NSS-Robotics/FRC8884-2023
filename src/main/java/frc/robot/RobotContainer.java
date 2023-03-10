@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
+
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -13,6 +15,7 @@ import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.Claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.Claw.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -48,6 +51,7 @@ public class RobotContainer {
     XboxController.Button.kX.value
   );
 
+/* Operator Buttons */
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
     PS4Controller.Button.kCross.value
@@ -85,7 +89,6 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   private final BoomBox boombox = new BoomBox("kv545.chrp");
-
   // private final Arm arm = new Arm();
 
   // private final RunMotor runmotor = new RunMotor();
@@ -93,14 +96,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-        s_Swerve,
-        () -> -driver.getRawAxis(translationAxis),
-        () -> -driver.getRawAxis(strafeAxis),
-        () -> -driver.getRawAxis(rotationAxis),
-        robotCentric::getAsBoolean
-      )
-    );
+        new TeleopSwerve(
+            s_Swerve,
+            () -> -driver.getRawAxis(translationAxis),
+            () -> -driver.getRawAxis(strafeAxis),
+            () -> -driver.getRawAxis(rotationAxis),
+            robotCentric::getAsBoolean));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -143,11 +144,15 @@ public class RobotContainer {
       )
     );
     */
-    bottomNode.onTrue(new BottomNode(elevator));
-    midNode.onTrue(new MidNode(elevator));
-    topNode.onTrue(new TopNode(elevator));
-    openclaw.onTrue(new InstantCommand(claw::openClaw));
-    closeclaw.onTrue(new InstantCommand(claw::closeClaw));
+
+
+    bottomNode.whileTrue(new BottomNode(elevator));
+    midNode.whileTrue(new MidNode(elevator));
+    topNode.whileTrue(new TopNode(elevator));
+
+    openClaw.whileTrue(new openClaw(claw));
+    closeClaw.whileTrue(new closeClaw(claw));
+
   }
 
   /**
