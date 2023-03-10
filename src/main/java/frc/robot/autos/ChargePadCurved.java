@@ -40,3 +40,4 @@ public class ChargePadCurved extends CommandBase {
     return false;
   }
 }
+

@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PS4Controller;
+
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -9,6 +12,7 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.AlignLimeLight;
 import frc.robot.commands.ArmLengths.*;
+import frc.robot.commands.Claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.Claw.*;
@@ -23,31 +27,51 @@ public class RobotContainer {
 
   /* Controllers */
   private final XboxController driver = new XboxController(0);
-  private final XboxController operator = new XboxController(1);
+  private final PS4Controller operator = new PS4Controller(1);
   /* Drive Controls */
   private final int translationAxis = XboxController.Axis.kRightY.value;
   private final int strafeAxis = XboxController.Axis.kRightX.value;
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kY.value);
-  private final JoystickButton robotCentric =
-      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-  private final JoystickButton rightBumper =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton zeroGyro = new JoystickButton(
+    driver,
+    XboxController.Button.kY.value
+  );
+  private final JoystickButton robotCentric = new JoystickButton(
+    driver,
+    XboxController.Button.kLeftBumper.value
+  );
+  private final JoystickButton rightBumper = new JoystickButton(
+    driver,
+    XboxController.Button.kRightBumper.value
+  );
+  private final JoystickButton music = new JoystickButton(
+    driver,
+    XboxController.Button.kX.value
+  );
 
-  private final JoystickButton bottomNode =
-      new JoystickButton(operator, XboxController.Button.kA.value);
-  private final JoystickButton midNode =
-      new JoystickButton(operator, XboxController.Button.kB.value);
-  private final JoystickButton topNode =
-      new JoystickButton(operator, XboxController.Button.kY.value);
-  private final JoystickButton openClaw =
-      new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-  private final JoystickButton closeClaw =
-      new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+/* Operator Buttons */
+  private final JoystickButton bottomNode = new JoystickButton(
+    operator,
+    PS4Controller.Button.kCross.value
+  );
+  private final JoystickButton midNode = new JoystickButton(
+    operator,
+    PS4Controller.Button.kCircle.value
+  );
+  private final JoystickButton topNode = new JoystickButton(
+    operator,
+    PS4Controller.Button.kTriangle.value
+  );
+  private final JoystickButton openclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kL1.value
+  );
+  private final JoystickButton closeclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kR1.value
+  );
 
   // private final JoystickButton up = new JoystickButton(
   //   operator,
@@ -120,12 +144,15 @@ public class RobotContainer {
       )
     );
     */
+
+
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
 
     openClaw.whileTrue(new openClaw(claw));
     closeClaw.whileTrue(new closeClaw(claw));
+
   }
 
   /**

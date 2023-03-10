@@ -110,18 +110,13 @@ public class Swerve extends SubsystemBase {
         : Rotation2d.fromDegrees(gyro.getYaw());
   }
 
-  public void resetModulesToAbsolute() {
-    for (SwerveModule mod : mSwerveMods) {
-      mod.resetToAbsolute();
-    }
-  }
-
   public void TurnStates(double angularSpeed) {
     var swerveModuleStates =
         Constants.Swerve.swerveKinematics.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, angularSpeed, gyro.getRotation2d()));
     setModuleStates(swerveModuleStates);
   }
+
 
   // for path following
 
@@ -159,9 +154,7 @@ public class Swerve extends SubsystemBase {
   @Override
   public void periodic() {
     swerveOdometry.update(getYaw(), getModulePositions());
-
     SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());

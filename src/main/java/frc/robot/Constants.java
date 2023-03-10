@@ -40,13 +40,15 @@ public final class Constants {
 
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
-    public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 22;
-    public static final int TopNodeDistance = 48;
+    public static final int BottomNodeDistance = 50;
+    public static final int MidNodeDistance = 0;
+    public static final int TopNodeDistance = 0;
     public static final int MaxHeight = 48;
+    public static final double Kp = 0.0022211;
+    public static final double Ki = 0;
+    public static final double Kd = 0.00045268;
   }
 
-  /* Arm Constants */
   public static final class ArmConstants {
 
     // TODO: check if this is right
@@ -153,7 +155,7 @@ public final class Constants {
     public static final class Mod1 { // TODO: This must be tuned to specific robot
 
       public static final int driveMotorID = 6;
-      public static final int angleMotorID = 16;
+      public static final int angleMotorID = 1;
       public static final int canCoderID = 8;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(259);
       public static final SwerveModuleConstants constants =
@@ -175,7 +177,7 @@ public final class Constants {
     public static final class Mod3 { // TODO: This must be tuned to specific robot
 
       public static final int driveMotorID = 7;
-      public static final int angleMotorID = 15;
+      public static final int angleMotorID = 0;
       public static final int canCoderID = 9;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(206);
       public static final SwerveModuleConstants constants =
