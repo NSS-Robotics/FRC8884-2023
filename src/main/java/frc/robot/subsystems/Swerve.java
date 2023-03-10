@@ -117,7 +117,6 @@ public class Swerve extends SubsystemBase {
     setModuleStates(swerveModuleStates);
   }
 
-
   // for path following
 
   public Command FollowPath(

@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -45,7 +44,7 @@ public class Elevator extends SubsystemBase {
     Lmotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
     Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
     Lmotor.setCANTimeout(0);
-    
+
     // Rmotor Setup
     Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
     Rmotor.restoreFactoryDefaults();
@@ -128,6 +127,5 @@ public class Elevator extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("LmotorEncoder", LmotorEncoder.getPosition());
     SmartDashboard.putNumber("RmotorEncoder", RmotorEncoder.getPosition());
-
   }
 }

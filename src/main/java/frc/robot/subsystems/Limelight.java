@@ -63,7 +63,6 @@ public class Limelight extends SubsystemBase {
   public void setPipeline(double pipelineID) {
     table.getEntry("pipeline").setNumber(pipelineID);
     SmartDashboard.putNumber("Pipeline", pipelineID);
-
   }
 
   @Override
