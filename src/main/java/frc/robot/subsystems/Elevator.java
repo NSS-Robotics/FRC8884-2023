@@ -37,6 +37,9 @@ public class Elevator extends SubsystemBase {
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
     Lmotorpid = Lmotor.getPIDController();
+    Lmotorpid.setP(Constants.ElevatorConstants.Kp);
+    Lmotorpid.setI(Constants.ElevatorConstants.Ki);
+    Lmotorpid.setD(Constants.ElevatorConstants.Kd);
     Lmotorpid.setIZone(0);
     Lmotorpid.setOutputRange(-1, 1);
 
@@ -61,7 +64,9 @@ public class Elevator extends SubsystemBase {
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
-
+    Rmotorpid.setP(Constants.ElevatorConstants.Kp);
+    Rmotorpid.setI(Constants.ElevatorConstants.Ki);
+    Rmotorpid.setD(Constants.ElevatorConstants.Kd);
     Rmotorpid.setIZone(0);
     Rmotorpid.setOutputRange(-1, 1);
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);

@@ -32,6 +32,9 @@ public final class Constants {
     public static final int MidNodeDistance = 0;
     public static final int TopNodeDistance = 0;
     public static final int MaxHeight = 48;
+    public static final double Kp = 0.0022211;
+    public static final double Ki = 0;
+    public static final double Kd = 0.00045268;
   }
 
   public static final class ArmConstants {
