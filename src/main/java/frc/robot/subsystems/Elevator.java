@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
   public boolean elevatorreset = false;
 
   public void elevatorsetup() {
-    // Lmotor Setup
+    // Lmotor Setupm,
     Lmotor =
       new CANSparkMax(
         Constants.ElevatorConstants.LMotorID,
@@ -37,9 +37,6 @@ public class Elevator extends SubsystemBase {
     Lmotor.setClosedLoopRampRate(0.5);
     LmotorEncoder = Lmotor.getEncoder();
     Lmotorpid = Lmotor.getPIDController();
-    Lmotorpid.setP(Constants.ElevatorConstants.MotorP);
-    Lmotorpid.setI(Constants.ElevatorConstants.MotorI);
-    Lmotorpid.setD(Constants.ElevatorConstants.MotorD);
     Lmotorpid.setIZone(0);
     Lmotorpid.setOutputRange(-1, 1);
 
@@ -64,9 +61,7 @@ public class Elevator extends SubsystemBase {
     Rmotor.setClosedLoopRampRate(0.5);
     RmotorEncoder = Rmotor.getEncoder();
     Rmotorpid = Rmotor.getPIDController();
-    Rmotorpid.setP(Constants.ElevatorConstants.MotorP, 0);
-    Rmotorpid.setI(Constants.ElevatorConstants.MotorI, 0);
-    Rmotorpid.setD(Constants.ElevatorConstants.MotorD, 0);
+
     Rmotorpid.setIZone(0);
     Rmotorpid.setOutputRange(-1, 1);
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);

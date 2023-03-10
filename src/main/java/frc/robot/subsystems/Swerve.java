@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -122,12 +121,6 @@ public class Swerve extends SubsystemBase {
       : Rotation2d.fromDegrees(gyro.getYaw());
   }
 
-  public void resetModulesToAbsolute() {
-    for (SwerveModule mod : mSwerveMods) {
-      mod.resetToAbsolute();
-    }
-  }
-
   public void TurnStates(double angularSpeed) {
     var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
       ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -140,14 +133,15 @@ public class Swerve extends SubsystemBase {
     setModuleStates(swerveModuleStates);
   }
 
+  public void resetModulesToAbsolute() {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.resetToAbsolute();
+    }
+  }
+
   @Override
   public void periodic() {
     swerveOdometry.update(getYaw(), getModulePositions());
-
-    SmartDashboard.putString(
-      "Robot Location",
-      getPose().getTranslation().toString()
-    );
 
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(
