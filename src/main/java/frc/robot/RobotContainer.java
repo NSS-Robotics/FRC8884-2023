@@ -65,6 +65,19 @@ public class RobotContainer {
     operator,
     PS4Controller.Button.kTriangle.value
   );
+  private final JoystickButton hp = new JoystickButton(
+    operator,
+    PS4Controller.Button.kSquare.value
+  );
+
+  private final JoystickButton upclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kL2.value
+  );
+  private final JoystickButton downclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kR2.value
+  );
   private final JoystickButton openClaw = new JoystickButton(
     operator,
     PS4Controller.Button.kL1.value
