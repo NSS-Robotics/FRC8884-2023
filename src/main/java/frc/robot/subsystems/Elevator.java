@@ -113,7 +113,6 @@ public class Elevator extends SubsystemBase {
     return outputcurrent;
   }
 
-
   public double[] getElevatorEncoder() {
     double outputencoder[] = new double[2];
     outputencoder[0] = LmotorEncoder.getPosition();
@@ -121,10 +120,10 @@ public class Elevator extends SubsystemBase {
     return outputencoder;
   }
 
-  public void setElevatorSpeed(double value){
+  public void setElevatorSpeed(double value) {
     Lmotor.set(value);
     Rmotor.set(-value);
-}
+  }
 
   public Elevator() {
     elevatorsetup();
