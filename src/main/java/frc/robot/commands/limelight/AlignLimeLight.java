@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.limelight;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -10,11 +10,11 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-public class GoToLimeLightManual extends PIDCommand {
+public class AlignLimeLight extends PIDCommand {
 
   private Swerve swerve;
 
-  public GoToLimeLightManual(
+  public AlignLimeLight(
       PIDController controller,
       DoubleSupplier measurementSource,
       double setpoint,
@@ -23,13 +23,15 @@ public class GoToLimeLightManual extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public GoToLimeLightManual(Swerve s_Swerve, Limelight limelight) {
+  public AlignLimeLight(double pipelineID, Swerve s_Swerve, Limelight limelight) {
     super(
         new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-        limelight::estimateDistance,
-        1.5,
-        x -> s_Swerve.drive(new Translation2d(x, 0), 0, true, false),
+        limelight::gettx,
+        0.0,
+        x -> s_Swerve.TurnStates(x),
         s_Swerve);
+    limelight.setPipeline(pipelineID);
+
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the

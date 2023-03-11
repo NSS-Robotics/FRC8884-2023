@@ -83,6 +83,7 @@ public class Elevator extends SubsystemBase {
 
   public void stopElevator() {
     Lmotor.set(0);
+    Rmotor.set(0);
   }
 
   public void disableElevatorLimits() {
@@ -112,12 +113,18 @@ public class Elevator extends SubsystemBase {
     return outputcurrent;
   }
 
+
   public double[] getElevatorEncoder() {
     double outputencoder[] = new double[2];
     outputencoder[0] = LmotorEncoder.getPosition();
     outputencoder[1] = RmotorEncoder.getPosition();
     return outputencoder;
   }
+
+  public void setElevatorSpeed(double value){
+    Lmotor.set(value);
+    Rmotor.set(-value);
+}
 
   public Elevator() {
     elevatorsetup();

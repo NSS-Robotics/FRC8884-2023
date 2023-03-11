@@ -1,24 +1,21 @@
-package frc.robot.commands.ArmLengths;
+package frc.robot.commands.armscoring;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 
-public class MidExtend extends CommandBase {
+public class TopExtend extends CommandBase {
 
   Arm arm;
 
-  public MidExtend(Arm arm) {
+  public TopExtend(Arm arm) {
     arm = this.arm;
     addRequirements(arm);
   }
 
   @Override
   public void execute() {
-    arm.setArm(Constants.ArmConstants.ExtendMidNode);
-    if (arm.getArmEncoder() < Constants.ArmConstants.ExtendMidNode) {
-      arm.setArmSpeed(0.1);
-    }
+    arm.setArm(Constants.ArmConstants.ExtendTopNode);
   }
 
   @Override
@@ -26,6 +23,6 @@ public class MidExtend extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("MidExtend Command Ended");
+    System.out.println("TopExtend Command Ended");
   }
 }

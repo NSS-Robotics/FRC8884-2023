@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
-import frc.robot.commands.AlignLimeLight;
-import frc.robot.commands.ArmLengths.*;
-import frc.robot.commands.Claw.*;
+import frc.robot.commands.armscoring.*;
+import frc.robot.commands.claw.*;
+import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
 
