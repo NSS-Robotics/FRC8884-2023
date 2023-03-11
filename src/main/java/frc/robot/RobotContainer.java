@@ -69,10 +69,10 @@ public class RobotContainer {
   private final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
-  private final Claw claw = new Claw();
-
-  private final BoomBox boombox = new BoomBox("kv545.chrp");
   private final Arm arm = new Arm();
+  private final Claw claw = new Claw();
+  private final BoomBox boombox =
+    new BoomBox("kv545.chrp");
 
   /* autos */
   private final OnePiece onePiece = new OnePiece(s_Swerve, true);
@@ -92,7 +92,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
-    m_chooser.setDefaultOption("TwoPiece", twoPiece.followPath());
+    m_chooser.addOption("TwoPiece", twoPiece.followPath());
 
     SmartDashboard.putData(m_chooser);
   }
@@ -149,7 +149,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return m_chooser.getSelected();
   }
 }
