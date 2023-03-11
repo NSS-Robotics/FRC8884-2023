@@ -5,10 +5,10 @@ import frc.robot.subsystems.Claw;
 
 public class openClaw extends CommandBase {
 
-  Claw claw;
+  private final Claw claw;
 
-  public openClaw(Claw claw) {
-    claw = this.claw;
+  public openClaw(Claw _claw) {
+    claw = _claw;
     addRequirements(claw);
   }
 
