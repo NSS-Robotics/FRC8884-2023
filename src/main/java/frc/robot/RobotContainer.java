@@ -37,8 +37,7 @@ public class RobotContainer {
   /* Driver Buttons */
   private final JoystickButton zeroGyro =
       new JoystickButton(driver, XboxController.Button.kY.value);
-  private final JoystickButton music =
-    new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final JoystickButton rightBumper =
@@ -71,8 +70,7 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   private final Arm arm = new Arm();
   private final Claw claw = new Claw();
-  private final BoomBox boombox =
-    new BoomBox("kv545.chrp");
+  private final BoomBox boombox = new BoomBox("kv545.chrp");
 
   /* autos */
   private final OnePiece onePiece = new OnePiece(s_Swerve, true);
