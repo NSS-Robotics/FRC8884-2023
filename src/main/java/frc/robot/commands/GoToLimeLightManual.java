@@ -15,23 +15,21 @@ public class GoToLimeLightManual extends PIDCommand {
   private Swerve swerve;
 
   public GoToLimeLightManual(
-    PIDController controller,
-    DoubleSupplier measurementSource,
-    double setpoint,
-    DoubleConsumer useOutput,
-    Subsystem[] requirements
-  ) {
+      PIDController controller,
+      DoubleSupplier measurementSource,
+      double setpoint,
+      DoubleConsumer useOutput,
+      Subsystem[] requirements) {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
   public GoToLimeLightManual(Swerve s_Swerve, Limelight limelight) {
     super(
-      new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-      limelight::estimateDistance,
-      1.5,
-      x -> s_Swerve.drive(new Translation2d(x, 0), 0, true, false),
-      s_Swerve
-    );
+        new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
+        limelight::estimateDistance,
+        1.5,
+        x -> s_Swerve.drive(new Translation2d(x, 0), 0, true, false),
+        s_Swerve);
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
