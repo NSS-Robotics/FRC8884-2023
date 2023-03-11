@@ -1,23 +1,15 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,12 +33,6 @@ public class Swerve extends SubsystemBase {
           new SwerveModule(2, Constants.Swerve.Mod2.constants),
           new SwerveModule(3, Constants.Swerve.Mod3.constants),
         };
-
-    /* By pausing init for a second before setting module offsets, we avoid a bug with inverting motors.
-     * See https://github.com/Team364/BaseFalconSwerve/issues/8 for more info.
-     */
-    Timer.delay(1.0);
-    resetModulesToAbsolute();
 
     swerveOdometry =
         new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), getModulePositions());
@@ -115,39 +101,6 @@ public class Swerve extends SubsystemBase {
         Constants.Swerve.swerveKinematics.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, angularSpeed, gyro.getRotation2d()));
     setModuleStates(swerveModuleStates);
-  }
-
-  // for path following
-
-  public Command FollowPath(
-      PathPlannerTrajectory trajectory,
-      boolean isFirstPath) { // FIXME: COMMANDS SHOULD NOT BE INSTANTIATED INSIDE A SUBSYSTEM!!!
-    // probably a bad idea to make a command in a subsystem
-    return new SequentialCommandGroup(
-        new InstantCommand(
-            () -> {
-              // Reset odometry for the first path ran during auto
-              if (isFirstPath) {
-                this.resetOdometry(trajectory.getInitialPose());
-              }
-            }),
-        new PPSwerveControllerCommand(
-            trajectory,
-            this::getPose,
-            Constants.Swerve.swerveKinematics,
-            // XY PID drive values, usually same
-            // TODO: May need to tune these PIDs
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            // rotation PID
-            new PIDController(
-                Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
-            this::setModuleStates,
-            // Alter path based on team colour (side of the field)
-            true,
-            this));
   }
 
   @Override

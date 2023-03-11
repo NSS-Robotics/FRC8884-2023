@@ -14,7 +14,8 @@ import frc.robot.commands.ArmLengths.*;
 import frc.robot.commands.Claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.Claw.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,6 +24,7 @@ import frc.robot.commands.Claw.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /* Controllers */
   private final XboxController driver = new XboxController(0);
@@ -35,11 +37,12 @@ public class RobotContainer {
   /* Driver Buttons */
   private final JoystickButton zeroGyro =
       new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton music =
+    new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton robotCentric =
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final JoystickButton rightBumper =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
 
   /* Operator Buttons */
   private final JoystickButton bottomNode =
@@ -48,9 +51,9 @@ public class RobotContainer {
       new JoystickButton(operator, PS4Controller.Button.kCircle.value);
   private final JoystickButton topNode =
       new JoystickButton(operator, PS4Controller.Button.kTriangle.value);
-  private final JoystickButton openclaw =
+  private final JoystickButton openClaw =
       new JoystickButton(operator, PS4Controller.Button.kL1.value);
-  private final JoystickButton closeclaw =
+  private final JoystickButton closeClaw =
       new JoystickButton(operator, PS4Controller.Button.kR1.value);
 
   // private final JoystickButton up = new JoystickButton(
@@ -69,9 +72,11 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   private final BoomBox boombox = new BoomBox("kv545.chrp");
-  // private final Arm arm = new Arm();
+  private final Arm arm = new Arm();
 
-  // private final RunMotor runmotor = new RunMotor();
+  /* autos */
+  private final OnePiece onePiece = new OnePiece(s_Swerve, true);
+  private final TwoPiece twoPiece = new TwoPiece(s_Swerve, false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -85,6 +90,11 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
+    m_chooser.setDefaultOption("TwoPiece", twoPiece.followPath());
+
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -140,6 +150,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new One_Piece(s_Swerve);
+    return m_chooser.getSelected();
   }
 }
