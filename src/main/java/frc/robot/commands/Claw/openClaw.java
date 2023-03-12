@@ -18,10 +18,7 @@ public class openClaw extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
   public void end(boolean interrupted) {
-    System.out.println("BottomNode Command Ended");
+    System.out.println("Claw Open");
   }
 }

@@ -1,21 +1,21 @@
-package frc.robot.commands.armscoring;
+package frc.robot.commands.nodescoring.armscoring;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 
-public class TopExtend extends CommandBase {
+public class BottomExtend extends CommandBase {
 
   Arm arm;
 
-  public TopExtend(Arm arm) {
+  public BottomExtend(Arm arm) {
     arm = this.arm;
     addRequirements(arm);
   }
 
   @Override
   public void execute() {
-    arm.setArm(Constants.ArmConstants.ExtendTopNode);
+    arm.setArm(Constants.ArmConstants.ExtendBottomNode);
   }
 
   @Override
@@ -23,6 +23,6 @@ public class TopExtend extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("TopExtend Command Ended");
+    System.out.println("BottomExtend Command Ended");
   }
 }
