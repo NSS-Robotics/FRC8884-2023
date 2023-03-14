@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -53,6 +54,14 @@ public class RobotContainer {
   );
 
   /* Operator Buttons */
+  private final JoystickButton LModifer = new JoystickButton(
+    operator,
+    PS4Controller.Button.kL2.value
+  );
+  private final JoystickButton RModifer = new JoystickButton(
+    operator,
+    PS4Controller.Button.kR2.value
+  );
   private final JoystickButton bottomNode = new JoystickButton(
     operator,
     PS4Controller.Button.kCross.value
@@ -72,11 +81,11 @@ public class RobotContainer {
 
   private final JoystickButton upclaw = new JoystickButton(
     operator,
-    PS4Controller.Button.kOptions.value
+    PS4Controller.Button.kShare.value
   );
   private final JoystickButton downclaw = new JoystickButton(
     operator,
-    PS4Controller.Button.kShare.value
+    PS4Controller.Button.kOptions.value
   );
   private final JoystickButton openClaw = new JoystickButton(
     operator,
@@ -85,15 +94,6 @@ public class RobotContainer {
   private final JoystickButton closeClaw = new JoystickButton(
     operator,
     PS4Controller.Button.kR1.value
-  );
-
-  private final JoystickButton up = new JoystickButton(
-    driver,
-    XboxController.Button.kA.value
-  );
-  private final JoystickButton down = new JoystickButton(
-    driver,
-    XboxController.Button.kB.value
   );
 
   /* Subsystems */
@@ -138,47 +138,23 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.whileTrue(new AlignLimeLight(0, s_Swerve, limelight));
-    // up
-    //   .onTrue(new InstantCommand(runmotor::Extend))
-    //   .onFalse(new InstantCommand(runmotor::Stop));
-    // down
-    //   .onTrue(new InstantCommand(runmotor::Retract))
-    //   .onFalse(new InstantCommand(runmotor::Stop));
-    /*
-    bottomNode.whileTrue(
-      new ParallelCommandGroup(
-        new BottomNode(elevator)
-        //new BottomExtend(arm))
-      )
-    );
-    midNode.whileTrue(
-      new ParallelCommandGroup(
-        new MidNode(elevator)
-        //new MidExtend(arm))
-      )
-    );
-    topNode.whileTrue(
-      new ParallelCommandGroup(
-        new TopNode(elevator)
-        //new TopExtend(arm);
-      )
-    );
-    */
+    rightBumper.whileTrue(new AlignLimeLight(s_Swerve, limelight));
 
-    bottomNode.whileTrue(new BottomNode(elevator));
-    midNode.whileTrue(new MidNode(elevator));
-    topNode.whileTrue(new TopNode(elevator));
-    hp.whileTrue(new HPNode(elevator));
+    /* Operator Buttons */
+    LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
+    LModifer.and(midNode).whileTrue(new MidNode(elevator));
+    LModifer.and(topNode).whileTrue(new TopNode(elevator));
+    LModifer.and(hp).whileTrue(new HPNode(elevator));
+
+    RModifer.and(bottomNode).whileTrue(new BottomExtend(arm));
+    RModifer.and(midNode).whileTrue(new MidExtend(arm));
+    RModifer.and(topNode).whileTrue(new TopExtend(arm));
 
     openClaw.whileTrue(new openClaw(claw));
     closeClaw.whileTrue(new closeClaw(claw));
 
     upclaw.whileTrue(new pivotup(pivot));
     downclaw.whileTrue(new pivotdown(pivot));
-
-    up.whileTrue(new InstantCommand(arm::forwards));
-    down.whileTrue(new InstantCommand(arm::backwards));
   }
 
   /**

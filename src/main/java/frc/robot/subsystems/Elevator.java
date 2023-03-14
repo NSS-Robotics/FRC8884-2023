@@ -23,9 +23,12 @@ public class Elevator extends SubsystemBase {
   public boolean elevatorreset = false;
 
   public void elevatorsetup() {
-
     // Lmotor Setup
-    Lmotor = new CANSparkMax(Constants.ElevatorConstants.LMotorID, MotorType.kBrushless);
+    Lmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.LMotorID,
+        MotorType.kBrushless
+      );
     Lmotor.restoreFactoryDefaults();
     Lmotor.setIdleMode(IdleMode.kBrake);
     Lmotor.setSmartCurrentLimit(40);
@@ -41,12 +44,19 @@ public class Elevator extends SubsystemBase {
 
     Lmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Lmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Lmotor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
+    Lmotor.setSoftLimit(
+      SoftLimitDirection.kForward,
+      Constants.ElevatorConstants.MaxHeight
+    );
     Lmotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
     Lmotor.setCANTimeout(0);
 
     // Rmotor Setup
-    Rmotor = new CANSparkMax(Constants.ElevatorConstants.RMotorID, MotorType.kBrushless);
+    Rmotor =
+      new CANSparkMax(
+        Constants.ElevatorConstants.RMotorID,
+        MotorType.kBrushless
+      );
     Rmotor.restoreFactoryDefaults();
     Rmotor.setIdleMode(IdleMode.kBrake);
     Rmotor.setSmartCurrentLimit(40);
@@ -62,7 +72,10 @@ public class Elevator extends SubsystemBase {
     Rmotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Rmotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     Rmotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    Rmotor.setSoftLimit(SoftLimitDirection.kReverse, -Constants.ElevatorConstants.MaxHeight);
+    Rmotor.setSoftLimit(
+      SoftLimitDirection.kReverse,
+      -Constants.ElevatorConstants.MaxHeight
+    );
     Rmotor.setCANTimeout(0);
     resetEncoders();
 
@@ -76,7 +89,6 @@ public class Elevator extends SubsystemBase {
   }
 
   public void setElevator(double value) {
-
     Lmotorpid.setReference(value, ControlType.kPosition, 0);
     Rmotorpid.setReference(-value, ControlType.kPosition, 0);
   }

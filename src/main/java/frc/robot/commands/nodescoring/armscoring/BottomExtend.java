@@ -6,10 +6,10 @@ import frc.robot.subsystems.Arm;
 
 public class BottomExtend extends CommandBase {
 
-  Arm arm;
+  private static Arm arm;
 
-  public BottomExtend(Arm arm) {
-    arm = this.arm;
+  public BottomExtend(Arm _arm) {
+    arm = _arm;
     addRequirements(arm);
   }
 

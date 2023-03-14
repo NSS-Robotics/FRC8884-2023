@@ -13,15 +13,16 @@ import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
 
-  private CANSparkMax Motor;
-  private RelativeEncoder MotorEncoder;
-  private SparkMaxPIDController Motorpid;
+  private static CANSparkMax Motor;
+  private static RelativeEncoder MotorEncoder;
+  private static SparkMaxPIDController Motorpid;
 
   public boolean armReset = false;
 
   public void armSetup() {
     // Motor Setup
-    Motor = new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
+    Motor =
+      new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
     Motor.restoreFactoryDefaults();
     Motor.setIdleMode(IdleMode.kBrake);
     Motor.setSmartCurrentLimit(40);
@@ -29,9 +30,15 @@ public class Arm extends SubsystemBase {
     Motor.setClosedLoopRampRate(0.5);
     MotorEncoder = Motor.getEncoder();
     Motorpid = Motor.getPIDController();
+    Motorpid.setP(Constants.ArmConstants.Kp);
+    Motorpid.setI(Constants.ArmConstants.Ki);
+    Motorpid.setD(Constants.ArmConstants.Kd);
     Motor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Motor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
+    Motor.setSoftLimit(
+      SoftLimitDirection.kForward,
+      Constants.ArmConstants.ExtendMax
+    );
     Motor.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
     resetArmEncoders();
@@ -43,10 +50,6 @@ public class Arm extends SubsystemBase {
 
   public void setArm(double value) {
     Motorpid.setReference(value, ControlType.kPosition, 0);
-  }
-
-  public void stopArm() {
-    Motor.set(0);
   }
 
   public void disableArmLimits() {
@@ -74,14 +77,6 @@ public class Arm extends SubsystemBase {
     return MotorEncoder.getPosition();
   }
 
-  public void forwards() {
-    Motor.set(0.5);
-  }
-
-  public void backwards() {
-    Motor.set(-0.5);
-  }
-
   public Arm() {
     armSetup();
   }
@@ -89,15 +84,5 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ArmMotorEncoder", MotorEncoder.getPosition());
-    if (getArmEncoder() > Constants.ArmConstants.ExtendMidNode - 0.2
-        && getArmEncoder() < Constants.ArmConstants.ExtendMidNode + 0.2) {
-      stopArm();
-    }
-    if (getArmEncoder() >= Constants.ArmConstants.ExtendTopNode) {
-      stopArm();
-    }
-    if (getArmEncoder() <= Constants.ElevatorConstants.BottomNodeDistance) {
-      stopArm();
-    }
   }
 }
