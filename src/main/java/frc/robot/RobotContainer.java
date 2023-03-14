@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
@@ -36,65 +35,36 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
-  private final JoystickButton music = new JoystickButton(
-    driver,
-    XboxController.Button.kX.value
-  );
-  private final JoystickButton robotCentric = new JoystickButton(
-    driver,
-    XboxController.Button.kLeftBumper.value
-  );
-  private final JoystickButton rightBumper = new JoystickButton(
-    driver,
-    XboxController.Button.kRightBumper.value
-  );
+  private final JoystickButton zeroGyro =
+      new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rightBumper =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
   /* Operator Buttons */
-  private final JoystickButton LModifer = new JoystickButton(
-    operator,
-    PS4Controller.Button.kL2.value
-  );
-  private final JoystickButton RModifer = new JoystickButton(
-    operator,
-    PS4Controller.Button.kR2.value
-  );
-  private final JoystickButton bottomNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kCross.value
-  );
-  private final JoystickButton midNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kCircle.value
-  );
-  private final JoystickButton topNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kTriangle.value
-  );
-  private final JoystickButton hp = new JoystickButton(
-    operator,
-    PS4Controller.Button.kSquare.value
-  );
+  private final JoystickButton LModifer =
+      new JoystickButton(operator, PS4Controller.Button.kL2.value);
+  private final JoystickButton RModifer =
+      new JoystickButton(operator, PS4Controller.Button.kR2.value);
+  private final JoystickButton bottomNode =
+      new JoystickButton(operator, PS4Controller.Button.kCross.value);
+  private final JoystickButton midNode =
+      new JoystickButton(operator, PS4Controller.Button.kCircle.value);
+  private final JoystickButton topNode =
+      new JoystickButton(operator, PS4Controller.Button.kTriangle.value);
+  private final JoystickButton hp =
+      new JoystickButton(operator, PS4Controller.Button.kSquare.value);
 
-  private final JoystickButton upclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kShare.value
-  );
-  private final JoystickButton downclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kOptions.value
-  );
-  private final JoystickButton openClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kL1.value
-  );
-  private final JoystickButton closeClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kR1.value
-  );
+  private final JoystickButton upclaw =
+      new JoystickButton(operator, PS4Controller.Button.kShare.value);
+  private final JoystickButton downclaw =
+      new JoystickButton(operator, PS4Controller.Button.kOptions.value);
+  private final JoystickButton openClaw =
+      new JoystickButton(operator, PS4Controller.Button.kL1.value);
+  private final JoystickButton closeClaw =
+      new JoystickButton(operator, PS4Controller.Button.kR1.value);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -111,14 +81,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-        s_Swerve,
-        () -> driver.getRawAxis(translationAxis),
-        () -> driver.getRawAxis(strafeAxis),
-        () -> driver.getRawAxis(rotationAxis),
-        robotCentric::getAsBoolean
-      )
-    );
+        new TeleopSwerve(
+            s_Swerve,
+            () -> driver.getRawAxis(translationAxis),
+            () -> driver.getRawAxis(strafeAxis),
+            () -> driver.getRawAxis(rotationAxis),
+            robotCentric::getAsBoolean));
 
     // Configure the button bindings
     configureButtonBindings();

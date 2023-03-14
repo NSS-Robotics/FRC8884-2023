@@ -21,8 +21,7 @@ public class Arm extends SubsystemBase {
 
   public void armSetup() {
     // Motor Setup
-    Motor =
-      new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
+    Motor = new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
     Motor.restoreFactoryDefaults();
     Motor.setIdleMode(IdleMode.kBrake);
     Motor.setSmartCurrentLimit(40);
@@ -35,10 +34,7 @@ public class Arm extends SubsystemBase {
     Motorpid.setD(Constants.ArmConstants.Kd);
     Motor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Motor.setSoftLimit(
-      SoftLimitDirection.kForward,
-      Constants.ArmConstants.ExtendMax
-    );
+    Motor.setSoftLimit(SoftLimitDirection.kForward, Constants.ArmConstants.ExtendMax);
     Motor.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
     resetArmEncoders();
