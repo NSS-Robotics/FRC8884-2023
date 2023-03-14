@@ -26,7 +26,7 @@ public final class Constants {
 
     public static final int MotorID = 15;
     public static final int ExtendBottomNode = 0;
-    public static final int ExtendMidNode = 107;
+    public static final int ExtendMidNode = 110;
     public static final int ExtendTopNode = 202;
     public static final int ExtendMax = 202;
     public static final double Kp = 0.0091453;
@@ -40,8 +40,8 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 53;
-    public static final int HPDistance = 57;
+    public static final int MidNodeDistance = 57;
+    public static final double HPDistance = 58;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
     public static final double Kp = 0.0122244;
