@@ -38,13 +38,13 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 50;
-    public static final int HPDistance = 54;
-    public static final int TopNodeDistance = 67;
-    public static final int MaxHeight = 67;
-    public static final double Kp = 0.0032244;
+    public static final int MidNodeDistance = 53;
+    public static final int HPDistance = 57;
+    public static final int TopNodeDistance = 73;
+    public static final int MaxHeight = 72;
+    public static final double Kp = 0.0122244;
     public static final double Ki = 0;
-    public static final double Kd = 0.00053787;
+    public static final double Kd = 0.00063787;
   }
 
   public static final class Swerve {
