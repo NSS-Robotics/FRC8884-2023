@@ -21,8 +21,7 @@ public class Arm extends SubsystemBase {
 
   public void armSetup() {
     // Motor Setup
-    Motor =
-      new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
+    Motor = new CANSparkMax(Constants.ArmConstants.MotorID, MotorType.kBrushless);
     Motor.restoreFactoryDefaults();
     Motor.setIdleMode(IdleMode.kBrake);
     Motor.setSmartCurrentLimit(40);
@@ -32,10 +31,7 @@ public class Arm extends SubsystemBase {
     Motorpid = Motor.getPIDController();
     Motor.enableSoftLimit(SoftLimitDirection.kForward, true);
     Motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    Motor.setSoftLimit(
-      SoftLimitDirection.kForward,
-      Constants.ElevatorConstants.MaxHeight
-    );
+    Motor.setSoftLimit(SoftLimitDirection.kForward, Constants.ElevatorConstants.MaxHeight);
     Motor.setSoftLimit(SoftLimitDirection.kReverse, 0);
 
     resetArmEncoders();
@@ -93,10 +89,8 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("ArmMotorEncoder", MotorEncoder.getPosition());
-    if (
-      getArmEncoder() > Constants.ArmConstants.ExtendMidNode - 0.2 &&
-      getArmEncoder() < Constants.ArmConstants.ExtendMidNode + 0.2
-    ) {
+    if (getArmEncoder() > Constants.ArmConstants.ExtendMidNode - 0.2
+        && getArmEncoder() < Constants.ArmConstants.ExtendMidNode + 0.2) {
       stopArm();
     }
     if (getArmEncoder() >= Constants.ArmConstants.ExtendTopNode) {

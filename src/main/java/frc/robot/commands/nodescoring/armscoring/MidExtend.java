@@ -1,7 +1,6 @@
 package frc.robot.commands.nodescoring.armscoring;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 
 public class MidExtend extends CommandBase {
