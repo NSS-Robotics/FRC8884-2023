@@ -7,7 +7,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+<<<<<<< Updated upstream
+=======
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.claw.*;
@@ -35,6 +41,7 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
+<<<<<<< Updated upstream
   private final JoystickButton zeroGyro =
       new JoystickButton(driver, XboxController.Button.kY.value);
   private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
@@ -42,6 +49,32 @@ public class RobotContainer {
       new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
   private final JoystickButton rightBumper =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+=======
+  private final JoystickButton zeroGyro = new JoystickButton(
+    driver,
+    XboxController.Button.kY.value
+  );
+  private final JoystickButton music = new JoystickButton(
+    driver,
+    XboxController.Button.kX.value
+  );
+  private final JoystickButton robotCentric = new JoystickButton(
+    driver,
+    XboxController.Button.kLeftBumper.value
+  );
+  private final JoystickButton rightBumper = new JoystickButton(
+    driver,
+    XboxController.Button.kRightBumper.value
+  );
+  private final JoystickButton LTModifer = new JoystickButton(
+    driver,
+    XboxController.Button.kLeftStick.value
+  );
+  private final JoystickButton DResetArm = new JoystickButton(
+    driver,
+    XboxController.Button.kStart.value
+  );
+>>>>>>> Stashed changes
 
   /* Operator Buttons */
   private final JoystickButton LModifer =
@@ -57,6 +90,7 @@ public class RobotContainer {
   private final JoystickButton hp =
       new JoystickButton(operator, PS4Controller.Button.kSquare.value);
 
+<<<<<<< Updated upstream
   private final JoystickButton upclaw =
       new JoystickButton(operator, PS4Controller.Button.kShare.value);
   private final JoystickButton downclaw =
@@ -65,6 +99,28 @@ public class RobotContainer {
       new JoystickButton(operator, PS4Controller.Button.kL1.value);
   private final JoystickButton closeClaw =
       new JoystickButton(operator, PS4Controller.Button.kR1.value);
+=======
+  private final JoystickButton upclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kShare.value
+  );
+  private final JoystickButton downclaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kOptions.value
+  );
+  private final JoystickButton openClaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kL1.value
+  );
+  private final JoystickButton closeClaw = new JoystickButton(
+    operator,
+    PS4Controller.Button.kR1.value
+  );
+  private final JoystickButton OResetArm = new JoystickButton(
+    operator,
+    PS4Controller.Button.kPS.value
+  );
+>>>>>>> Stashed changes
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -123,6 +179,12 @@ public class RobotContainer {
 
     upclaw.whileTrue(new pivotup(pivot));
     downclaw.whileTrue(new pivotdown(pivot));
+
+    /* Conjoined Buttons */
+    LTModifer
+      .and(DResetArm.and(RModifer.and(OResetArm)))
+      .whileTrue(new RunArm(arm))
+      .whileFalse(new StopArm(arm));
   }
 
   /**

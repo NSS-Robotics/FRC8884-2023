@@ -40,7 +40,7 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 57;
+    public static final int MidNodeDistance = 60;
     public static final double HPDistance = 58;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
