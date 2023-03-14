@@ -35,66 +35,35 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
-  private final JoystickButton music = new JoystickButton(
-    driver,
-    XboxController.Button.kX.value
-  );
-  private final JoystickButton robotCentric = new JoystickButton(
-    driver,
-    XboxController.Button.kLeftBumper.value
-  );
-  private final JoystickButton rightBumper = new JoystickButton(
-    driver,
-    XboxController.Button.kRightBumper.value
-  );
+  private final JoystickButton zeroGyro =
+      new JoystickButton(driver, XboxController.Button.kY.value);
+  private final JoystickButton music = new JoystickButton(driver, XboxController.Button.kX.value);
+  private final JoystickButton robotCentric =
+      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton rightBumper =
+      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
 
   /* Operator Buttons */
-  private final JoystickButton bottomNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kCross.value
-  );
-  private final JoystickButton midNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kCircle.value
-  );
-  private final JoystickButton topNode = new JoystickButton(
-    operator,
-    PS4Controller.Button.kTriangle.value
-  );
-  private final JoystickButton hp = new JoystickButton(
-    operator,
-    PS4Controller.Button.kSquare.value
-  );
+  private final JoystickButton bottomNode =
+      new JoystickButton(operator, PS4Controller.Button.kCross.value);
+  private final JoystickButton midNode =
+      new JoystickButton(operator, PS4Controller.Button.kCircle.value);
+  private final JoystickButton topNode =
+      new JoystickButton(operator, PS4Controller.Button.kTriangle.value);
+  private final JoystickButton hp =
+      new JoystickButton(operator, PS4Controller.Button.kSquare.value);
 
-  private final JoystickButton upclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kOptions.value
-  );
-  private final JoystickButton downclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kShare.value
-  );
-  private final JoystickButton openClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kL1.value
-  );
-  private final JoystickButton closeClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kR1.value
-  );
+  private final JoystickButton upclaw =
+      new JoystickButton(operator, PS4Controller.Button.kOptions.value);
+  private final JoystickButton downclaw =
+      new JoystickButton(operator, PS4Controller.Button.kShare.value);
+  private final JoystickButton openClaw =
+      new JoystickButton(operator, PS4Controller.Button.kL1.value);
+  private final JoystickButton closeClaw =
+      new JoystickButton(operator, PS4Controller.Button.kR1.value);
 
-  private final JoystickButton up = new JoystickButton(
-    driver,
-    XboxController.Button.kA.value
-  );
-  private final JoystickButton down = new JoystickButton(
-    driver,
-    XboxController.Button.kB.value
-  );
+  private final JoystickButton up = new JoystickButton(driver, XboxController.Button.kA.value);
+  private final JoystickButton down = new JoystickButton(driver, XboxController.Button.kB.value);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -111,14 +80,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     s_Swerve.setDefaultCommand(
-      new TeleopSwerve(
-        s_Swerve,
-        () -> driver.getRawAxis(translationAxis),
-        () -> driver.getRawAxis(strafeAxis),
-        () -> driver.getRawAxis(rotationAxis),
-        robotCentric::getAsBoolean
-      )
-    );
+        new TeleopSwerve(
+            s_Swerve,
+            () -> driver.getRawAxis(translationAxis),
+            () -> driver.getRawAxis(strafeAxis),
+            () -> driver.getRawAxis(rotationAxis),
+            robotCentric::getAsBoolean));
 
     // Configure the button bindings
     configureButtonBindings();
