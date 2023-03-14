@@ -25,7 +25,7 @@ public final class Constants {
   public static final class ArmConstants {
 
     // TODO: check if this is right
-    public static final int MotorID = 14;
+    public static final int MotorID = 15;
     public static final int ExtendTopNode = 0;
     public static final int ExtendBottomNode = 0;
     public static final int ExtendMidNode = 0;
@@ -38,12 +38,13 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 22;
-    public static final int TopNodeDistance = 45;
-    public static final int MaxHeight = 48;
-    public static final double Kp = 0.0062073;
+    public static final int MidNodeDistance = 50;
+    public static final int HPDistance = 54;
+    public static final int TopNodeDistance = 67;
+    public static final int MaxHeight = 67;
+    public static final double Kp = 0.0032244;
     public static final double Ki = 0;
-    public static final double Kd = 0.00030859;
+    public static final double Kd = 0.00053787;
   }
 
   public static final class Swerve {

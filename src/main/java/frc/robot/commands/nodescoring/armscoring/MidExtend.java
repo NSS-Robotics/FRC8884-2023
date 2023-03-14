@@ -14,12 +14,7 @@ public class MidExtend extends CommandBase {
   }
 
   @Override
-  public void execute() {
-    arm.setArm(Constants.ArmConstants.ExtendMidNode);
-    if (arm.getArmEncoder() < Constants.ArmConstants.ExtendMidNode) {
-      arm.setArmSpeed(0.1);
-    }
-  }
+  public void execute() {}
 
   @Override
   public void initialize() {}

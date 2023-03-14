@@ -10,14 +10,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Claw extends SubsystemBase {
 
   private final DoubleSolenoid clawsolenoid;
-  private final Compressor compressor;
+
+  // private final Compressor compressor;
 
   public Claw() {
     clawsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 0, 1);
-    compressor = new Compressor(14, PneumaticsModuleType.CTREPCM);
-    boolean enabled = compressor.isEnabled();
-    boolean pressureSwitch = compressor.getPressureSwitchValue();
-    double current = compressor.getCurrent();
+    // compressor = new Compressor(14, PneumaticsModuleType.CTREPCM);
+    // boolean enabled = compressor.isEnabled();
+    // boolean pressureSwitch = compressor.getPressureSwitchValue();
+    // double current = compressor.getCurrent();
   }
 
   public void openClaw() {
@@ -27,12 +28,11 @@ public class Claw extends SubsystemBase {
   public void closeClaw() {
     clawsolenoid.set(kForward);
   }
+  // public void startCompressor() {
+  //   compressor.enableDigital();
+  // }
 
-  public void startCompressor() {
-    compressor.enableDigital();
-  }
-
-  public void stopCompressor() {
-    compressor.disable();
-  }
+  // public void stopCompressor() {
+  //   compressor.disable();
+  // }
 }

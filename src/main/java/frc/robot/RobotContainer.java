@@ -72,11 +72,11 @@ public class RobotContainer {
 
   private final JoystickButton upclaw = new JoystickButton(
     operator,
-    PS4Controller.Button.kL2.value
+    PS4Controller.Button.kR2.value
   );
   private final JoystickButton downclaw = new JoystickButton(
     operator,
-    PS4Controller.Button.kR2.value
+    PS4Controller.Button.kL2.value
   );
   private final JoystickButton openClaw = new JoystickButton(
     operator,
@@ -87,14 +87,14 @@ public class RobotContainer {
     PS4Controller.Button.kR1.value
   );
 
-  // private final JoystickButton up = new JoystickButton(
-  //   operator,
-  //   XboxController.Button.kA.value
-  // );
-  // private final JoystickButton down = new JoystickButton(
-  //   operator,
-  //   XboxController.Button.kB.value
-  // );
+  private final JoystickButton up = new JoystickButton(
+    driver,
+    XboxController.Button.kA.value
+  );
+  private final JoystickButton down = new JoystickButton(
+    driver,
+    XboxController.Button.kB.value
+  );
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -113,9 +113,9 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(
       new TeleopSwerve(
         s_Swerve,
-        () -> -driver.getRawAxis(translationAxis),
-        () -> -driver.getRawAxis(strafeAxis),
-        () -> -driver.getRawAxis(rotationAxis),
+        () -> driver.getRawAxis(translationAxis),
+        () -> driver.getRawAxis(strafeAxis),
+        () -> driver.getRawAxis(rotationAxis),
         robotCentric::getAsBoolean
       )
     );
@@ -169,12 +169,16 @@ public class RobotContainer {
     bottomNode.whileTrue(new BottomNode(elevator));
     midNode.whileTrue(new MidNode(elevator));
     topNode.whileTrue(new TopNode(elevator));
+    hp.whileTrue(new HPNode(elevator));
 
     openClaw.whileTrue(new openClaw(claw));
     closeClaw.whileTrue(new closeClaw(claw));
 
     upclaw.whileTrue(new pivotup(pivot));
     downclaw.whileTrue(new pivotdown(pivot));
+
+    up.whileTrue(new InstantCommand(arm::forwards));
+    down.whileTrue(new InstantCommand(arm::backwards));
   }
 
   /**
