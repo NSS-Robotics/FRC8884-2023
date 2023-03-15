@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.ArmConstants;
+
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.claw.*;
@@ -17,6 +16,7 @@ import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -40,10 +40,6 @@ public class RobotContainer {
   private final JoystickButton zeroGyro = new JoystickButton(
     driver,
     XboxController.Button.kY.value
-  );
-  private final JoystickButton music = new JoystickButton(
-    driver,
-    XboxController.Button.kX.value
   );
   private final JoystickButton robotCentric = new JoystickButton(
     driver,
@@ -118,8 +114,12 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiece onePiece = new OnePiece(s_Swerve, true);
-  private final TwoPiece twoPiece = new TwoPiece(s_Swerve, false);
+  private final OnePiece onePiece = new OnePiece(
+    s_Swerve, pivot, claw, elevator, arm, true
+  );
+  private final TwoPiece twoPiece = new TwoPiece(
+    s_Swerve, pivot, claw, elevator, arm, false
+  );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -163,11 +163,11 @@ public class RobotContainer {
     RModifer.and(midNode).whileTrue(new MidExtend(arm));
     RModifer.and(topNode).whileTrue(new TopExtend(arm));
 
-    openClaw.whileTrue(new openClaw(claw));
-    closeClaw.whileTrue(new closeClaw(claw));
+    openClaw.whileTrue(new OpenClaw(claw));
+    closeClaw.whileTrue(new CloseClaw(claw));
 
-    upclaw.whileTrue(new pivotup(pivot));
-    downclaw.whileTrue(new pivotdown(pivot));
+    upclaw.whileTrue(new PivotUp(pivot));
+    downclaw.whileTrue(new PivotDown(pivot));
 
     /* Conjoined Buttons */
     LTModifer
