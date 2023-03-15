@@ -1,0 +1,15 @@
+{
+  "Connections": {
+    "open": true
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "serverTeam": "88"
+  },
+  "Retained Values": {
+    "open": false
+  },
+  "Transitory Values": {
+    "open": false
+  }
+}
