@@ -1,79 +1,122 @@
 package frc.robot.autos;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.subsystems.*;
 import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
+import frc.robot.subsystems.*;
+import java.util.HashMap;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
+public class TwoPiece extends CommandBase {
 
+  protected boolean isFirstPath;
+  protected HashMap<String, Command> eventMap;
 
-public class TwoPiece extends OnePiece {
+  protected final Swerve swerve;
+  protected final ClawPivot pivot;
+  protected final Claw claw;
+  protected final Elevator elevator;
+  protected final Arm arm;
+
   public TwoPiece(
-    Swerve swerve, ClawPivot pivot, Claw claw,
-    Elevator elevator, Arm arm, boolean isFirstPath
+    Swerve swerve,
+    ClawPivot pivot,
+    Claw claw,
+    Elevator elevator,
+    Arm arm,
+    boolean isFirstPath,
+    HashMap<String, Command> eventMap
   ) {
-    super(swerve, pivot, claw, elevator, arm, isFirstPath);
+    this.swerve = swerve;
+    this.pivot = pivot;
+    this.claw = claw;
+    this.elevator = elevator;
+    this.arm = arm;
+    this.isFirstPath = isFirstPath;
+    this.eventMap = eventMap;
+    addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
   @Override
+  public void initialize() {}
+
   public Command followPath() {
-    PathPlannerTrajectory trajectory =
-        PathPlanner.loadPath(
-            "TwoPiece",
-            new PathConstraints(
-                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
+    PathPlannerTrajectory trajectory = PathPlanner.loadPath(
+      "TwoPiece",
+      Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+      Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
+    );
+    eventMap.put(
+      "Close Claw",
+      new SequentialCommandGroup(new CloseClaw(claw), new PivotDown(pivot))
+    );
+    eventMap.put(
+      "Score",
+      new SequentialCommandGroup(
+        new TopNode(elevator),
+        new TopExtend(arm),
+        new OpenClaw(claw)
+      )
+    );
+    eventMap.put(
+      "Bottom Node",
+      new SequentialCommandGroup(
+        new BottomNode(elevator),
+        new BottomExtend(arm)
+      )
+    );
 
     return new SequentialCommandGroup(
-      new PivotDown(pivot),
-        new CloseClaw(claw),
-        new ParallelDeadlineGroup(
-            new TopNode(elevator),
-            new TopExtend(arm)
+      new InstantCommand(() -> {
+        // Reset odometry for the first path ran during auto
+        if (isFirstPath) {
+          swerve.resetOdometry(trajectory.getInitialPose());
+        }
+      }),
+      new PPSwerveControllerCommand(
+        trajectory,
+        swerve::getPose,
+        Constants.Swerve.swerveKinematics,
+        // XY PID drive values, usually same
+        new PIDController(
+          Constants.Swerve.driveKP,
+          Constants.Swerve.driveKI,
+          Constants.Swerve.driveKD
         ),
-        new OpenClaw(claw),
-        new ParallelDeadlineGroup(
-            new BottomExtend(arm),
-            new BottomNode(elevator)
+        new PIDController(
+          Constants.Swerve.driveKP,
+          Constants.Swerve.driveKI,
+          Constants.Swerve.driveKD
         ),
-        new PivotUp(pivot),
-        new InstantCommand(
-            () -> {
-              // Reset odometry for the first path ran during auto
-              if (isFirstPath) {
-                swerve.resetOdometry(trajectory.getInitialPose());
-              }
-            }),
-        new PPSwerveControllerCommand(
-            trajectory,
-            swerve::getPose,
-            Constants.Swerve.swerveKinematics,
-            // XY PID drive values, usually same
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            // rotation PID
-            new PIDController(
-                Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
-            swerve::setModuleStates,
-            // Alter path based on team colour (side of the field)
-            true,
-            swerve),
-        new InstantCommand(
-          () -> swerve.drive(new Translation2d(0, 0), 180, false, true)
+        // rotation PID
+        new PIDController(
+          Constants.Swerve.angleKP,
+          Constants.Swerve.angleKI,
+          Constants.Swerve.angleKD
         ),
-        new OpenClaw(claw));
+        swerve::setModuleStates,
+        // Alter path based on team colour (side of the field)
+        true,
+        swerve
+      )
+    );
+  }
+
+  @Override
+  public void end(boolean interrupted) {}
+
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

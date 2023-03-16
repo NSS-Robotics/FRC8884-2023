@@ -1,15 +1,26 @@
 {
+  "Clients": {
+    "open": true
+  },
   "Connections": {
     "open": true
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
-    "serverTeam": "88"
+    "serverTeam": "8884"
   },
-  "Retained Values": {
+  "Persistent Values": {
     "open": false
+  },
+  "Server": {
+    "open": true
   },
   "Transitory Values": {
     "open": false
+  },
+  "retained": {
+    "limelight": {
+      "open": true
+    }
   }
 }

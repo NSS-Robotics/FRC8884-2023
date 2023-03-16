@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.pathplanner.lib.*;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -8,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.claw.*;
@@ -16,7 +18,7 @@ import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
-
+import java.util.List;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,7 +57,7 @@ public class RobotContainer {
   );
   private final JoystickButton DResetArm = new JoystickButton(
     driver,
-    XboxController.Button.kStart.value
+    XboxController.Button.kA.value
   );
 
   /* Operator Buttons */
@@ -106,7 +108,7 @@ public class RobotContainer {
   );
 
   /* Subsystems */
-  private final Swerve s_Swerve = new Swerve();
+  private static final Swerve s_Swerve = new Swerve();
   private final Limelight limelight = new Limelight();
   private final Elevator elevator = new Elevator();
   private final Arm arm = new Arm();
@@ -115,10 +117,22 @@ public class RobotContainer {
 
   /* autos */
   private final OnePiece onePiece = new OnePiece(
-    s_Swerve, pivot, claw, elevator, arm, true
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true,
+    Constants.AutoConstants.eventMap
   );
   private final TwoPiece twoPiece = new TwoPiece(
-    s_Swerve, pivot, claw, elevator, arm, false
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    false,
+    Constants.AutoConstants.eventMap
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -171,9 +185,26 @@ public class RobotContainer {
 
     /* Conjoined Buttons */
     LTModifer
-      .and(DResetArm.and(RModifer.and(OResetArm)))
+      .and(RModifer)
       .whileTrue(new RunArm(arm))
       .whileFalse(new StopArm(arm));
+  }
+
+  public static Command BuildAuto(List<PathPlannerTrajectory> trajectory) {
+    SwerveAutoBuilder swerveautobuilder = new SwerveAutoBuilder(
+      s_Swerve::getPose,
+      s_Swerve::resetOdometry,
+      Constants.Swerve.swerveKinematics,
+      // XY PID drive values, usually same
+      new PIDConstants(Constants.AutoConstants.kPXController, 0, 0),
+      new PIDConstants(Constants.AutoConstants.kPThetaController, 0, 0),
+      s_Swerve::setModuleStates,
+      Constants.AutoConstants.eventMap,
+      // Alter path based on team colour (side of the field)
+      true,
+      s_Swerve
+    );
+    return swerveautobuilder.fullAuto(trajectory);
   }
 
   /**

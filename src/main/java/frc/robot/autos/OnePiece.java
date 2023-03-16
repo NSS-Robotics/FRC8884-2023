@@ -1,92 +1,62 @@
 package frc.robot.autos;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
-import frc.robot.subsystems.*;
+import frc.robot.RobotContainer;
 import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
-
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-
+import frc.robot.subsystems.*;
+import java.util.HashMap;
+import java.util.List;
 
 public class OnePiece extends CommandBase {
-    protected boolean isFirstPath;
 
-    protected final Swerve swerve;
-    protected final ClawPivot pivot;
-    protected final Claw claw;
-    protected final Elevator elevator;
-    protected final Arm arm;
+  protected boolean isFirstPath;
+  protected HashMap<String, Command> eventMap;
 
-    public OnePiece(
-        Swerve swerve, ClawPivot pivot, Claw claw,
-        Elevator elevator, Arm arm, boolean isFirstPath
-    ) {
-        this.swerve = swerve;
-        this.pivot = pivot;
-        this.claw = claw;
-        this.elevator = elevator;
-        this.arm = arm;
-        this.isFirstPath = isFirstPath;
-        addRequirements(swerve, pivot, claw, elevator, arm);
-    }
+  private static Swerve _swerve;
+  protected final ClawPivot pivot;
+  protected final Claw claw;
+  protected final Elevator elevator;
+  protected final Arm arm;
+
+  public OnePiece(
+    Swerve _swerve,
+    ClawPivot pivot,
+    Claw claw,
+    Elevator elevator,
+    Arm arm,
+    boolean isFirstPath,
+    HashMap<String, Command> eventMap
+  ) {
+    Swerve swerve = _swerve;
+    this.pivot = pivot;
+    this.claw = claw;
+    this.elevator = elevator;
+    this.arm = arm;
+    this.isFirstPath = isFirstPath;
+    this.eventMap = eventMap;
+    addRequirements(swerve, pivot, claw, elevator, arm);
+  }
 
   @Override
   public void initialize() {}
 
   public Command followPath() {
-    PathPlannerTrajectory trajectory =
-        PathPlanner.loadPath(
-            "OnePiece",
-            new PathConstraints(
-                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
-
-    return new SequentialCommandGroup(
-        new PivotDown(pivot),
-        new CloseClaw(claw),
-        new ParallelDeadlineGroup(
-            new TopNode(elevator),
-            new TopExtend(arm)
-        ),
-        new OpenClaw(claw),
-        new ParallelDeadlineGroup(
-            new BottomExtend(arm),
-            new BottomNode(elevator)
-        ),
-        new PivotUp(pivot),
-        new InstantCommand(
-            () -> {
-              // Reset odometry for the first path ran during auto
-              if (isFirstPath) {
-                swerve.resetOdometry(trajectory.getInitialPose());
-              }
-            }),
-        new PPSwerveControllerCommand(
-            trajectory,
-            swerve::getPose,
-            Constants.Swerve.swerveKinematics,
-            // XY PID drive values, usually same
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            new PIDController(
-                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
-            // rotation PID
-            new PIDController(
-                Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
-            swerve::setModuleStates,
-            // Alter path based on team colour (side of the field)
-            true,
-            swerve));
+    List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
+      "Test",
+      Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+      Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
+    );
+    eventMap.clear();
+    eventMap.put("Up", new MidNode(elevator));
+    eventMap.put("Out", new MidExtend(arm));
+    return RobotContainer.BuildAuto(trajectory);
   }
 
   @Override
