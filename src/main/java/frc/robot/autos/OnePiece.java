@@ -54,8 +54,8 @@ public class OnePiece extends CommandBase {
       Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
     );
     eventMap.clear();
-    eventMap.put("Up", new MidNode(elevator));
-    eventMap.put("Out", new MidExtend(arm));
+    eventMap.put("Up", new MidNode(elevator).asProxy());
+    eventMap.put("Out", new MidExtend(arm).asProxy());
     return RobotContainer.BuildAuto(trajectory);
   }
 
