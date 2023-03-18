@@ -117,14 +117,14 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiecePlsWork onePiece = new OnePiecePlsWork(
+  private final OnePiecehelp onePiece = new OnePiecehelp(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
-    true
-    //Constants.AutoConstants.eventMap
+    true,
+    Constants.AutoConstants.eventMap
   );
   private final TwoPiecePlsWork twoPiece = new TwoPiecePlsWork(
     s_Swerve,
@@ -166,7 +166,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.whileTrue(new RunCommand(() -> s_Swerve.XFormation(), s_Swerve));
+    rightBumper.whileTrue(
+      new RunCommand(() -> s_Swerve.XFormation(), s_Swerve)
+    );
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
