@@ -67,8 +67,8 @@ public class Arm extends SubsystemBase {
     MotorEncoder.setPosition(0);
   }
 
-  public void runArm(double value) {
-    Motor.set(value);
+  public void runArm() {
+    Motor.set(0.2);
   }
 
   public void stopArm() {

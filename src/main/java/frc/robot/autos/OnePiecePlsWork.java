@@ -15,6 +15,7 @@ import frc.robot.Constants;
 import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.BottomExtend;
+import frc.robot.commands.nodescoring.armscoring.MidExtend;
 import frc.robot.commands.nodescoring.armscoring.TopExtend;
 import frc.robot.subsystems.*;
 
@@ -50,7 +51,7 @@ public class OnePiecePlsWork extends CommandBase {
 
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "OnePiecePlsWork",
+      "OnePiece",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -60,20 +61,17 @@ public class OnePiecePlsWork extends CommandBase {
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new WaitCommand(1),
-        new PivotDown(pivot),
-        new OpenClaw(claw)
+        new InstantCommand(claw::openClaw),
+        new InstantCommand(pivot::up)
       ),
+      new ParallelDeadlineGroup(new WaitCommand(2.5), new MidNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(2.5), new MidExtend(arm)),
       new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        new TopNode(elevator),
-        new TopExtend(arm)
+        new WaitCommand(0.5),
+        new InstantCommand(claw::closeClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(1), new OpenClaw(claw)),
-      new ParallelDeadlineGroup(
-        new WaitCommand(2),
-        new BottomExtend(arm),
-        new BottomNode(elevator)
-      ),
+      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {

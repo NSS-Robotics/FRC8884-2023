@@ -3,6 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.*;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -117,14 +118,13 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiecehelp onePiece = new OnePiecehelp(
+  private final OnePiecePlsWork onePiece = new OnePiecePlsWork(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
-    true,
-    Constants.AutoConstants.eventMap
+    true
   );
   private final TwoPiecePlsWork twoPiece = new TwoPiecePlsWork(
     s_Swerve,
@@ -133,7 +133,6 @@ public class RobotContainer {
     elevator,
     arm,
     false
-    //Constants.AutoConstants.eventMap
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -153,6 +152,7 @@ public class RobotContainer {
 
     m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
     m_chooser.addOption("TwoPiece", twoPiece.followPath());
+    CameraServer.startAutomaticCapture();
 
     SmartDashboard.putData(m_chooser);
   }
@@ -166,9 +166,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.whileTrue(
-      new RunCommand(() -> s_Swerve.XFormation(), s_Swerve)
-    );
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
@@ -189,8 +186,8 @@ public class RobotContainer {
     /* Conjoined Buttons */
     LTModifer
       .and(RModifer)
-      .whileTrue(new RunArm(arm))
-      .whileFalse(new StopArm(arm));
+      .whileTrue(new InstantCommand(arm::runArm))
+      .whileFalse(new InstantCommand(arm::stopArm));
   }
 
   public static Command BuildAuto(List<PathPlannerTrajectory> trajectory) {

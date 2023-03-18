@@ -50,7 +50,7 @@ public class TwoPiecePlsWork extends CommandBase {
 
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "TwoPiecePlsWork",
+      "TwoPiece",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -60,20 +60,17 @@ public class TwoPiecePlsWork extends CommandBase {
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new WaitCommand(1),
-        new PivotDown(pivot),
-        new OpenClaw(claw)
+        new InstantCommand(claw::openClaw),
+        new InstantCommand(pivot::up)
       ),
+      new ParallelDeadlineGroup(new WaitCommand(2), new MidNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new MidExtend(arm)),
       new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        new TopNode(elevator),
-        new TopExtend(arm)
+        new WaitCommand(0.5),
+        new InstantCommand(claw::closeClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(1), new OpenClaw(claw)),
-      new ParallelDeadlineGroup(
-        new WaitCommand(2),
-        new BottomExtend(arm),
-        new BottomNode(elevator)
-      ),
+      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {
@@ -105,11 +102,7 @@ public class TwoPiecePlsWork extends CommandBase {
         // Alter path based on team colour (side of the field)
         true,
         swerve
-      ),
-      new InstantCommand(() ->
-        swerve.drive(new Translation2d(0, 0), 180, false, true)
-      ),
-      new OpenClaw(claw)
+      )
     );
   }
 }

@@ -44,7 +44,7 @@ public final class Constants {
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 0;
     public static final int MidNodeDistance = 60;
-    public static final double HPDistance = 58;
+    public static final double HPDistance = 55;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
     public static final double Kp = 0.0122244;
@@ -199,8 +199,8 @@ public final class Constants {
 
     // to specific robot
 
-    public static final double kMaxSpeedMetersPerSecond = 1;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+    public static final double kMaxSpeedMetersPerSecond = 2;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared =
       Math.PI;

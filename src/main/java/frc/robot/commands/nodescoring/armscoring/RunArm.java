@@ -15,7 +15,7 @@ public class RunArm extends CommandBase {
 
   @Override
   public void execute() {
-    arm.runArm(Constants.ArmConstants.ArmSpeed);
+    arm.runArm();
   }
 
   @Override
