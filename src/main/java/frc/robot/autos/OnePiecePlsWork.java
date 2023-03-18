@@ -4,7 +4,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
-import frc.robot.commands.nodescoring.armscoring.*;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
@@ -54,12 +53,14 @@ public class OnePiecePlsWork extends CommandBase {
 
     return new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-            new WaitCommand(3),
+            new WaitCommand(1),
             new PivotDown(pivot),
-            new TopNode(elevator),
-            new TopExtend(arm),
+            
             new OpenClaw(claw)
         ),
+        new ParallelDeadlineGroup(new WaitCommand(3), new TopNode(elevator),
+        new TopExtend(arm)),
+        new ParallelDeadlineGroup(new WaitCommand(1), new OpenClaw(claw)),
         new ParallelDeadlineGroup(
             new WaitCommand(2),
             new BottomExtend(arm),

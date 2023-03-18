@@ -4,60 +4,62 @@ import frc.robot.Constants;
 import frc.robot.subsystems.*;
 import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
-import frc.robot.commands.nodescoring.armscoring.*;
+
+import java.util.HashMap;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 
 
-public class TwoPiecePlsWork extends OnePiecePlsWork {
-  public TwoPiecePlsWork(
-    Swerve swerve, ClawPivot pivot, Claw claw,
-    Elevator elevator, Arm arm, boolean isFirstPath, EventMap eventMap
-  ) {
-    super(swerve, pivot, claw, elevator, arm, isFirstPath, eventMap);
-  }
+public class OnePiecehelp extends CommandBase {
+    protected boolean isFirstPath;
+
+    protected final Swerve swerve;
+    protected final ClawPivot pivot;
+    protected final Claw claw;
+    protected final Elevator elevator;
+    protected final Arm arm;
+    protected final HashMap<String, Command> eventMap;
+
+    public OnePiecehelp(
+        Swerve swerve, ClawPivot pivot, Claw claw,
+        Elevator elevator, Arm arm, boolean isFirstPath, HashMap<String, Command> eventMap
+    ) {
+        this.swerve = swerve;
+        this.pivot = pivot;
+        this.claw = claw;
+        this.elevator = elevator;
+        this.arm = arm;
+        this.isFirstPath = isFirstPath;
+        this.eventMap = eventMap;
+        addRequirements(swerve, pivot, claw, elevator, arm);
+    }
 
   @Override
+  public void initialize() {}
+
   public Command followPath() {
     PathPlannerTrajectory trajectory =
         PathPlanner.loadPath(
-            "TwoPiecePlsWork",
+            "OnePiecePlsWork",
             new PathConstraints(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
                 Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
-
+    eventMap.clear();
+    eventMap.put("Close Claw", new CloseClaw(claw).asProxy());
+    eventMap.put("Claw Down", new PivotDown(pivot).asProxy());
+    eventMap.put("Elevator Up", new MidNode(elevator).asProxy());
+    eventMap.put("Arm Out", new MidExtend(arm).asProxy());
     return new SequentialCommandGroup(
-      new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new PivotDown(pivot),
-        
-        new OpenClaw(claw)
-    ),
-    new ParallelDeadlineGroup(new WaitCommand(3), new TopNode(elevator),
-    new TopExtend(arm)),
-    new ParallelDeadlineGroup(new WaitCommand(1), new OpenClaw(claw)),
-    new ParallelDeadlineGroup(
-        new WaitCommand(2),
-        new BottomExtend(arm),
-        new BottomNode(elevator)
-    ),
-        new InstantCommand(
-            () -> {
-              // Reset odometry for the first path ran during auto
-              if (isFirstPath) {
-                swerve.resetOdometry(trajectory.getInitialPose());
-              }
-            }),
         new PPSwerveControllerCommand(
             trajectory,
             swerve::getPose,
@@ -73,10 +75,14 @@ public class TwoPiecePlsWork extends OnePiecePlsWork {
             swerve::setModuleStates,
             // Alter path based on team colour (side of the field)
             true,
-            swerve),
-        new InstantCommand(
-          () -> swerve.drive(new Translation2d(0, 0), 180, false, true)
-        ),
-        new OpenClaw(claw));
+            swerve));
+  }
+
+  @Override
+  public void end(boolean interrupted) {}
+
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }
