@@ -28,11 +28,11 @@ public final class Constants {
 
     public static final int MotorID = 15;
     public static final double ArmSpeed = 0.2;
-    public static final int ExtendBottomNode = 1;
+    public static final int ExtendBottomNode = 5;
     public static final int ExtendMidNode = 120;
     public static final int ExtendTopNode = 202;
     public static final int ExtendMax = 202;
-    public static final double Kp = 0.0091453;
+    public static final double Kp = 0.0101453;
     public static final double Ki = 0;
     public static final double Kd = 0.00035143;
   }

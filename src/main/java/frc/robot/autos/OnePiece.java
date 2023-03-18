@@ -49,13 +49,15 @@ public class OnePiece extends CommandBase {
 
   public Command followPath() {
     List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-      "Test",
+      "OnePiece",
       Constants.AutoConstants.kMaxSpeedMetersPerSecond,
       Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
     );
     eventMap.clear();
-    eventMap.put("Up", new MidNode(elevator).asProxy());
-    eventMap.put("Out", new MidExtend(arm).asProxy());
+    eventMap.put("Close Claw", new CloseClaw(claw).asProxy());
+    eventMap.put("Claw Down", new PivotDown(pivot).asProxy());
+    eventMap.put("Elevator Up", new MidNode(elevator).asProxy());
+    eventMap.put("Arm Out", new MidExtend(arm).asProxy());
     return RobotContainer.BuildAuto(trajectory);
   }
 
