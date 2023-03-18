@@ -116,23 +116,23 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiece onePiece = new OnePiece(
+  private final OnePiecePlsWork onePiece = new OnePiecePlsWork(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
-    true,
-    Constants.AutoConstants.eventMap
+    true
+    //Constants.AutoConstants.eventMap
   );
-  private final TwoPiece twoPiece = new TwoPiece(
+  private final TwoPiecePlsWork twoPiece = new TwoPiecePlsWork(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
-    false,
-    Constants.AutoConstants.eventMap
+    false
+    //Constants.AutoConstants.eventMap
   );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
