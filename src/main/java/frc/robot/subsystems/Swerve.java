@@ -141,10 +141,10 @@ public class Swerve extends SubsystemBase {
 
   public void XFormation() {
     SwerveModuleState[] desiredstates = {
-      new SwerveModuleState(0, Rotation2d.fromDegrees(40)),
-      new SwerveModuleState(0, Rotation2d.fromDegrees(124)),
-      new SwerveModuleState(0, Rotation2d.fromDegrees(97)),
-      new SwerveModuleState(0, Rotation2d.fromDegrees(-19)),
+      new SwerveModuleState(1, Rotation2d.fromDegrees(40)),
+      new SwerveModuleState(1, Rotation2d.fromDegrees(124)),
+      new SwerveModuleState(1, Rotation2d.fromDegrees(124)),
+      new SwerveModuleState(1, Rotation2d.fromDegrees(65)),
     };
 
     setModuleStates(desiredstates);
