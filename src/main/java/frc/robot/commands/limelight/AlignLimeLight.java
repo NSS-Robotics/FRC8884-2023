@@ -24,13 +24,12 @@ public class AlignLimeLight extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  // TODO: Fix this constructor shit
   public AlignLimeLight(Swerve s_Swerve, Limelight limelight) {
     super(
       new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
       limelight::gettx,
       0.0,
-      x -> s_Swerve.TurnStates(-x),
+      x -> s_Swerve.turnStates(-x),
       s_Swerve
     );
     // Set the controller to be continuous (because it is an angle controller)

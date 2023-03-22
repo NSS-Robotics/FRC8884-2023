@@ -127,7 +127,7 @@ public class Swerve extends SubsystemBase {
     }
   }
 
-  public void TurnStates(double angularSpeed) {
+  public void turnStates(double angularSpeed) {
     var swerveModuleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(
       ChassisSpeeds.fromFieldRelativeSpeeds(
         0,

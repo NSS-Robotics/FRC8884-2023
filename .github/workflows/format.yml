@@ -1,8 +1,6 @@
 name: Format
 
-on:
-  push:
-    branches: [ master ]
+on: push
 
 jobs:
   formatting:
@@ -13,4 +11,4 @@ jobs:
 
       - uses: axel-op/googlejavaformat-action@v3
         with:
-          args: "--skip-sorting-imports --replace"
+          args: "--replace"

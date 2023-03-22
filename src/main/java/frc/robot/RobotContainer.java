@@ -1,8 +1,11 @@
 package frc.robot;
 
+import java.util.List;
+
 import com.pathplanner.lib.*;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
@@ -11,16 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.autos.*;
-import frc.robot.commands.claw.*;
-import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.subsystems.*;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
-import frc.robot.subsystems.*;
-import java.util.List;
+import frc.robot.commands.drive.TeleopSwerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -57,7 +58,7 @@ public class RobotContainer {
     driver,
     XboxController.Button.kLeftStick.value
   );
-  private final JoystickButton DResetArm = new JoystickButton(
+  private final JoystickButton alignLimelight = new JoystickButton(
     driver,
     XboxController.Button.kA.value
   );
@@ -104,10 +105,6 @@ public class RobotContainer {
     operator,
     PS4Controller.Button.kR1.value
   );
-  private final JoystickButton OResetArm = new JoystickButton(
-    operator,
-    PS4Controller.Button.kPS.value
-  );
 
   /* Subsystems */
   private static final Swerve s_Swerve = new Swerve();
@@ -118,7 +115,7 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiecePlsWork onePiece = new OnePiecePlsWork(
+  private final OnePiece onePiece = new OnePiece(
     s_Swerve,
     pivot,
     claw,
@@ -126,7 +123,7 @@ public class RobotContainer {
     arm,
     true
   );
-  private final TwoPiecePlsWork twoPiece = new TwoPiecePlsWork(
+  private final TwoPiece twoPiece = new TwoPiece(
     s_Swerve,
     pivot,
     claw,
@@ -167,6 +164,7 @@ public class RobotContainer {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
+    alignLimelight.onTrue(new AlignLimeLight(s_Swerve, limelight));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
@@ -178,11 +176,11 @@ public class RobotContainer {
     RModifer.and(midNode).whileTrue(new MidExtend(arm));
     RModifer.and(topNode).whileTrue(new TopExtend(arm));
 
-    openClaw.whileTrue(new OpenClaw(claw));
-    closeClaw.whileTrue(new CloseClaw(claw));
+    openClaw.whileTrue(new InstantCommand(claw::openClaw));
+    closeClaw.whileTrue(new InstantCommand(claw::closeClaw));
 
-    upclaw.whileTrue(new PivotUp(pivot));
-    downclaw.whileTrue(new PivotDown(pivot));
+    upclaw.whileTrue(new InstantCommand(pivot::up));
+    downclaw.whileTrue(new InstantCommand(pivot::down));
 
     /* Conjoined Buttons */
     LTModifer
