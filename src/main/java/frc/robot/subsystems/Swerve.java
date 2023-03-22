@@ -20,7 +20,7 @@ public class Swerve extends SubsystemBase {
 
   public SwerveDriveOdometry swerveOdometry;
   public SwerveModule[] mSwerveMods;
-  private final AHRS gyro;
+  public final AHRS gyro;
 
   public Swerve() {
     gyro = new AHRS(SPI.Port.kMXP);
@@ -35,9 +35,6 @@ public class Swerve extends SubsystemBase {
         new SwerveModule(3, Constants.Swerve.Mod3.constants),
       };
 
-    /* By pausing init for a second before setting module offsets, we avoid a bug with inverting motors.
-     * See https://github.com/Team364/BaseFalconSwerve/issues/8 for more info.
-     */
     Timer.delay(1.0);
     resetModulesToAbsolute();
 

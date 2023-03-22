@@ -14,15 +14,27 @@ public final class Constants {
 
   public static final double stickDeadband = 0.1;
 
-  // limelight constants
+  /* limelight constants */
   public static final double MountAngle = 25.0; // angle from 90 vertical
   public static final double MountHeight = 10.0; // Mount height in cm
   public static final double TargetHeight = 60.0; // Target height in cm
   public static final double turnTolerance = 2.0; // degrees per turn
-  // Limelight PID
+
+  /* Limelight Align PID */
   public static final double turn_P = 0.1;
   public static final double turn_I = 0.0;
   public static final double turn_D = 0.0;
+
+  /* Balancing Constants */
+  public static final double kLevel = 0;
+  public static final double kBalanceToleranceDeg = 3.5;
+  public static final double kBalanceP = .008;
+  public static final double kBalanceI = 0;
+  public static final double kBalanceD = 0;
+
+  public static final double kAngleCorrectionP = .01;
+  public static final double kTurnToleranceDeg = 10;
+  public static final double kTurnRateToleranceDegPerS = 10;
 
   public static final class ArmConstants {
 

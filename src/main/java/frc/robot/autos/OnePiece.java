@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
@@ -75,32 +76,35 @@ public class OnePiece extends CommandBase {
           swerve.resetOdometry(trajectory.getInitialPose());
         }
       }),
-      new PPSwerveControllerCommand(
-        trajectory,
-        swerve::getPose,
-        Constants.Swerve.swerveKinematics,
-        // XY PID drive values, usually same
-        new PIDController(
-          Constants.Swerve.driveKP,
-          Constants.Swerve.driveKI,
-          Constants.Swerve.driveKD
-        ),
-        new PIDController(
-          Constants.Swerve.driveKP,
-          Constants.Swerve.driveKI,
-          Constants.Swerve.driveKD
-        ),
-        // rotation PID
-        new PIDController(
-          Constants.Swerve.angleKP,
-          Constants.Swerve.angleKI,
-          Constants.Swerve.angleKD
-        ),
-        swerve::setModuleStates,
-        // Alter path based on team colour (side of the field)
-        true,
-        swerve
-      )
+      new ParallelDeadlineGroup(
+        new PPSwerveControllerCommand(
+          trajectory,
+          swerve::getPose,
+          Constants.Swerve.swerveKinematics,
+          // XY PID drive values, usually same
+          new PIDController(
+            Constants.Swerve.driveKP,
+            Constants.Swerve.driveKI,
+            Constants.Swerve.driveKD
+          ),
+          new PIDController(
+            Constants.Swerve.driveKP,
+            Constants.Swerve.driveKI,
+            Constants.Swerve.driveKD
+          ),
+          // rotation PID
+          new PIDController(
+            Constants.Swerve.angleKP,
+            Constants.Swerve.angleKI,
+            Constants.Swerve.angleKD
+          ),
+          swerve::setModuleStates,
+          // Alter path based on team colour (side of the field)
+          true,
+          swerve
+        )
+      ),
+      new AutoBalance(swerve)
     );
   }
 
