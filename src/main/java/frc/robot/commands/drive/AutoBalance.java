@@ -66,6 +66,6 @@ public class AutoBalance extends ProfiledPIDCommand {
   
   @Override
   public boolean isFinished() {
-    return (getController().atGoal());
+    return getController().atGoal();
   }
 }

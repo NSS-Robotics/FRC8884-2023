@@ -59,6 +59,14 @@ public class RobotContainer {
     driver,
     XboxController.Button.kA.value
   );
+  private final JoystickButton setApriltag = new JoystickButton(
+    driver,
+    XboxController.Button.kX.value
+  );
+  private final JoystickButton setTape = new JoystickButton(
+    driver,
+    XboxController.Button.kB.value
+  );
 
   /* Operator Buttons */
   private final JoystickButton LModifer = new JoystickButton(
@@ -162,6 +170,9 @@ public class RobotContainer {
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
     alignLimelight.onTrue(new AlignLimeLight(s_Swerve, limelight));
+    
+    setApriltag.onTrue(new InstantCommand(() -> limelight.setPipeline(0)));
+    setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));

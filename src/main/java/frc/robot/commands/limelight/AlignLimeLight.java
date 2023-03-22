@@ -44,7 +44,6 @@ public class AlignLimeLight extends PIDCommand {
 
   @Override
   public boolean isFinished() {
-    // End when the controller is at the reference.
     return getController().atSetpoint();
   }
 
@@ -52,6 +51,8 @@ public class AlignLimeLight extends PIDCommand {
   public void end(boolean interrupted) {
     swerve.drive(new Translation2d(0, 0), 0, false, false);
     System.out.println("Align With Limelight - End");
+
+    super.end(interrupted);
   }
 }
 /** A command that will turn the robot to the specified angle. */

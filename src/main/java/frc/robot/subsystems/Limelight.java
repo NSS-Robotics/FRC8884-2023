@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -10,6 +11,9 @@ public class Limelight extends SubsystemBase {
   public double Kp = -0.1;
   public double min_command = 0.05;
 
+  public NetworkTable table;
+  public double pipeline;
+
   public double tv = 0;
   public double tx = 0;
   public double ty = 0;
@@ -17,20 +21,12 @@ public class Limelight extends SubsystemBase {
   public double dist = 0;
   public Swerve swerve = new Swerve();
 
-  public void turnOffLimelight() {
-    NetworkTableInstance
-      .getDefault()
-      .getTable("limelight")
-      .getEntry("ledMode")
-      .setNumber(3);
+  public Limelight() {
+    table = NetworkTableInstance.getDefault().getTable("limelight");
   }
 
-  public void turnOnLimelight() {
-    NetworkTableInstance
-      .getDefault()
-      .getTable("limelight")
-      .getEntry("ledMode")
-      .setNumber(3);
+  public void turnLimelightLED(boolean on) {
+    table.getEntry("ledMode").setNumber(on ? 3 : 1);
   }
 
   public double estimateDistance() {
@@ -45,27 +41,19 @@ public class Limelight extends SubsystemBase {
 
   public void updateLimelightTracking() {
     tv =
-      NetworkTableInstance
-        .getDefault()
-        .getTable("limelight")
+      table
         .getEntry("tv")
         .getDouble(0);
     tx =
-      NetworkTableInstance
-        .getDefault()
-        .getTable("limelight")
+      table
         .getEntry("tx")
         .getDouble(0);
     ty =
-      NetworkTableInstance
-        .getDefault()
-        .getTable("limelight")
+      table
         .getEntry("ty")
         .getDouble(0);
     ta =
-      NetworkTableInstance
-        .getDefault()
-        .getTable("limelight")
+      table
         .getEntry("ta")
         .getDouble(0);
     SmartDashboard.putNumber("LimelightX", tx);
@@ -80,16 +68,23 @@ public class Limelight extends SubsystemBase {
   }
 
   public boolean hasValidTarget() {
-    if (tv < 1.0) {
-      return false;
-    } else {
-      return true;
-    }
+    return tv >= 1.0;
   }
+
+  public double getPipeline() {
+		pipeline = table.getEntry("getpipe").getDouble(0);
+		return pipeline;
+	}
+
+  public void setPipeline(double pipeline) {
+		table.getEntry("pipeline").setNumber(pipeline);
+		SmartDashboard.putNumber("Pipeline", pipeline);
+	}
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("RotateLimelight", -1);
+
     updateLimelightTracking();
     SmartDashboard.putNumber("Dist to Target", estimateDistance());
   }
