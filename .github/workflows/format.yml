@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Prettify code
-        uses: actionsx/prettier@v2
+      - name: prettier-java-format-action
+        uses: tsar-boomba/prettier-java-action@v1.0.0
         with:
-          args: --check .
+          commit-message: ":) format yay"
