@@ -1,14 +1,20 @@
 name: Format
 
-on: push
+on:
+  pull_request:
+  push:
+    branches:
+      - new-stuff
 
 jobs:
-  formatting:
+  prettier:
     runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
 
-      - uses: axel-op/googlejavaformat-action@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          args: "--replace"
+          ref: ${{ github.head_ref }}
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.2
