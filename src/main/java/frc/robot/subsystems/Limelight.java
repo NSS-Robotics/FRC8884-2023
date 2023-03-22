@@ -18,24 +18,56 @@ public class Limelight extends SubsystemBase {
   public Swerve swerve = new Swerve();
 
   public void turnOffLimelight() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("ledMode")
+      .setNumber(3);
   }
 
   public void turnOnLimelight() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    NetworkTableInstance
+      .getDefault()
+      .getTable("limelight")
+      .getEntry("ledMode")
+      .setNumber(3);
   }
 
   public double estimateDistance() {
     double targetOffsetAngle_Vertical = ty;
-    double angletoGoalRad = (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
-    return ((Constants.TargetHeight - Constants.MountHeight) / Math.tan(angletoGoalRad));
+    double angletoGoalRad =
+      (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
+    return (
+      (Constants.TargetHeight - Constants.MountHeight) /
+      Math.tan(angletoGoalRad)
+    );
   }
 
   public void updateLimelightTracking() {
-    tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    tv =
+      NetworkTableInstance
+        .getDefault()
+        .getTable("limelight")
+        .getEntry("tv")
+        .getDouble(0);
+    tx =
+      NetworkTableInstance
+        .getDefault()
+        .getTable("limelight")
+        .getEntry("tx")
+        .getDouble(0);
+    ty =
+      NetworkTableInstance
+        .getDefault()
+        .getTable("limelight")
+        .getEntry("ty")
+        .getDouble(0);
+    ta =
+      NetworkTableInstance
+        .getDefault()
+        .getTable("limelight")
+        .getEntry("ta")
+        .getDouble(0);
     SmartDashboard.putNumber("LimelightX", tx);
     SmartDashboard.putNumber("LimelightY", ty);
     SmartDashboard.putNumber("LimelightV", tv);

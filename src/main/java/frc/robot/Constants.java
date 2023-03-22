@@ -57,7 +57,7 @@ public final class Constants {
     public static final int pigeonID = 1;
     public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
-    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants.SDSMK4i( 
+    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants.SDSMK4i(
       COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2
     );
 
@@ -135,7 +135,7 @@ public final class Constants {
 
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */
-    public static final class Mod0 { 
+    public static final class Mod0 {
 
       public static final int driveMotorID = 4;
       public static final int angleMotorID = 3;
@@ -195,7 +195,7 @@ public final class Constants {
     }
   }
 
-  public static final class AutoConstants { 
+  public static final class AutoConstants {
 
     public static final double kMaxSpeedMetersPerSecond = 2;
     public static final double kMaxAccelerationMetersPerSecondSquared = 2;

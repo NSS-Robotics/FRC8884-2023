@@ -22,9 +22,11 @@ public class SwerveModule {
   private TalonFX mDriveMotor;
   private CANCoder angleEncoder;
 
-  SimpleMotorFeedforward feedforward =
-      new SimpleMotorFeedforward(
-          Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
+  SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(
+    Constants.Swerve.driveKS,
+    Constants.Swerve.driveKV,
+    Constants.Swerve.driveKA
+  );
 
   public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants) {
     this.moduleNumber = moduleNumber;
@@ -45,7 +47,10 @@ public class SwerveModule {
     lastAngle = getState().angle;
   }
 
-  public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+  public void setDesiredState(
+    SwerveModuleState desiredState,
+    boolean isOpenLoop
+  ) {
     /* This is a custom optimize function, since default WPILib optimize assumes continuous controller which CTRE and Rev onboard is not */
     desiredState = CTREModuleState.optimize(desiredState, getState().angle);
     setAngle(desiredState);
@@ -54,39 +59,49 @@ public class SwerveModule {
 
   private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop) {
     if (isOpenLoop) {
-      double percentOutput = desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
+      double percentOutput =
+        desiredState.speedMetersPerSecond / Constants.Swerve.maxSpeed;
       mDriveMotor.set(ControlMode.PercentOutput, percentOutput);
     } else {
-      double velocity =
-          Conversions.MPSToFalcon(
-              desiredState.speedMetersPerSecond,
-              Constants.Swerve.wheelCircumference,
-              Constants.Swerve.driveGearRatio);
+      double velocity = Conversions.MPSToFalcon(
+        desiredState.speedMetersPerSecond,
+        Constants.Swerve.wheelCircumference,
+        Constants.Swerve.driveGearRatio
+      );
       mDriveMotor.set(
-          ControlMode.Velocity,
-          velocity,
-          DemandType.ArbitraryFeedForward,
-          feedforward.calculate(desiredState.speedMetersPerSecond));
+        ControlMode.Velocity,
+        velocity,
+        DemandType.ArbitraryFeedForward,
+        feedforward.calculate(desiredState.speedMetersPerSecond)
+      );
     }
   }
 
   private void setAngle(SwerveModuleState desiredState) {
-    Rotation2d angle =
-        (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.Swerve.maxSpeed * 0.01))
-            ? lastAngle
-            : desiredState
-                .angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
+    Rotation2d angle = (
+        Math.abs(desiredState.speedMetersPerSecond) <=
+        (Constants.Swerve.maxSpeed * 0.01)
+      )
+      ? lastAngle
+      : desiredState.angle; // Prevent rotating module if speed is less then 1%. Prevents Jittering.
 
     mAngleMotor.set(
-        ControlMode.Position,
-        Conversions.degreesToFalcon(angle.getDegrees(), Constants.Swerve.angleGearRatio));
+      ControlMode.Position,
+      Conversions.degreesToFalcon(
+        angle.getDegrees(),
+        Constants.Swerve.angleGearRatio
+      )
+    );
     lastAngle = angle;
   }
 
   private Rotation2d getAngle() {
     return Rotation2d.fromDegrees(
-        Conversions.falconToDegrees(
-            mAngleMotor.getSelectedSensorPosition(), Constants.Swerve.angleGearRatio));
+      Conversions.falconToDegrees(
+        mAngleMotor.getSelectedSensorPosition(),
+        Constants.Swerve.angleGearRatio
+      )
+    );
   }
 
   public Rotation2d getCanCoder() {
@@ -94,9 +109,10 @@ public class SwerveModule {
   }
 
   public void resetToAbsolute() {
-    double absolutePosition =
-        Conversions.degreesToFalcon(
-            getCanCoder().getDegrees() - angleOffset.getDegrees(), Constants.Swerve.angleGearRatio);
+    double absolutePosition = Conversions.degreesToFalcon(
+      getCanCoder().getDegrees() - angleOffset.getDegrees(),
+      Constants.Swerve.angleGearRatio
+    );
     mAngleMotor.setSelectedSensorPosition(absolutePosition);
   }
 
@@ -123,19 +139,23 @@ public class SwerveModule {
 
   public SwerveModuleState getState() {
     return new SwerveModuleState(
-        Conversions.falconToMPS(
-            mDriveMotor.getSelectedSensorVelocity(),
-            Constants.Swerve.wheelCircumference,
-            Constants.Swerve.driveGearRatio),
-        getAngle());
+      Conversions.falconToMPS(
+        mDriveMotor.getSelectedSensorVelocity(),
+        Constants.Swerve.wheelCircumference,
+        Constants.Swerve.driveGearRatio
+      ),
+      getAngle()
+    );
   }
 
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
-        Conversions.falconToMeters(
-            mDriveMotor.getSelectedSensorPosition(),
-            Constants.Swerve.wheelCircumference,
-            Constants.Swerve.driveGearRatio),
-        getAngle());
+      Conversions.falconToMeters(
+        mDriveMotor.getSelectedSensorPosition(),
+        Constants.Swerve.wheelCircumference,
+        Constants.Swerve.driveGearRatio
+      ),
+      getAngle()
+    );
   }
 }

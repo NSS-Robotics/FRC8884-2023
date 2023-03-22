@@ -34,6 +34,7 @@ public class Claw extends SubsystemBase {
     System.out.println("Claw closed");
     clawsolenoid.set(kForward);
   }
+
   public void startCompressor() {
     compressor.enableDigital();
   }

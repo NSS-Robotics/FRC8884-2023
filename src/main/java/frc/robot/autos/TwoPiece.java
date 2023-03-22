@@ -4,21 +4,20 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
-
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.math.geometry.Translation2d;
-
 import frc.robot.Constants;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
 public class TwoPiece extends OnePiece {
+
   public TwoPiece(
     Swerve swerve,
     ClawPivot pivot,
@@ -65,7 +64,6 @@ public class TwoPiece extends OnePiece {
           trajectory,
           swerve::getPose,
           Constants.Swerve.swerveKinematics,
-          
           new PIDController(
             Constants.Swerve.driveKP,
             Constants.Swerve.driveKI,
@@ -91,8 +89,8 @@ public class TwoPiece extends OnePiece {
       new ParallelDeadlineGroup(
         new WaitCommand(1),
         new InstantCommand(() ->
-          swerve.drive(new Translation2d(0, 0), 180, true, false
-        ))
+          swerve.drive(new Translation2d(0, 0), 180, true, false)
+        )
       )
     );
   }
