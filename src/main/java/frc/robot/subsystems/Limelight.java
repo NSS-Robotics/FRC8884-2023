@@ -30,8 +30,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public double estimateDistance() {
-    double angletoGoalRad =
-      Math.toRadians(Constants.mountAngle + ty);
+    double angletoGoalRad = Math.toRadians(Constants.mountAngle + ty);
     return (
       Math.abs(Constants.targetHeight - Constants.mountHeight) /
       Math.tan(angletoGoalRad)
