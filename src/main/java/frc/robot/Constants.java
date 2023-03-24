@@ -44,9 +44,9 @@ public final class Constants {
     public static final double ArmSpeed = 0.2;
     public static final int ExtendBottomNode = 5;
     public static final int ExtendMidNode = 120;
-    public static final int ExtendTopNode = 202;
+    public static final int ExtendTopNode = 212;
     public static final int ExtendMax = 202;
-    public static final double Kp = 0.0101453;
+    public static final double Kp = 0.0131453;
     public static final double Ki = 0;
     public static final double Kd = 0.00035143;
   }
@@ -61,7 +61,7 @@ public final class Constants {
     public static final double HPDistance = 55;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
-    public static final double Kp = 0.0122244;
+    public static final double Kp = 0.0182244;
     public static final double Ki = 0;
     public static final double Kd = 0.00063787;
   }

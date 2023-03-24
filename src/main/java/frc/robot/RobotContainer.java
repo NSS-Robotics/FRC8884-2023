@@ -171,8 +171,7 @@ public class RobotContainer {
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
 
     // TODO: fix align limelight controls
-    alignLimelight.onTrue(new AlignGyro(s_Swerve));
-
+    alignLimelight.toggleOnTrue(new AlignGyro(s_Swerve));
     setApriltag.onTrue(new InstantCommand(() -> limelight.setPipeline(0)));
     setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
