@@ -59,14 +59,14 @@ public class OnePiece extends CommandBase {
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new WaitCommand(1),
-        new InstantCommand(claw::openClaw),
-        new InstantCommand(pivot::up)
+        new InstantCommand(claw::closeClaw),
+        new InstantCommand(pivot::down)
       ),
       new ParallelDeadlineGroup(new WaitCommand(2.5), new MidNode(elevator)),
       new ParallelDeadlineGroup(new WaitCommand(2.5), new MidExtend(arm)),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
-        new InstantCommand(claw::closeClaw)
+        new InstantCommand(claw::openClaw)
       ),
       new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
       new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),

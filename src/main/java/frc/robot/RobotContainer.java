@@ -184,6 +184,7 @@ public class RobotContainer {
     RModifer.and(bottomNode).whileTrue(new BottomExtend(arm));
     RModifer.and(midNode).whileTrue(new MidExtend(arm));
     RModifer.and(topNode).whileTrue(new TopExtend(arm));
+    RModifer.and(hp).whileTrue(new FullyRetract(arm));
 
     openClaw.whileTrue(new InstantCommand(claw::openClaw));
     closeClaw.whileTrue(new InstantCommand(claw::closeClaw));
