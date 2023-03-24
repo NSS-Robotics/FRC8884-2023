@@ -30,7 +30,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public double estimateDistance() {
-    double angletoGoalRad = Math.toRadians(Constants.mountAngle + ty);
+    double angletoGoalRad = Math.toRadians(Constants.mountAngle + getty());
     return (
       Math.abs(Constants.targetHeight - Constants.mountHeight) /
       Math.tan(angletoGoalRad)
@@ -51,6 +51,11 @@ public class Limelight extends SubsystemBase {
   public double gettx() {
     updateLimelightTracking();
     return tx;
+  }
+
+  public double getty() {
+    updateLimelightTracking();
+    return ty;
   }
 
   public boolean hasValidTarget() {

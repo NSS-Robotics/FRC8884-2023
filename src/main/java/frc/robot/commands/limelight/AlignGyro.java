@@ -4,7 +4,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
@@ -21,7 +20,7 @@ public class AlignGyro extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public AlignGyro(Swerve swerve, Limelight limelight) {
+  public AlignGyro(Swerve swerve) {
     super(
       new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
       swerve.gyro::getYaw,

@@ -10,12 +10,12 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-/* horizontally aligns the robot using the TX value */
-public class AlignLimeLight extends PIDCommand {
+/** A command that will turn drive the robot to the target. */
+public class GoToLimelight extends PIDCommand {
 
   private Swerve swerve;
 
-  public AlignLimeLight(
+  public GoToLimelight(
     PIDController controller,
     DoubleSupplier measurementSource,
     double setpoint,
@@ -25,38 +25,36 @@ public class AlignLimeLight extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public AlignLimeLight(Swerve swerve, Limelight limelight) {
+  public GoToLimelight(Swerve _swerve, Limelight limelight) {
     super(
       new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-      limelight::gettx,
-      0.0,
-      tx -> {
-        double hypotDist = limelight.estimateDistance();
-        double distance = Math.sin(Math.toRadians(tx)) * hypotDist;
-        swerve.drive(new Translation2d(0, distance / 100), 0, true, false);
-      },
-      swerve
+      limelight::estimateDistance,
+      10,
+      x -> _swerve.drive(new Translation2d(x, 0), 0, true, false),
+      _swerve
     );
-    addRequirements(swerve);
+
+    swerve = _swerve;
+    addRequirements(swerve, limelight);
+
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
     getController().setTolerance(Constants.turnTolerance);
 
-    System.out.println("Align With Limelight - Start");
+    System.out.println("Limelight go to target - start");
   }
 
   @Override
   public boolean isFinished() {
+    // End when the controller is at the reference.
     return getController().atSetpoint();
   }
 
   @Override
   public void end(boolean interrupted) {
     swerve.drive(new Translation2d(0, 0), 0, false, false);
-    System.out.println("Align With Limelight - End");
-
-    super.end(interrupted);
+    System.out.println("Limelight go to target - end");
   }
 }
