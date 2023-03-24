@@ -37,7 +37,6 @@ public class LateralAlignLimelight extends PIDCommand {
       },
       _swerve
     );
-    
     swerve = _swerve;
     addRequirements(swerve, limelight);
     // Set the controller to be continuous (because it is an angle controller)

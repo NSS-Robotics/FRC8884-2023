@@ -33,7 +33,6 @@ public class GoToLimelight extends PIDCommand {
       x -> _swerve.drive(new Translation2d(x, 0), 0, true, false),
       _swerve
     );
-
     swerve = _swerve;
     addRequirements(swerve, limelight);
 
