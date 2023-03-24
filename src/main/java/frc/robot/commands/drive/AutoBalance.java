@@ -21,7 +21,7 @@ public class AutoBalance extends ProfiledPIDCommand {
         Constants.kBalanceD,
         new TrapezoidProfile.Constraints(999, 999)
       ),
-      () -> swerve.gyro.getPitch(),
+      swerve.gyro::getPitch,
       Constants.kLevel,
       (output, setpoint) ->
         swerve.drive(

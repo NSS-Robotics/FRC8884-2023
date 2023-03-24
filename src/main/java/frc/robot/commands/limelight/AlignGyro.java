@@ -1,7 +1,6 @@
 package frc.robot.commands.limelight;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
@@ -10,12 +9,9 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-/* horizontally aligns the robot using the TX value */
-public class AlignLimeLight extends PIDCommand {
+public class AlignGyro extends PIDCommand {
 
-  private Swerve swerve;
-
-  public AlignLimeLight(
+  public AlignGyro(
     PIDController controller,
     DoubleSupplier measurementSource,
     double setpoint,
@@ -25,16 +21,12 @@ public class AlignLimeLight extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public AlignLimeLight(Swerve swerve, Limelight limelight) {
+  public AlignGyro(Swerve swerve, Limelight limelight) {
     super(
       new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-      limelight::gettx,
+      swerve.gyro::getYaw,
       0.0,
-      tx -> {
-        double hypotDist = limelight.estimateDistance();
-        double distance = Math.sin(Math.toRadians(tx)) * hypotDist;
-        swerve.drive(new Translation2d(0, distance / 100), 0, true, false);
-      },
+      angle -> swerve.turnStates(-angle),
       swerve
     );
 
@@ -44,8 +36,6 @@ public class AlignLimeLight extends PIDCommand {
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
     getController().setTolerance(Constants.turnTolerance);
-
-    System.out.println("Align With Limelight - Start");
   }
 
   @Override
@@ -55,9 +45,6 @@ public class AlignLimeLight extends PIDCommand {
 
   @Override
   public void end(boolean interrupted) {
-    swerve.drive(new Translation2d(0, 0), 0, false, false);
-    System.out.println("Align With Limelight - End");
-
     super.end(interrupted);
   }
 }

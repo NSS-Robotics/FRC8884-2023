@@ -30,11 +30,10 @@ public class Limelight extends SubsystemBase {
   }
 
   public double estimateDistance() {
-    double targetOffsetAngle_Vertical = ty;
     double angletoGoalRad =
-      (Constants.MountAngle + targetOffsetAngle_Vertical) * (Math.PI / 180.0);
+      Math.toRadians(Constants.mountAngle + ty);
     return (
-      (Constants.TargetHeight - Constants.MountHeight) /
+      Math.abs(Constants.targetHeight - Constants.mountHeight) /
       Math.tan(angletoGoalRad)
     );
   }
