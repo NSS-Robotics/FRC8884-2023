@@ -92,4 +92,3 @@ public class TwoPieceRight extends OnePiece {
     );
   }
 }
-
