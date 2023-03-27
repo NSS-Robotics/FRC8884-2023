@@ -87,9 +87,7 @@ public class TwoPiece extends OnePiece {
       ),
       new ParallelDeadlineGroup(
         new WaitCommand(1),
-        new InstantCommand(() ->
-          swerve.turnStates(180)
-        )
+        new InstantCommand(() -> swerve.turnStates(180))
       )
     );
   }
