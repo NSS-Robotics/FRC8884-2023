@@ -15,9 +15,9 @@ import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class TwoPiece extends OnePiece {
+public class TwoPieceRight extends OnePiece {
 
-  public TwoPiece(
+  public TwoPieceRight(
     Swerve swerve,
     ClawPivot pivot,
     Claw claw,
@@ -31,7 +31,7 @@ public class TwoPiece extends OnePiece {
   @Override
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "TwoPiece",
+      "TwoPieceRight",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -44,8 +44,8 @@ public class TwoPiece extends OnePiece {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), new MidNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(2), new MidExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new TopNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new TopExtend(arm)),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)
@@ -92,3 +92,4 @@ public class TwoPiece extends OnePiece {
     );
   }
 }
+

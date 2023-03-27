@@ -16,9 +16,9 @@ public final class Constants {
 
   /* limelight constants */
   // TODO: change mount angle
-  public static final double mountAngle = 0.0; // angle from 90 vertical
+  public static final double mountAngle = 12.0; // angle from 90 vertical
   // TODO: change mount height
-  public static final double mountHeight = 100.0; // Mount height in cm from ground
+  public static final double mountHeight = 70.0; // Mount height in cm from ground
   public static final double targetHeight = 36.0; // apriltag mount height in cm
   public static final double turnTolerance = 2.0; // degrees per turn
 
@@ -42,11 +42,11 @@ public final class Constants {
 
     public static final int MotorID = 15;
     public static final double ArmSpeed = 0.2;
-    public static final int ExtendBottomNode = 5;
+    public static final int ExtendBottomNode = 9;
     public static final int ExtendMidNode = 120;
-    public static final int ExtendTopNode = 212;
-    public static final int ExtendMax = 202;
-    public static final double Kp = 0.0151453;
+    public static final int ExtendTopNode = 235;
+    public static final int ExtendMax = 235;
+    public static final double Kp = 0.0351453;
     public static final double Ki = 0;
     public static final double Kd = 0.00035143;
   }
@@ -56,12 +56,12 @@ public final class Constants {
 
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
-    public static final int BottomNodeDistance = 0;
+    public static final int BottomNodeDistance = 1;
     public static final int MidNodeDistance = 60;
     public static final double HPDistance = 55;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
-    public static final double Kp = 0.0202244;
+    public static final double Kp = 0.0222244;
     public static final double Ki = 0;
     public static final double Kd = 0.00063787;
   }

@@ -6,28 +6,18 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class OnePiece extends CommandBase {
+public class TwoPieceLeft extends OnePiece {
 
-  protected boolean isFirstPath;
-
-  protected final Swerve swerve;
-  protected final ClawPivot pivot;
-  protected final Claw claw;
-  protected final Elevator elevator;
-  protected final Arm arm;
-
-  public OnePiece(
+  public TwoPieceLeft(
     Swerve swerve,
     ClawPivot pivot,
     Claw claw,
@@ -35,21 +25,13 @@ public class OnePiece extends CommandBase {
     Arm arm,
     boolean isFirstPath
   ) {
-    this.swerve = swerve;
-    this.pivot = pivot;
-    this.claw = claw;
-    this.elevator = elevator;
-    this.arm = arm;
-    this.isFirstPath = isFirstPath;
-    addRequirements(swerve, pivot, claw, elevator, arm);
+    super(swerve, pivot, claw, elevator, arm, isFirstPath);
   }
 
   @Override
-  public void initialize() {}
-
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "OnePiece",
+      "TwoPieceLeft",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -62,14 +44,14 @@ public class OnePiece extends CommandBase {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new TopNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new TopExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new TopNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new TopExtend(arm)),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), new BottomExtend(arm)),
-      new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {
@@ -81,7 +63,6 @@ public class OnePiece extends CommandBase {
           trajectory,
           swerve::getPose,
           Constants.Swerve.swerveKinematics,
-          // XY PID drive values, usually same
           new PIDController(
             Constants.Swerve.driveKP,
             Constants.Swerve.driveKI,
@@ -104,15 +85,10 @@ public class OnePiece extends CommandBase {
           swerve
         )
       ),
-      new AutoBalance(swerve)
+      new ParallelDeadlineGroup(
+        new WaitCommand(1),
+        new InstantCommand(() -> swerve.turnStates(180))
+      )
     );
-  }
-
-  @Override
-  public void end(boolean interrupted) {}
-
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }

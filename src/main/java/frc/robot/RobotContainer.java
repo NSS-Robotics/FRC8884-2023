@@ -93,22 +93,13 @@ public class RobotContainer {
     operator,
     PS4Controller.Button.kSquare.value
   );
-
-  private final JoystickButton upclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kShare.value
-  );
-  private final JoystickButton downclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kOptions.value
-  );
-  private final JoystickButton openClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kL1.value
-  );
-  private final JoystickButton closeClaw = new JoystickButton(
+  private final JoystickButton activateClaw = new JoystickButton(
     operator,
     PS4Controller.Button.kR1.value
+  );
+  private final JoystickButton activatePivot = new JoystickButton(
+    operator,
+    PS4Controller.Button.kL1.value
   );
 
   /* Subsystems */
@@ -128,7 +119,16 @@ public class RobotContainer {
     arm,
     true
   );
-  private final TwoPiece twoPiece = new TwoPiece(
+  private final TwoPieceLeft twoPieceLeft = new TwoPieceLeft(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    false
+  );
+
+  private final TwoPieceRight twoPieceRight = new TwoPieceRight(
     s_Swerve,
     pivot,
     claw,
@@ -153,7 +153,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
-    m_chooser.addOption("TwoPiece", twoPiece.followPath());
+    m_chooser.addOption("TwoPieceLeft", twoPieceLeft.followPath());
+    m_chooser.addOption("TwoPieceRight", twoPieceRight.followPath());
     CameraServer.startAutomaticCapture();
 
     SmartDashboard.putData(m_chooser);
@@ -171,8 +172,8 @@ public class RobotContainer {
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
 
     // TODO: fix align limelight controls
-    alignLimelight.toggleOnTrue(new AlignGyro(s_Swerve));
-    setApriltag.toggleOnTrue(new LateralAlignLimelight(s_Swerve, limelight));
+    alignLimelight.whileTrue(new AlignGyro(s_Swerve));
+    setApriltag.whileTrue(new LateralAlignLimelight(s_Swerve, limelight));
     setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
     /* Operator Buttons */
@@ -186,11 +187,9 @@ public class RobotContainer {
     RModifer.and(topNode).whileTrue(new TopExtend(arm));
     RModifer.and(hp).whileTrue(new FullyRetract(arm));
 
-    openClaw.whileTrue(new InstantCommand(claw::openClaw));
-    closeClaw.whileTrue(new InstantCommand(claw::closeClaw));
+    activateClaw.whileTrue(new InstantCommand(claw::toggle));
 
-    upclaw.whileTrue(new InstantCommand(pivot::up));
-    downclaw.whileTrue(new InstantCommand(pivot::down));
+    activatePivot.whileTrue(new InstantCommand(pivot::toggle));
 
     /* Conjoined Buttons */
     LTModifer

@@ -16,11 +16,15 @@ public class ClawPivot extends SubsystemBase {
 
   public void up() {
     System.out.println("Claw pivot up");
-    pivotsolenoid.set(kForward);
+    pivotsolenoid.set(kReverse);
   }
 
   public void down() {
     System.out.println("Claw pivot down");
-    pivotsolenoid.set(kReverse);
+    pivotsolenoid.set(kForward);
+  }
+
+  public void toggle() {
+    pivotsolenoid.toggle();
   }
 }

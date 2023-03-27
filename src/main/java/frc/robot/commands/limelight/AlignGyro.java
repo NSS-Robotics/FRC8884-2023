@@ -22,9 +22,9 @@ public class AlignGyro extends PIDCommand {
 
   public AlignGyro(Swerve swerve) {
     super(
-      new PIDController(0.03, 0.0, 0.01),
+      new PIDController(0.05, 0.0, 0.01),
       swerve.gyro::getYaw,
-      0.0,
+      180.0,
       angle -> swerve.turnStates(angle),
       swerve
     );
