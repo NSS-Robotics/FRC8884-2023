@@ -172,7 +172,7 @@ public class RobotContainer {
 
     // TODO: fix align limelight controls
     alignLimelight.toggleOnTrue(new AlignGyro(s_Swerve));
-    setApriltag.onTrue(new InstantCommand(() -> limelight.setPipeline(0)));
+    setApriltag.toggleOnTrue(new LateralAlignLimelight(s_Swerve, limelight));
     setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
     /* Operator Buttons */

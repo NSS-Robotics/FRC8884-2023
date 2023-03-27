@@ -33,7 +33,7 @@ public class LateralAlignLimelight extends PIDCommand {
       tx -> {
         double hypotDist = limelight.estimateDistance();
         double distance = Math.sin(Math.toRadians(tx)) * hypotDist;
-        _swerve.drive(new Translation2d(0, distance / 100), 0, true, false);
+        _swerve.drive(new Translation2d(distance / -100, 0), 0, true, false);
       },
       _swerve
     );
