@@ -45,7 +45,6 @@ public class TwoPiece extends CommandBase {
     addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
-
   public TwoPiece isMidNode(boolean t) {
     this.isMidNode = t;
     return this;
