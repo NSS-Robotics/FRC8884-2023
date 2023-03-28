@@ -17,8 +17,8 @@ public class AlignLimelight extends SequentialCommandGroup {
 
     addCommands(
       new AlignGyro(swerve),
-      new LateralAlignLimelight(swerve, limelight),
-      new GoToLimelight(swerve, limelight)
+      new LateralAlignLimelight(swerve, limelight)
+      //new GoToLimelight(swerve, limelight)
     );
   }
 }

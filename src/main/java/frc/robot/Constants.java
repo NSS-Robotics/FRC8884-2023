@@ -15,16 +15,23 @@ public final class Constants {
   public static final double stickDeadband = 0.1;
 
   /* limelight constants */
-  public static final double mountAngle = 12.0; // angle from 90 vertical
+  public static final double mountAngle = 0.0; // angle from 90 vertical
   public static final double mountHeight = 70.0; // Mount height in cm from ground
   public static final double targetHeight = 36.0; // apriltag mount height in cm
   public static final double distToScoring = 50.0; // the distance for the robot to stop at before the scoring station
   public static final double turnTolerance = 2.0; // degrees per turn
+  public static final double mountOffset = 16.0; // horizontal limelight mount offset in centimetres (100ths of a metre)
 
   /* Limelight Align PID */
   public static final double turn_P = 0.1;
   public static final double turn_I = 0.0;
   public static final double turn_D = 0.0;
+
+  /* Limelight Lateral PID */
+  public static final double lateral_P = 1.5;
+  public static final double lateral_I = 0.1;
+  public static final double lateral_D = 0.0;
+
 
   /* Gryo Align PID */
   public static final double kGyroP = 0.05;
