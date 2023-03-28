@@ -6,6 +6,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,7 +16,15 @@ import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class TwoPieceRight extends OnePiece {
+public class TwoPieceRight extends CommandBase {
+
+  protected boolean isFirstPath;
+
+  protected final Swerve swerve;
+  protected final ClawPivot pivot;
+  protected final Claw claw;
+  protected final Elevator elevator;
+  protected final Arm arm;
 
   public TwoPieceRight(
     Swerve swerve,
@@ -25,13 +34,21 @@ public class TwoPieceRight extends OnePiece {
     Arm arm,
     boolean isFirstPath
   ) {
-    super(swerve, pivot, claw, elevator, arm, isFirstPath);
+    this.swerve = swerve;
+    this.pivot = pivot;
+    this.claw = claw;
+    this.elevator = elevator;
+    this.arm = arm;
+    this.isFirstPath = isFirstPath;
+    addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
   @Override
+  public void initialize() {}
+
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "TwoPieceRight",
+      "TwoPieceLeft",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -92,4 +109,3 @@ public class TwoPieceRight extends OnePiece {
     );
   }
 }
-

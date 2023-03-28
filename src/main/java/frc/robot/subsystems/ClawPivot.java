@@ -12,6 +12,7 @@ public class ClawPivot extends SubsystemBase {
 
   public ClawPivot() {
     pivotsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 3, 2);
+    pivotsolenoid.set(kForward);
   }
 
   public void up() {
