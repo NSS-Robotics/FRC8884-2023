@@ -6,7 +6,7 @@ import frc.robot.commands.drive.AlignGyro;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
-public class AlignLimelight extends ParallelCommandGroup {
+public class AlignLimelight extends SequentialCommandGroup {
 
   private final Limelight limelight;
   private final Swerve swerve;
@@ -23,3 +23,10 @@ public class AlignLimelight extends ParallelCommandGroup {
     );
   }
 }
+
+
+
+
+
+
+

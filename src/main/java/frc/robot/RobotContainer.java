@@ -221,7 +221,7 @@ public class RobotContainer {
     /* Driver - limelight Buttons */
     alignLimelight.whileTrue(new AlignLimelight(limelight, s_Swerve));
 
-    setApriltag.whileTrue(new InstantCommand(() -> limelight.setPipeline(0)));
+    setApriltag.onTrue(new InstantCommand(() -> limelight.setPipeline(0)));
     setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
     /* Operator Buttons */
