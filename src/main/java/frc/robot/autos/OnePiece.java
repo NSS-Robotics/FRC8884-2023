@@ -62,7 +62,9 @@ public class OnePiece extends CommandBase {
       )
     );
 
-    Command elevatorNode = isMidNode ? new MidNode(elevator) : new TopNode(elevator);
+    Command elevatorNode = isMidNode
+      ? new MidNode(elevator)
+      : new TopNode(elevator);
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
     return new SequentialCommandGroup(

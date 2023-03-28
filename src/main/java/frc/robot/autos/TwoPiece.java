@@ -16,6 +16,7 @@ import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
 public class TwoPiece extends OnePiece {
+
   public boolean isLeft = true;
 
   public TwoPiece(
@@ -49,7 +50,9 @@ public class TwoPiece extends OnePiece {
       )
     );
 
-    Command elevatorNode = isMidNode ? new MidNode(elevator) : new TopNode(elevator);
+    Command elevatorNode = isMidNode
+      ? new MidNode(elevator)
+      : new TopNode(elevator);
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
     return new SequentialCommandGroup(

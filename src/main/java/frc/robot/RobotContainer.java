@@ -118,7 +118,8 @@ public class RobotContainer {
     elevator,
     arm,
     true
-  ).isMidNode(false);
+  )
+    .isMidNode(false);
 
   private final OnePiece onePieceMid = new OnePiece(
     s_Swerve,
@@ -127,7 +128,8 @@ public class RobotContainer {
     elevator,
     arm,
     true
-  ).isMidNode(true);
+  )
+    .isMidNode(true);
 
   private final TwoPiece twoPieceLeftTop = new TwoPiece(
     s_Swerve,
@@ -136,7 +138,9 @@ public class RobotContainer {
     elevator,
     arm,
     false
-  ).isMidNode(false).isLeft(true);
+  )
+    .isMidNode(false)
+    .isLeft(true);
 
   private final TwoPiece twoPieceLeftMid = new TwoPiece(
     s_Swerve,
@@ -145,7 +149,9 @@ public class RobotContainer {
     elevator,
     arm,
     false
-  ).isMidNode(true).isLeft(true);
+  )
+    .isMidNode(true)
+    .isLeft(true);
 
   private final TwoPiece twoPieceRightTop = new TwoPiece(
     s_Swerve,
@@ -154,7 +160,9 @@ public class RobotContainer {
     elevator,
     arm,
     false
-  ).isMidNode(false).isLeft(false);
+  )
+    .isMidNode(false)
+    .isLeft(false);
 
   private final TwoPiece twoPieceRightMid = new TwoPiece(
     s_Swerve,
@@ -163,7 +171,9 @@ public class RobotContainer {
     elevator,
     arm,
     false
-  ).isMidNode(true).isLeft(false);
+  )
+    .isMidNode(true)
+    .isLeft(false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -182,8 +192,14 @@ public class RobotContainer {
 
     m_chooser.setDefaultOption("OnePiece (TOP)", onePieceTop.followPath());
     m_chooser.setDefaultOption("OnePiece (MID)", onePieceMid.followPath());
-    m_chooser.addOption("TwoPiece (RIGHT) (TOP)", twoPieceRightTop.followPath());
-    m_chooser.addOption("TwoPiece (RIGHT) (MID)", twoPieceRightMid.followPath());
+    m_chooser.addOption(
+      "TwoPiece (RIGHT) (TOP)",
+      twoPieceRightTop.followPath()
+    );
+    m_chooser.addOption(
+      "TwoPiece (RIGHT) (MID)",
+      twoPieceRightMid.followPath()
+    );
     m_chooser.addOption("TwoPiece (LEFT) (TOP)", twoPieceLeftTop.followPath());
     m_chooser.addOption("TwoPiece (LEFT) (MID)", twoPieceLeftMid.followPath());
     CameraServer.startAutomaticCapture();
