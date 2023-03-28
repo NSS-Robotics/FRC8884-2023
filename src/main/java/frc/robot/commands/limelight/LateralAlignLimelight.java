@@ -25,10 +25,13 @@ public class LateralAlignLimelight extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  
   public LateralAlignLimelight(Swerve _swerve, Limelight limelight) {
     super(
-      new PIDController(Constants.lateral_P, Constants.lateral_I, Constants.lateral_D),
+      new PIDController(
+        Constants.lateral_P,
+        Constants.lateral_I,
+        Constants.lateral_D
+      ),
       limelight::lateralDistance,
       30,
       distance -> {
@@ -56,7 +59,7 @@ public class LateralAlignLimelight extends PIDCommand {
   public void end(boolean interrupted) {
     swerve.drive(new Translation2d(0, 0), 0, false, false);
     System.out.println("Align With Limelight - End");
-    
+
     super.end(interrupted);
   }
 }

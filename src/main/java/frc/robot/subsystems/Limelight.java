@@ -71,6 +71,7 @@ public class Limelight extends SubsystemBase {
     table.getEntry("pipeline").setNumber(pipeline);
     SmartDashboard.putNumber("Pipeline", pipeline);
   }
+
   public double lateralDistance() {
     double hypotDist = estimateDistance();
     double distance = Math.sin(Math.toRadians(gettx())) * hypotDist;

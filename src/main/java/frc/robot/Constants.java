@@ -32,7 +32,6 @@ public final class Constants {
   public static final double lateral_I = 0.1;
   public static final double lateral_D = 0.0;
 
-
   /* Gryo Align PID */
   public static final double kGyroP = 0.05;
   public static final double kGyroI = 0.0;
