@@ -6,7 +6,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -16,17 +15,10 @@ import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class TwoPieceLeft extends CommandBase {
+public class TwoPiece extends OnePiece {
+  public boolean isLeft = true;
 
-  protected boolean isFirstPath;
-
-  protected final Swerve swerve;
-  protected final ClawPivot pivot;
-  protected final Claw claw;
-  protected final Elevator elevator;
-  protected final Arm arm;
-
-  public TwoPieceLeft(
+  public TwoPiece(
     Swerve swerve,
     ClawPivot pivot,
     Claw claw,
@@ -34,26 +26,31 @@ public class TwoPieceLeft extends CommandBase {
     Arm arm,
     boolean isFirstPath
   ) {
-    this.swerve = swerve;
-    this.pivot = pivot;
-    this.claw = claw;
-    this.elevator = elevator;
-    this.arm = arm;
-    this.isFirstPath = isFirstPath;
-    addRequirements(swerve, pivot, claw, elevator, arm);
+    super(swerve, pivot, claw, elevator, arm, isFirstPath);
   }
 
   @Override
-  public void initialize() {}
+  public TwoPiece isMidNode(boolean t) {
+    this.isMidNode = t;
+    return this;
+  }
+
+  public TwoPiece isLeft(boolean t) {
+    this.isLeft = t;
+    return this;
+  }
 
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "TwoPieceLeft",
+      "TwoPiece" + (isLeft ? "Left" : "Right"),
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
       )
     );
+
+    Command elevatorNode = isMidNode ? new MidNode(elevator) : new TopNode(elevator);
+    Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
@@ -61,8 +58,8 @@ public class TwoPieceLeft extends CommandBase {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), new TopNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(2), new TopExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), elevatorNode),
+      new ParallelDeadlineGroup(new WaitCommand(2), armNode),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)

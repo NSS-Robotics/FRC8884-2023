@@ -19,7 +19,8 @@ import frc.robot.subsystems.*;
 
 public class OnePiece extends CommandBase {
 
-  protected boolean isFirstPath;
+  public boolean isFirstPath;
+  public boolean isMidNode = false;
 
   protected final Swerve swerve;
   protected final ClawPivot pivot;
@@ -44,6 +45,11 @@ public class OnePiece extends CommandBase {
     addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
+  public OnePiece isMidNode(boolean t) {
+    this.isMidNode = t;
+    return this;
+  }
+
   @Override
   public void initialize() {}
 
@@ -56,14 +62,17 @@ public class OnePiece extends CommandBase {
       )
     );
 
+    Command elevatorNode = isMidNode ? new MidNode(elevator) : new TopNode(elevator);
+    Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
+
     return new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new WaitCommand(1),
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new TopNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new TopExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2.5), elevatorNode),
+      new ParallelDeadlineGroup(new WaitCommand(2.5), armNode),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)

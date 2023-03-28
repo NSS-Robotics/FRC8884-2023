@@ -1,4 +1,4 @@
-package frc.robot.commands.limelight;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
@@ -22,7 +22,7 @@ public class AlignGyro extends PIDCommand {
 
   public AlignGyro(Swerve swerve) {
     super(
-      new PIDController(0.05, 0.0, 0.01),
+      new PIDController(Constants.kGyroP, Constants.kGyroI, Constants.kGyroD),
       swerve.gyro::getYaw,
       180.0,
       angle -> swerve.turnStates(angle),

@@ -29,7 +29,7 @@ public class GoToLimelight extends PIDCommand {
     super(
       new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
       limelight::estimateDistance,
-      10,
+      Constants.distToScoring,
       x -> _swerve.drive(new Translation2d(x, 0), 0, true, false),
       _swerve
     );

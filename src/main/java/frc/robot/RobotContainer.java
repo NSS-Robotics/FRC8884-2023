@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
-import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.commands.drive.*;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
@@ -111,31 +111,59 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiece onePiece = new OnePiece(
+  private final OnePiece onePieceTop = new OnePiece(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
     true
-  );
-  private final TwoPieceLeft twoPieceLeft = new TwoPieceLeft(
-    s_Swerve,
-    pivot,
-    claw,
-    elevator,
-    arm,
-    false
-  );
+  ).isMidNode(false);
 
-  private final TwoPieceRight twoPieceRight = new TwoPieceRight(
+  private final OnePiece onePieceMid = new OnePiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  ).isMidNode(true);
+
+  private final TwoPiece twoPieceLeftTop = new TwoPiece(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
     false
-  );
+  ).isMidNode(false).isLeft(true);
+
+  private final TwoPiece twoPieceLeftMid = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    false
+  ).isMidNode(true).isLeft(true);
+
+  private final TwoPiece twoPieceRightTop = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    false
+  ).isMidNode(false).isLeft(false);
+
+  private final TwoPiece twoPieceRightMid = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    false
+  ).isMidNode(true).isLeft(false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -152,9 +180,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
-    m_chooser.addOption("TwoPieceLeft", twoPieceLeft.followPath());
-    m_chooser.addOption("TwoPieceRight", twoPieceRight.followPath());
+    m_chooser.setDefaultOption("OnePiece (TOP)", onePieceTop.followPath());
+    m_chooser.setDefaultOption("OnePiece (MID)", onePieceMid.followPath());
+    m_chooser.addOption("TwoPiece (RIGHT) (TOP)", twoPieceRightTop.followPath());
+    m_chooser.addOption("TwoPiece (RIGHT) (MID)", twoPieceRightMid.followPath());
+    m_chooser.addOption("TwoPiece (LEFT) (TOP)", twoPieceLeftTop.followPath());
+    m_chooser.addOption("TwoPiece (LEFT) (MID)", twoPieceLeftMid.followPath());
     CameraServer.startAutomaticCapture();
 
     SmartDashboard.putData(m_chooser);
@@ -171,9 +202,10 @@ public class RobotContainer {
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
 
-    // TODO: fix align limelight controls
-    alignLimelight.whileTrue(new AlignGyro(s_Swerve));
-    setApriltag.whileTrue(new LateralAlignLimelight(s_Swerve, limelight));
+    /* Driver - limelight Buttons */
+    alignLimelight.whileTrue(new AlignLimelight(limelight, s_Swerve));
+
+    setApriltag.whileTrue(new InstantCommand(() -> limelight.setPipeline(0)));
     setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
 
     /* Operator Buttons */
