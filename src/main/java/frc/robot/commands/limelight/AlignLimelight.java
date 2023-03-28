@@ -1,11 +1,12 @@
 package frc.robot.commands.limelight;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.drive.AlignGyro;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
 
-public class AlignLimelight extends SequentialCommandGroup {
+public class AlignLimelight extends ParallelCommandGroup {
 
   private final Limelight limelight;
   private final Swerve swerve;
