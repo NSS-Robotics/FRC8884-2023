@@ -28,9 +28,9 @@ public class GoToLimelight extends PIDCommand {
   public GoToLimelight(Swerve _swerve, Limelight limelight) {
     super(
       new PIDController(
-        Constants.lateral_P,
-        Constants.lateral_I,
-        Constants.lateral_D
+        Constants.kLateralP,
+        Constants.kLateralI,
+        Constants.kLateralD
       ),
       limelight::estimateDistance,
       Constants.distToScoring,

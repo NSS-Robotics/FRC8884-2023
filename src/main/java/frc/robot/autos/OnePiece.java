@@ -19,7 +19,7 @@ import frc.robot.subsystems.*;
 
 public class OnePiece extends CommandBase {
 
-  public boolean isFirstPath;
+  public boolean isFirstPath = true;
   public boolean isMidNode = false;
 
   protected final Swerve swerve;

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
 import frc.robot.commands.drive.*;
 import frc.robot.commands.limelight.*;
+import frc.robot.subsystems.Limelight.Target;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
@@ -55,17 +56,17 @@ public class RobotContainer {
     driver,
     XboxController.Button.kLeftStick.value
   );
-  private final JoystickButton alignLimelight = new JoystickButton(
-    driver,
-    XboxController.Button.kA.value
-  );
-  private final JoystickButton setApriltag = new JoystickButton(
+  private final JoystickButton cubeAlign = new JoystickButton(
     driver,
     XboxController.Button.kX.value
   );
-  private final JoystickButton setTape = new JoystickButton(
+  private final JoystickButton coneAlign = new JoystickButton(
     driver,
     XboxController.Button.kB.value
+  );
+  private final JoystickButton HPAlign = new JoystickButton(
+    driver,
+    XboxController.Button.kA.value
   );
 
   /* Operator Buttons */
@@ -137,7 +138,7 @@ public class RobotContainer {
     claw,
     elevator,
     arm,
-    false
+    true
   )
     .isMidNode(false)
     .isLeft(true);
@@ -148,7 +149,7 @@ public class RobotContainer {
     claw,
     elevator,
     arm,
-    false
+    true
   )
     .isMidNode(true)
     .isLeft(true);
@@ -159,7 +160,7 @@ public class RobotContainer {
     claw,
     elevator,
     arm,
-    false
+    true
   )
     .isMidNode(false)
     .isLeft(false);
@@ -170,7 +171,7 @@ public class RobotContainer {
     claw,
     elevator,
     arm,
-    false
+    true
   )
     .isMidNode(true)
     .isLeft(false);
@@ -219,10 +220,9 @@ public class RobotContainer {
     rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
 
     /* Driver - limelight Buttons */
-    alignLimelight.whileTrue(new AlignLimelight(limelight, s_Swerve));
-
-    setApriltag.onTrue(new InstantCommand(() -> limelight.setPipeline(0)));
-    setTape.onTrue(new InstantCommand(() -> limelight.setPipeline(1)));
+    cubeAlign.whileTrue(new AlignLimelight(Target.Cube, limelight, s_Swerve));
+    coneAlign.whileTrue(new AlignLimelight(Target.Cone, limelight, s_Swerve));
+    HPAlign.whileTrue(new AlignLimelight(Target.HP, limelight, s_Swerve));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));

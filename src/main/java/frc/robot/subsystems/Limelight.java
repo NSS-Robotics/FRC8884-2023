@@ -7,6 +7,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
+  public enum Target {
+    Cube,
+    Cone,
+    HP,
+  }
 
   public double Kp = -0.1;
   public double min_command = 0.05;
@@ -21,6 +26,13 @@ public class Limelight extends SubsystemBase {
   public double dist = 0;
   public Swerve swerve = new Swerve();
 
+  public double targetHeight = Constants.tagHeight;
+
+  public Limelight setTargetHeight(double targetHeight) {
+    this.targetHeight = targetHeight;
+    return this;
+  }
+
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
   }
@@ -32,7 +44,7 @@ public class Limelight extends SubsystemBase {
   public double estimateDistance() {
     double angletoGoalRad = Math.toRadians(Constants.mountAngle + getty());
     return (
-      Math.abs(Constants.targetHeight - Constants.mountHeight) /
+      Math.abs(this.targetHeight - Constants.mountHeight) /
       Math.tan(angletoGoalRad)
     );
   }

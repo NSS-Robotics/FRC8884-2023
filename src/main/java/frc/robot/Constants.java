@@ -16,25 +16,29 @@ public final class Constants {
 
   /* limelight constants */
   public static final double mountAngle = 0.0; // angle from 90 vertical
-  public static final double mountHeight = 70.0; // Mount height in cm from ground
-  public static final double targetHeight = 36.0; // apriltag mount height in cm
+  public static final double mountHeight = 67.0; // Mount height in cm from ground
+  public static final double mountOffset = 24.0; // horizontal limelight mount offset in cm
+
   public static final double distToScoring = 50.0; // the distance for the robot to stop at before the scoring station
   public static final double turnTolerance = 2.0; // degrees per turn
-  public static final double mountOffset = 16.0; // horizontal limelight mount offset in centimetres (100ths of a metre)
+
+  public static final double tagHeight = 36.0; // cube apriltag mount height in cm
+  public static final double tapeHeight = 56.0; // cone reflective tape mount height in cm
+  public static final double playerStationHeight = 91.0; // human player station april tag mount height in cm
 
   /* Limelight Align PID */
-  public static final double turn_P = 0.1;
-  public static final double turn_I = 0.0;
-  public static final double turn_D = 0.0;
+  public static final double kTurnP = 0.1;
+  public static final double kTurnI = 0.0;
+  public static final double kTurnD = 0.0;
 
   /* Limelight Lateral PID */
-  public static final double lateral_P = 1.5;
-  public static final double lateral_I = 0.1;
-  public static final double lateral_D = 0.0;
+  public static final double kLateralP = 3;
+  public static final double kLateralI = 0.1;
+  public static final double kLateralD = 0.1;
 
   /* Gryo Align PID */
-  public static final double kGyroP = 0.05;
-  public static final double kGyroI = 0.0;
+  public static final double kGyroP = 0.02;
+  public static final double kGyroI = 0.2;
   public static final double kGyroD = 0.01;
 
   /* Balancing Constants */

@@ -27,7 +27,7 @@ public class AimLimelight extends PIDCommand {
 
   public AimLimelight(Swerve _swerve, Limelight limelight) {
     super(
-      new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
+      new PIDController(Constants.kTurnP, Constants.kTurnI, Constants.kTurnD),
       limelight::gettx,
       0.0,
       tx -> _swerve.turnStates(-tx),

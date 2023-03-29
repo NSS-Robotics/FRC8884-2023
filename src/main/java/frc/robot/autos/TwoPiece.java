@@ -18,7 +18,7 @@ import frc.robot.subsystems.*;
 
 public class TwoPiece extends CommandBase {
 
-  public boolean isFirstPath;
+  public boolean isFirstPath = true;
   public boolean isLeft = false;
   public boolean isMidNode = false;
 
@@ -81,8 +81,8 @@ public class TwoPiece extends CommandBase {
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
-      new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {

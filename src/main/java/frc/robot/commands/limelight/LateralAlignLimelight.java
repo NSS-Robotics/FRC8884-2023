@@ -28,12 +28,12 @@ public class LateralAlignLimelight extends PIDCommand {
   public LateralAlignLimelight(Swerve _swerve, Limelight limelight) {
     super(
       new PIDController(
-        Constants.lateral_P,
-        Constants.lateral_I,
-        Constants.lateral_D
+        Constants.kLateralP,
+        Constants.kLateralI,
+        Constants.kLateralD
       ),
       limelight::lateralDistance,
-      30,
+      Constants.mountOffset,
       distance -> {
         _swerve.drive(new Translation2d(0, distance / -100), 0, true, false);
       },
