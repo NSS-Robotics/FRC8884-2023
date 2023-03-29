@@ -2,11 +2,11 @@ package frc.robot.commands.limelight;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.drive.AlignGyro;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Limelight.Target;
-import frc.robot.Constants;
+import frc.robot.subsystems.Swerve;
 
 public class AlignLimelight extends SequentialCommandGroup {
 
@@ -25,14 +25,14 @@ public class AlignLimelight extends SequentialCommandGroup {
     addCommands(
       new InstantCommand(() -> {
         if (this.target == Target.Cone) {
-            limelight.setPipeline(1);
-            limelight.setTargetHeight(Constants.tapeHeight);
+          limelight.setPipeline(1);
+          limelight.setTargetHeight(Constants.tapeHeight);
         } else if (this.target == Target.Cube) {
-            limelight.setPipeline(0);
-            limelight.setTargetHeight(Constants.tagHeight);
+          limelight.setPipeline(0);
+          limelight.setTargetHeight(Constants.tagHeight);
         } else {
-            limelight.setPipeline(0);
-            limelight.setTargetHeight(Constants.playerStationHeight);
+          limelight.setPipeline(0);
+          limelight.setTargetHeight(Constants.playerStationHeight);
         }
       }),
       new AlignGyro(setpoint, swerve),
