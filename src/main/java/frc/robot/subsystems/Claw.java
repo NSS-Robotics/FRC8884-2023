@@ -28,12 +28,12 @@ public class Claw extends SubsystemBase {
 
   public void openClaw() {
     System.out.println("Claw opened");
-    clawsolenoid.set(kForward);
+    clawsolenoid.set(kReverse);
   }
 
   public void closeClaw() {
     System.out.println("Claw closed");
-    clawsolenoid.set(kReverse);
+    clawsolenoid.set(kForward);
   }
 
   public void toggle() {

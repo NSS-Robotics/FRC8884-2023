@@ -68,6 +68,7 @@ public class OnePiece extends CommandBase {
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
     return new SequentialCommandGroup(
+      new InstantCommand(swerve::zeroGyro),
       new ParallelDeadlineGroup(
         new WaitCommand(1),
         new InstantCommand(claw::closeClaw),
