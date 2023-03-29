@@ -220,7 +220,7 @@ public class RobotContainer {
     /* Driver - limelight Buttons */
     coneAlign.whileTrue(new AutoBalance(s_Swerve));
     HPAlign.whileTrue(new AlignLimelight(Target.HP, limelight, s_Swerve));
-    
+
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
     LModifer.and(midNode).whileTrue(new MidNode(elevator));
@@ -235,7 +235,6 @@ public class RobotContainer {
     activateClaw.whileTrue(new InstantCommand(claw::toggle));
 
     activatePivot.whileTrue(new InstantCommand(pivot::toggle));
-
     /* Conjoined Buttons */
   }
 
