@@ -25,7 +25,7 @@ public class AutoBalance extends ProfiledPIDCommand {
       Constants.kLevel,
       (output, setpoint) ->
         swerve.drive(
-          new Translation2d(output, 0),
+          new Translation2d(swerve.gyro.getPitch() < 0 ? -output : output, 0),
           Constants.kAngleCorrectionP * headingDelta,
           true,
           false

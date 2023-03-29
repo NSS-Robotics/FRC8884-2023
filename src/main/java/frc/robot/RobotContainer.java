@@ -48,25 +48,21 @@ public class RobotContainer {
     driver,
     XboxController.Button.kLeftBumper.value
   );
-  private final JoystickButton rightBumper = new JoystickButton(
+  private final JoystickButton ScoringNode = new JoystickButton(
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton LTModifer = new JoystickButton(
+  private final JoystickButton HPAlign = new JoystickButton(
     driver,
-    XboxController.Button.kLeftStick.value
+    XboxController.Button.kA.value
   );
-  private final JoystickButton cubeAlign = new JoystickButton(
+  private final JoystickButton Xwoo = new JoystickButton(
     driver,
     XboxController.Button.kX.value
   );
   private final JoystickButton coneAlign = new JoystickButton(
     driver,
     XboxController.Button.kB.value
-  );
-  private final JoystickButton HPAlign = new JoystickButton(
-    driver,
-    XboxController.Button.kA.value
   );
 
   /* Operator Buttons */
@@ -217,13 +213,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
+    Xwoo.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
+    ScoringNode.whileTrue(new AlignGyro(180.0, s_Swerve));
+    HPAlign.whileTrue(new AlignGyro(0, s_Swerve));
 
     /* Driver - limelight Buttons */
-    cubeAlign.whileTrue(new AlignLimelight(Target.Cube, limelight, s_Swerve));
-    coneAlign.whileTrue(new AlignLimelight(Target.Cone, limelight, s_Swerve));
+    coneAlign.whileTrue(new AutoBalance(s_Swerve));
     HPAlign.whileTrue(new AlignLimelight(Target.HP, limelight, s_Swerve));
-
+    
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
     LModifer.and(midNode).whileTrue(new MidNode(elevator));
@@ -240,10 +237,6 @@ public class RobotContainer {
     activatePivot.whileTrue(new InstantCommand(pivot::toggle));
 
     /* Conjoined Buttons */
-    LTModifer
-      .and(RModifer)
-      .whileTrue(new InstantCommand(arm::runArm))
-      .whileFalse(new InstantCommand(arm::stopArm));
   }
 
   public static Command BuildAuto(List<PathPlannerTrajectory> trajectory) {

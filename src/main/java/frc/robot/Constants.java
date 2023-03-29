@@ -17,7 +17,7 @@ public final class Constants {
   /* limelight constants */
   public static final double mountAngle = 0.0; // angle from 90 vertical
   public static final double mountHeight = 67.0; // Mount height in cm from ground
-  public static final double mountOffset = 24.0; // horizontal limelight mount offset in cm
+  public static final double mountOffset = 0.0; // horizontal limelight mount offset in cm
 
   public static final double distToScoring = 50.0; // the distance for the robot to stop at before the scoring station
   public static final double turnTolerance = 2.0; // degrees per turn
@@ -43,9 +43,9 @@ public final class Constants {
 
   /* Balancing Constants */
   public static final double kLevel = 0;
-  public static final double kBalanceToleranceDeg = 3.5;
-  public static final double kBalanceP = .008;
-  public static final double kBalanceI = 0;
+  public static final double kBalanceToleranceDeg = -1.5;
+  public static final double kBalanceP = .1;
+  public static final double kBalanceI = 0.1;
   public static final double kBalanceD = 0;
 
   public static final double kAngleCorrectionP = .01;
@@ -56,7 +56,7 @@ public final class Constants {
 
     public static final int MotorID = 15;
     public static final double ArmSpeed = 0.2;
-    public static final int ExtendBottomNode = 9;
+    public static final int ExtendBottomNode = 16;
     public static final int ExtendMidNode = 120;
     public static final int ExtendTopNode = 240;
     public static final int ExtendMax = 240;
@@ -71,7 +71,7 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 1;
-    public static final int MidNodeDistance = 58;
+    public static final int MidNodeDistance = 12;
     public static final double HPDistance = 55;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;

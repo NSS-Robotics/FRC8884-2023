@@ -33,7 +33,7 @@ public class GoToLimelight extends PIDCommand {
         Constants.kLateralD
       ),
       limelight::estimateDistance,
-      Constants.distToScoring,
+      100.0,
       x -> _swerve.drive(new Translation2d(x / -100, 0), 0, true, false),
       _swerve
     );
