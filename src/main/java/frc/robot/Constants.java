@@ -37,8 +37,8 @@ public final class Constants {
   public static final double kLateralD = 0.1;
 
   /* Gryo Align PID */
-  public static final double kGyroP = 0.02;
-  public static final double kGyroI = 0.2;
+  public static final double kGyroP = 0.14;
+  public static final double kGyroI = 0.01;
   public static final double kGyroD = 0.01;
 
   /* Balancing Constants */
@@ -71,7 +71,7 @@ public final class Constants {
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 1;
-    public static final int MidNodeDistance = 58;
+    public static final int MidNodeDistance = 12;
     public static final double HPDistance = 55;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
