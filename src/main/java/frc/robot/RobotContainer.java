@@ -40,27 +40,27 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
   private final JoystickButton robotCentric = new JoystickButton(
     driver,
     XboxController.Button.kLeftBumper.value
   );
-  private final JoystickButton ScoringNode = new JoystickButton(
+  private final JoystickButton alignTarget = new JoystickButton(
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton HPAlign = new JoystickButton(
+  private final JoystickButton zeroGyro = new JoystickButton(
     driver,
-    XboxController.Button.kA.value
+    XboxController.Button.kY.value
   );
   private final JoystickButton Xwoo = new JoystickButton(
     driver,
     XboxController.Button.kX.value
   );
-  private final JoystickButton coneAlign = new JoystickButton(
+  private final JoystickButton autoBalance = new JoystickButton(
+    driver,
+    XboxController.Button.kA.value
+  );
+  private final JoystickButton lateralAlign = new JoystickButton(
     driver,
     XboxController.Button.kB.value
   );
@@ -214,12 +214,11 @@ public class RobotContainer {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
     Xwoo.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
-    ScoringNode.whileTrue(new AlignGyro(180.0, s_Swerve));
-    HPAlign.whileTrue(new AlignGyro(0, s_Swerve));
 
     /* Driver - limelight Buttons */
-    coneAlign.whileTrue(new AutoBalance(s_Swerve));
-    HPAlign.whileTrue(new AlignLimelight(Target.HP, limelight, s_Swerve));
+    alignTarget.whileTrue(new AlignGyro(180.0, s_Swerve));
+    autoBalance.whileTrue(new AutoBalance(s_Swerve));
+    lateralAlign.whileTrue(new AlignLimelight(Target.Cube, limelight, s_Swerve));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));

@@ -42,6 +42,20 @@ public class Limelight extends SubsystemBase {
     table.getEntry("ledMode").setNumber(on ? 3 : 1);
   }
 
+  public Limelight configure(Target target) {
+    if (target == Target.Cone) {
+      this.setPipeline(1);
+      this.setTargetHeight(Constants.tapeHeight);
+    } else if (target == Target.Cube) {
+      this.setPipeline(0);
+      this.setTargetHeight(Constants.tagHeight);
+    } else {
+      this.setPipeline(0);
+      this.setTargetHeight(Constants.playerStationHeight);
+    }
+    return this;
+  }
+
   public double estimateDistance() {
     double angletoGoalRad = Math.toRadians(Constants.mountAngle + getty());
     return (
