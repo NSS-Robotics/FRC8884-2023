@@ -82,7 +82,10 @@ public class OnePiece extends CommandBase {
       ),
       new ParallelDeadlineGroup(new WaitCommand(2), new FullyRetract(arm)),
       new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(0.5), new InstantCommand(pivot::up)),
+      new ParallelDeadlineGroup(
+        new WaitCommand(0.5),
+        new InstantCommand(pivot::up)
+      ),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {
