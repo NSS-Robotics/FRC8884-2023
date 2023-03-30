@@ -22,6 +22,6 @@ public class FullyRetract extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("MidExtend Command Ended");
+    System.out.println("FullyRetract Command Ended");
   }
 }

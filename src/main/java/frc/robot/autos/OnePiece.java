@@ -63,7 +63,7 @@ public class OnePiece extends CommandBase {
     );
 
     Command elevatorNode = isMidNode
-      ? new MidNode(elevator)
+      ? new HPNode(elevator)
       : new TopNode(elevator);
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
@@ -74,14 +74,15 @@ public class OnePiece extends CommandBase {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), elevatorNode),
+      new ParallelDeadlineGroup(new WaitCommand(2), elevatorNode),
       new ParallelDeadlineGroup(new WaitCommand(2.5), armNode),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(claw::openClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new FullyRetract(arm)),
       new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
+      new ParallelDeadlineGroup(new WaitCommand(0.5), new InstantCommand(pivot::up)),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {

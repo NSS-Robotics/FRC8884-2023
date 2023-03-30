@@ -65,7 +65,7 @@ public class TwoPiece extends CommandBase {
     );
 
     Command elevatorNode = isMidNode
-      ? new MidNode(elevator)
+      ? new HPNode(elevator)
       : new TopNode(elevator);
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
