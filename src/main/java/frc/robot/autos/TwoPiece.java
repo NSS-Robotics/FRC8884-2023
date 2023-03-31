@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.drive.AlignGyro;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
-import frc.robot.commands.drive.AlignGyro;
 
 public class TwoPiece extends CommandBase {
 
@@ -134,7 +134,11 @@ public class TwoPiece extends CommandBase {
         new InstantCommand(pivot::down),
         new InstantCommand(claw::openClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm), new PrintCommand("hi"))
+      new ParallelDeadlineGroup(
+        new WaitCommand(1),
+        new BottomExtend(arm),
+        new PrintCommand("hi")
+      )
     );
   }
 }
