@@ -56,11 +56,11 @@ public class RobotContainer {
     driver,
     XboxController.Button.kX.value
   );
-  private final JoystickButton autoBalance = new JoystickButton(
+  private final JoystickButton alignCone = new JoystickButton(
     driver,
     XboxController.Button.kA.value
   );
-  private final JoystickButton lateralAlign = new JoystickButton(
+  private final JoystickButton alignCube = new JoystickButton(
     driver,
     XboxController.Button.kB.value
   );
@@ -217,10 +217,8 @@ public class RobotContainer {
 
     /* Driver - limelight Buttons */
     alignTarget.whileTrue(new AlignGyro(180.0, s_Swerve));
-    autoBalance.whileTrue(new AutoBalance(s_Swerve));
-    lateralAlign.whileTrue(
-      new AlignLimelight(Target.Cube, limelight, s_Swerve)
-    );
+    alignCube.whileTrue(new AlignLimelight(Target.Cube, limelight, s_Swerve));
+    alignCone.whileTrue(new AlignLimelight(Target.Cone, limelight, s_Swerve));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));

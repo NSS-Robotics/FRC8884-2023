@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.drive.AlignGyro;
 
 public class TwoPiece extends CommandBase {
 
@@ -70,19 +72,25 @@ public class TwoPiece extends CommandBase {
     Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
 
     return new SequentialCommandGroup(
+      new InstantCommand(swerve::zeroGyro),
       new ParallelDeadlineGroup(
-        new WaitCommand(1),
+        new WaitCommand(0.5),
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
       new ParallelDeadlineGroup(new WaitCommand(2), elevatorNode),
       new ParallelDeadlineGroup(new WaitCommand(2), armNode),
       new ParallelDeadlineGroup(
-        new WaitCommand(0.5),
+        new WaitCommand(0.3),
         new InstantCommand(claw::openClaw)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), new BottomExtend(arm)),
+      new ParallelDeadlineGroup(new WaitCommand(2), new FullyRetract(arm)),
       new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
+      new ParallelDeadlineGroup(
+        new WaitCommand(1),
+        new InstantCommand(claw::closeClaw),
+        new InstantCommand(pivot::up)
+      ),
       new InstantCommand(() -> {
         // Reset odometry for the first path ran during auto
         if (isFirstPath) {
@@ -118,8 +126,15 @@ public class TwoPiece extends CommandBase {
       ),
       new ParallelDeadlineGroup(
         new WaitCommand(1),
-        new InstantCommand(() -> swerve.turnStates(180))
-      )
+        new AlignGyro(180, swerve, Constants.kGyroSlowerP)
+      ),
+      new InstantCommand(swerve::zeroGyro),
+      new ParallelDeadlineGroup(
+        new WaitCommand(0.5),
+        new InstantCommand(pivot::down),
+        new InstantCommand(claw::openClaw)
+      ),
+      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm), new PrintCommand("hi"))
     );
   }
 }

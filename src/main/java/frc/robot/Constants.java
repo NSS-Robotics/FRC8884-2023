@@ -38,6 +38,7 @@ public final class Constants {
 
   /* Gryo Align PID */
   public static final double kGyroP = 0.14;
+  public static final double kGyroSlowerP = 0.11;
   public static final double kGyroI = 0.01;
   public static final double kGyroD = 0.01;
 
@@ -225,8 +226,8 @@ public final class Constants {
 
   public static final class AutoConstants {
 
-    public static final double kMaxSpeedMetersPerSecond = 2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+    public static final double kMaxSpeedMetersPerSecond = 2.5;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2.5;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared =
       Math.PI;

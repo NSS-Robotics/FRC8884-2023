@@ -20,9 +20,9 @@ public class AlignGyro extends PIDCommand {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public AlignGyro(double setpoint, Swerve swerve) {
+  public AlignGyro(double setpoint, Swerve swerve, double... kP) {
     super(
-      new PIDController(Constants.kGyroP, Constants.kGyroI, Constants.kGyroD),
+      new PIDController(kP.length > 0 ? kP[0] : Constants.kGyroP, Constants.kGyroI, Constants.kGyroD),
       swerve.gyro::getYaw,
       setpoint,
       angle -> swerve.turnStates(angle),

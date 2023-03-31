@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
@@ -119,8 +118,7 @@ public class OnePiece extends CommandBase {
           true,
           swerve
         )
-      ),
-      new AutoBalance(swerve)
+      )
     );
   }
 
