@@ -57,8 +57,8 @@ public final class Constants {
 
     public static final int MotorID = 15;
     public static final double ArmSpeed = 0.2;
-    public static final int ExtendBottomNode = 16;
-    public static final int ExtendMidNode = 120;
+    public static final int ExtendBottomNode = 21;
+    public static final int ExtendMidNode = 135;
     public static final int ExtendTopNode = 240;
     public static final int ExtendMax = 240;
     public static final double Kp = 0.0451453;

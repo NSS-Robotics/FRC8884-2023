@@ -1,5 +1,6 @@
 package frc.robot.autos;
 
+import com.fasterxml.jackson.databind.ser.std.NumberSerializers.FloatSerializer;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -120,7 +121,7 @@ public class TwoPiece extends CommandBase {
           ),
           swerve::setModuleStates,
           // Alter path based on team colour (side of the field)
-          true,
+          false,
           swerve
         )
       ),

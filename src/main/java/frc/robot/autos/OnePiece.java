@@ -118,6 +118,10 @@ public class OnePiece extends CommandBase {
           true,
           swerve
         )
+      ),
+      new ParallelDeadlineGroup(
+        new WaitCommand(0.3),
+        new InstantCommand(swerve::XFormation)
       )
     );
   }
