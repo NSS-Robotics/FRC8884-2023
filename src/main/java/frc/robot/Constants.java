@@ -45,9 +45,9 @@ public final class Constants {
   /* Balancing Constants */
   public static final double kLevel = 0;
   public static final double kBalanceToleranceDeg = -1.5;
-  public static final double kBalanceP = .1;
-  public static final double kBalanceI = 0.1;
-  public static final double kBalanceD = 0;
+  public static final double kBalanceP = 0.008;
+  public static final double kBalanceI = 0.08;
+  public static final double kBalanceD = 0.025;
 
   public static final double kAngleCorrectionP = .01;
   public static final double kTurnToleranceDeg = 10;
@@ -73,7 +73,7 @@ public final class Constants {
     public static final int RMotorID = 13;
     public static final int BottomNodeDistance = 1;
     public static final int MidNodeDistance = 12;
-    public static final double HPDistance = 55;
+    public static final double HPDistance = 52;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
     public static final double Kp = 0.0222244;
@@ -226,8 +226,8 @@ public final class Constants {
 
   public static final class AutoConstants {
 
-    public static final double kMaxSpeedMetersPerSecond = 2.5;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 2.5;
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared =
       Math.PI;

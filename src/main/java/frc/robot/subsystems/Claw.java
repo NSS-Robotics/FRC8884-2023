@@ -18,7 +18,7 @@ public class Claw extends SubsystemBase {
   protected double current;
 
   public Claw() {
-    clawsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 4, 5);
+    clawsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 5, 4);
     compressor = new Compressor(14, PneumaticsModuleType.CTREPCM);
     enabled = compressor.isEnabled();
     pressureSwitch = compressor.getPressureSwitchValue();

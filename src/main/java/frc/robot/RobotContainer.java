@@ -128,6 +128,26 @@ public class RobotContainer {
   )
     .isMidNode(true);
 
+  private final OnePieceMobility onePieceMobilityTop = new OnePieceMobility(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(false);
+
+  private final OnePieceMobility onePieceMobilityMid = new OnePieceMobility(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(true);
+
   private final TwoPiece twoPieceLeftTop = new TwoPiece(
     s_Swerve,
     pivot,
@@ -161,6 +181,15 @@ public class RobotContainer {
     .isMidNode(false)
     .isLeft(false);
 
+  private final StandStill StandStill = new StandStill(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  );
+
   private final TwoPiece twoPieceRightMid = new TwoPiece(
     s_Swerve,
     pivot,
@@ -189,6 +218,14 @@ public class RobotContainer {
 
     m_chooser.setDefaultOption("OnePiece (TOP)", onePieceTop.followPath());
     m_chooser.setDefaultOption("OnePiece (MID)", onePieceMid.followPath());
+    m_chooser.setDefaultOption(
+      "OnePieceMobile (TOP)",
+      onePieceMobilityTop.followPath()
+    );
+    m_chooser.setDefaultOption(
+      "OnePieceMobile (MID)",
+      onePieceMobilityMid.followPath()
+    );
     m_chooser.addOption(
       "TwoPiece (RIGHT) (TOP)",
       twoPieceRightTop.followPath()
@@ -199,6 +236,7 @@ public class RobotContainer {
     );
     m_chooser.addOption("TwoPiece (LEFT) (TOP)", twoPieceLeftTop.followPath());
     m_chooser.addOption("TwoPiece (LEFT) (MID)", twoPieceLeftMid.followPath());
+    m_chooser.addOption("StandStill (TOP)", StandStill.followPath());
     CameraServer.startAutomaticCapture();
 
     SmartDashboard.putData(m_chooser);
@@ -217,7 +255,7 @@ public class RobotContainer {
 
     /* Driver - limelight Buttons */
     alignTarget.whileTrue(new AlignGyro(180.0, s_Swerve));
-    alignCube.whileTrue(new AlignLimelight(Target.Cube, limelight, s_Swerve));
+    alignCube.whileTrue(new AutoBalance(s_Swerve));
     alignCone.whileTrue(new AlignLimelight(Target.Cone, limelight, s_Swerve));
 
     /* Operator Buttons */

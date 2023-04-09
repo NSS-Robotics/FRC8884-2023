@@ -12,12 +12,11 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class OnePiece extends CommandBase {
+public class StandStill extends CommandBase {
 
   public boolean isFirstPath = true;
   public boolean isMidNode = false;
@@ -28,7 +27,7 @@ public class OnePiece extends CommandBase {
   protected final Elevator elevator;
   protected final Arm arm;
 
-  public OnePiece(
+  public StandStill(
     Swerve swerve,
     ClawPivot pivot,
     Claw claw,
@@ -45,7 +44,7 @@ public class OnePiece extends CommandBase {
     addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
-  public OnePiece isMidNode(boolean t) {
+  public StandStill isMidNode(boolean t) {
     this.isMidNode = t;
     return this;
   }
@@ -54,18 +53,8 @@ public class OnePiece extends CommandBase {
   public void initialize() {}
 
   public Command followPath() {
-    PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "OnePiece",
-      new PathConstraints(
-        Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
-      )
-    );
-
-    Command elevatorNode = isMidNode
-      ? new HPNode(elevator)
-      : new TopNode(elevator);
-    Command armNode = isMidNode ? new MidExtend(arm) : new TopExtend(arm);
+    Command elevatorNode = new TopNode(elevator);
+    Command armNode = new TopExtend(arm);
 
     return new SequentialCommandGroup(
       new InstantCommand(swerve::zeroGyro),
@@ -74,7 +63,7 @@ public class OnePiece extends CommandBase {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(1), elevatorNode),
+      new ParallelDeadlineGroup(new WaitCommand(2), elevatorNode),
       new ParallelDeadlineGroup(new WaitCommand(2.5), armNode),
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
@@ -85,42 +74,7 @@ public class OnePiece extends CommandBase {
       new ParallelDeadlineGroup(
         new WaitCommand(0.5),
         new InstantCommand(pivot::up)
-      ),
-      new InstantCommand(() -> {
-        // Reset odometry for the first path ran during auto
-        if (isFirstPath) {
-          swerve.resetOdometry(trajectory.getInitialPose());
-        }
-      }),
-      new ParallelDeadlineGroup(
-        new PPSwerveControllerCommand(
-          trajectory,
-          swerve::getPose,
-          Constants.Swerve.swerveKinematics,
-          // XY PID drive values, usually same
-          new PIDController(
-            Constants.Swerve.driveKP,
-            Constants.Swerve.driveKI,
-            Constants.Swerve.driveKD
-          ),
-          new PIDController(
-            Constants.Swerve.driveKP,
-            Constants.Swerve.driveKI,
-            Constants.Swerve.driveKD
-          ),
-          // rotation PID
-          new PIDController(
-            Constants.Swerve.angleKP,
-            Constants.Swerve.angleKI,
-            Constants.Swerve.angleKD
-          ),
-          swerve::setModuleStates,
-          // Alter path based on team colour (side of the field)
-          true,
-          swerve
-        )
-      ),
-      new AutoBalance(swerve)
+      )
     );
   }
 
