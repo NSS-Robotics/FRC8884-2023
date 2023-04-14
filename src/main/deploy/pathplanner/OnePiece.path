@@ -3,12 +3,12 @@
     {
       "anchorPoint": {
         "x": 2.0,
-        "y": 2.75
+        "y": 2.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.000000000000001,
-        "y": 2.75
+        "x": 2.999999999999999,
+        "y": 2.7
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -16,25 +16,20 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [
-          "Close Claw",
-          "Claw Down",
-          "Elevator Up",
-          "Arm Up"
-        ],
-        "executionBehavior": "sequential",
+        "names": [],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
-        "waitTime": 3.0
+        "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 4.7,
-        "y": 2.75
+        "x": 4.5,
+        "y": 2.7
       },
       "prevControl": {
-        "x": 4.213891622351153,
-        "y": 2.75
+        "x": 3.5,
+        "y": 2.7
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -50,5 +45,8 @@
       }
     }
   ],
+  "maxVelocity": null,
+  "maxAcceleration": null,
+  "isReversed": true,
   "markers": []
 }

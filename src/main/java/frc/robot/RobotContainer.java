@@ -11,15 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.autos.*;
-import frc.robot.commands.claw.*;
-import frc.robot.commands.drive.TeleopSwerve;
+import frc.robot.commands.drive.*;
 import frc.robot.commands.limelight.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Limelight.Target;
 import java.util.List;
 
 /**
@@ -41,25 +40,29 @@ public class RobotContainer {
   private final int rotationAxis = XboxController.Axis.kLeftX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro = new JoystickButton(
-    driver,
-    XboxController.Button.kY.value
-  );
   private final JoystickButton robotCentric = new JoystickButton(
     driver,
     XboxController.Button.kLeftBumper.value
   );
-  private final JoystickButton rightBumper = new JoystickButton(
+  private final JoystickButton alignTarget = new JoystickButton(
     driver,
     XboxController.Button.kRightBumper.value
   );
-  private final JoystickButton LTModifer = new JoystickButton(
+  private final JoystickButton zeroGyro = new JoystickButton(
     driver,
-    XboxController.Button.kLeftStick.value
+    XboxController.Button.kY.value
   );
-  private final JoystickButton DResetArm = new JoystickButton(
+  private final JoystickButton Xwoo = new JoystickButton(
+    driver,
+    XboxController.Button.kX.value
+  );
+  private final JoystickButton alignCone = new JoystickButton(
     driver,
     XboxController.Button.kA.value
+  );
+  private final JoystickButton alignCube = new JoystickButton(
+    driver,
+    XboxController.Button.kB.value
   );
 
   /* Operator Buttons */
@@ -87,26 +90,13 @@ public class RobotContainer {
     operator,
     PS4Controller.Button.kSquare.value
   );
-
-  private final JoystickButton upclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kShare.value
-  );
-  private final JoystickButton downclaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kOptions.value
-  );
-  private final JoystickButton openClaw = new JoystickButton(
-    operator,
-    PS4Controller.Button.kL1.value
-  );
-  private final JoystickButton closeClaw = new JoystickButton(
+  private final JoystickButton activateClaw = new JoystickButton(
     operator,
     PS4Controller.Button.kR1.value
   );
-  private final JoystickButton OResetArm = new JoystickButton(
+  private final JoystickButton activatePivot = new JoystickButton(
     operator,
-    PS4Controller.Button.kPS.value
+    PS4Controller.Button.kL1.value
   );
 
   /* Subsystems */
@@ -118,7 +108,80 @@ public class RobotContainer {
   private final Claw claw = new Claw();
 
   /* autos */
-  private final OnePiecePlsWork onePiece = new OnePiecePlsWork(
+  private final OnePiece onePieceTop = new OnePiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(false);
+
+  private final OnePiece onePieceMid = new OnePiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(true);
+
+  private final OnePieceMobility onePieceMobilityTop = new OnePieceMobility(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(false);
+
+  private final OnePieceMobility onePieceMobilityMid = new OnePieceMobility(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(true);
+
+  private final TwoPiece twoPieceLeftTop = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(false)
+    .isLeft(true);
+
+  private final TwoPiece twoPieceLeftMid = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(true)
+    .isLeft(true);
+
+  private final TwoPiece twoPieceRightTop = new TwoPiece(
+    s_Swerve,
+    pivot,
+    claw,
+    elevator,
+    arm,
+    true
+  )
+    .isMidNode(false)
+    .isLeft(false);
+
+  private final StandStill StandStill = new StandStill(
     s_Swerve,
     pivot,
     claw,
@@ -126,14 +189,17 @@ public class RobotContainer {
     arm,
     true
   );
-  private final TwoPiecePlsWork twoPiece = new TwoPiecePlsWork(
+
+  private final TwoPiece twoPieceRightMid = new TwoPiece(
     s_Swerve,
     pivot,
     claw,
     elevator,
     arm,
-    false
-  );
+    true
+  )
+    .isMidNode(true)
+    .isLeft(false);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -150,8 +216,27 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    m_chooser.setDefaultOption("OnePiece", onePiece.followPath());
-    m_chooser.addOption("TwoPiece", twoPiece.followPath());
+    m_chooser.setDefaultOption("OnePiece (TOP)", onePieceTop.followPath());
+    m_chooser.setDefaultOption("OnePiece (MID)", onePieceMid.followPath());
+    m_chooser.setDefaultOption(
+      "OnePieceMobile (TOP)",
+      onePieceMobilityTop.followPath()
+    );
+    m_chooser.setDefaultOption(
+      "OnePieceMobile (MID)",
+      onePieceMobilityMid.followPath()
+    );
+    m_chooser.addOption(
+      "TwoPiece (RIGHT) (TOP)",
+      twoPieceRightTop.followPath()
+    );
+    m_chooser.addOption(
+      "TwoPiece (RIGHT) (MID)",
+      twoPieceRightMid.followPath()
+    );
+    m_chooser.addOption("TwoPiece (LEFT) (TOP)", twoPieceLeftTop.followPath());
+    m_chooser.addOption("TwoPiece (LEFT) (MID)", twoPieceLeftMid.followPath());
+    m_chooser.addOption("StandStill (TOP)", StandStill.followPath());
     CameraServer.startAutomaticCapture();
 
     SmartDashboard.putData(m_chooser);
@@ -166,7 +251,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     zeroGyro.onTrue(new InstantCommand(s_Swerve::zeroGyro));
-    rightBumper.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
+    Xwoo.toggleOnTrue(new InstantCommand(s_Swerve::XFormation));
+
+    /* Driver - limelight Buttons */
+    alignTarget.whileTrue(new AlignGyro(180.0, s_Swerve));
+    alignCube.whileTrue(new AutoBalance(s_Swerve));
+    alignCone.whileTrue(new AlignLimelight(Target.Cone, limelight, s_Swerve));
 
     /* Operator Buttons */
     LModifer.and(bottomNode).whileTrue(new BottomNode(elevator));
@@ -177,18 +267,12 @@ public class RobotContainer {
     RModifer.and(bottomNode).whileTrue(new BottomExtend(arm));
     RModifer.and(midNode).whileTrue(new MidExtend(arm));
     RModifer.and(topNode).whileTrue(new TopExtend(arm));
+    RModifer.and(hp).whileTrue(new FullyRetract(arm));
 
-    openClaw.whileTrue(new OpenClaw(claw));
-    closeClaw.whileTrue(new CloseClaw(claw));
+    activateClaw.whileTrue(new InstantCommand(claw::toggle));
 
-    upclaw.whileTrue(new PivotUp(pivot));
-    downclaw.whileTrue(new PivotDown(pivot));
-
+    activatePivot.whileTrue(new InstantCommand(pivot::toggle));
     /* Conjoined Buttons */
-    LTModifer
-      .and(RModifer)
-      .whileTrue(new InstantCommand(arm::runArm))
-      .whileFalse(new InstantCommand(arm::stopArm));
   }
 
   public static Command BuildAuto(List<PathPlannerTrajectory> trajectory) {

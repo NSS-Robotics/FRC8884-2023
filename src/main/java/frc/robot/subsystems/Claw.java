@@ -13,21 +13,32 @@ public class Claw extends SubsystemBase {
 
   private final Compressor compressor;
 
+  protected boolean enabled;
+  protected boolean pressureSwitch;
+  protected double current;
+
   public Claw() {
-    clawsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 0, 1);
+    clawsolenoid = new DoubleSolenoid(14, PneumaticsModuleType.CTREPCM, 5, 4);
     compressor = new Compressor(14, PneumaticsModuleType.CTREPCM);
-    boolean enabled = compressor.isEnabled();
-    boolean pressureSwitch = compressor.getPressureSwitchValue();
-    double current = compressor.getCurrent();
+    enabled = compressor.isEnabled();
+    pressureSwitch = compressor.getPressureSwitchValue();
+    current = compressor.getCurrent();
   }
 
   public void openClaw() {
+    System.out.println("Claw opened");
     clawsolenoid.set(kReverse);
   }
 
   public void closeClaw() {
+    System.out.println("Claw closed");
     clawsolenoid.set(kForward);
   }
+
+  public void toggle() {
+    clawsolenoid.toggle();
+  }
+
   public void startCompressor() {
     compressor.enableDigital();
   }

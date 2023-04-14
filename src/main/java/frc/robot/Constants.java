@@ -14,25 +14,54 @@ public final class Constants {
 
   public static final double stickDeadband = 0.1;
 
-  // limelight constants
-  public static final double MountAngle = 25.0; // angle from 90 vertical
-  public static final double MountHeight = 10.0; // Mount height in cm
-  public static final double TargetHeight = 60.0; // Target height in cm
+  /* limelight constants */
+  public static final double mountAngle = 0.0; // angle from 90 vertical
+  public static final double mountHeight = 67.0; // Mount height in cm from ground
+  public static final double mountOffset = 0.0; // horizontal limelight mount offset in cm
+
+  public static final double distToScoring = 50.0; // the distance for the robot to stop at before the scoring station
   public static final double turnTolerance = 2.0; // degrees per turn
-  // Limelight PID
-  public static final double turn_P = 0.1;
-  public static final double turn_I = 0.0;
-  public static final double turn_D = 0.0;
+
+  public static final double tagHeight = 36.0; // cube apriltag mount height in cm
+  public static final double tapeHeight = 56.0; // cone reflective tape mount height in cm
+  public static final double playerStationHeight = 91.0; // human player station april tag mount height in cm
+
+  /* Limelight Align PID */
+  public static final double kTurnP = 0.1;
+  public static final double kTurnI = 0.0;
+  public static final double kTurnD = 0.0;
+
+  /* Limelight Lateral PID */
+  public static final double kLateralP = 3;
+  public static final double kLateralI = 0.1;
+  public static final double kLateralD = 0.1;
+
+  /* Gryo Align PID */
+  public static final double kGyroP = 0.14;
+  public static final double kGyroSlowerP = 0.11;
+  public static final double kGyroI = 0.01;
+  public static final double kGyroD = 0.01;
+
+  /* Balancing Constants */
+  public static final double kLevel = 0;
+  public static final double kBalanceToleranceDeg = -1.5;
+  public static final double kBalanceP = 0.008;
+  public static final double kBalanceI = 0.08;
+  public static final double kBalanceD = 0.025;
+
+  public static final double kAngleCorrectionP = .01;
+  public static final double kTurnToleranceDeg = 10;
+  public static final double kTurnRateToleranceDegPerS = 10;
 
   public static final class ArmConstants {
 
     public static final int MotorID = 15;
     public static final double ArmSpeed = 0.2;
-    public static final int ExtendBottomNode = 5;
-    public static final int ExtendMidNode = 120;
-    public static final int ExtendTopNode = 202;
-    public static final int ExtendMax = 202;
-    public static final double Kp = 0.0101453;
+    public static final int ExtendBottomNode = 21;
+    public static final int ExtendMidNode = 135;
+    public static final int ExtendTopNode = 240;
+    public static final int ExtendMax = 240;
+    public static final double Kp = 0.0451453;
     public static final double Ki = 0;
     public static final double Kd = 0.00035143;
   }
@@ -42,12 +71,12 @@ public final class Constants {
 
     public static final int LMotorID = 12;
     public static final int RMotorID = 13;
-    public static final int BottomNodeDistance = 0;
-    public static final int MidNodeDistance = 60;
-    public static final double HPDistance = 55;
+    public static final int BottomNodeDistance = 1;
+    public static final int MidNodeDistance = 12;
+    public static final double HPDistance = 52;
     public static final int TopNodeDistance = 73;
     public static final int MaxHeight = 72;
-    public static final double Kp = 0.0122244;
+    public static final double Kp = 0.0222244;
     public static final double Ki = 0;
     public static final double Kd = 0.00063787;
   }
@@ -57,7 +86,7 @@ public final class Constants {
     public static final int pigeonID = 1;
     public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
-    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants.SDSMK4i( // TODO: This must be tuned to specific robot
+    public static final COTSFalconSwerveConstants chosenModule = COTSFalconSwerveConstants.SDSMK4i(
       COTSFalconSwerveConstants.driveGearRatios.SDSMK4i_L2
     );
 
@@ -112,22 +141,22 @@ public final class Constants {
     public static final double angleKF = chosenModule.angleKF;
 
     /* Drive Motor PID Values */
-    public static final double driveKP = 0.05; // TODO: This must be tuned to specific robot
+    public static final double driveKP = 0.05;
     public static final double driveKI = 0.0;
     public static final double driveKD = 0.0;
     public static final double driveKF = 0.0;
 
     /* Drive Motor Characterization Values
      * Divide SYSID values by 12 to convert from volts to percent output for CTRE */
-    public static final double driveKS = (0.32 / 12); // TODO: This must be tuned to specific robot
+    public static final double driveKS = (0.32 / 12);
     public static final double driveKV = (1.51 / 12);
     public static final double driveKA = (0.27 / 12);
 
     /* Swerve Profiling Values */
     /** Meters per Second */
-    public static final double maxSpeed = 4.5; // TODO: This must be tuned to specific robot
+    public static final double maxSpeed = 4.5;
     /** Radians per Second */
-    public static final double maxAngularVelocity = 10.0; // TODO: This must be tuned to specific robot
+    public static final double maxAngularVelocity = 10.0;
 
     /* Neutral Modes */
     public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
@@ -135,7 +164,7 @@ public final class Constants {
 
     /* Module Specific Constants */
     /* Front Left Module - Module 0 */
-    public static final class Mod0 { // TODO: This must be tuned to specific robot
+    public static final class Mod0 {
 
       public static final int driveMotorID = 4;
       public static final int angleMotorID = 3;
@@ -150,7 +179,7 @@ public final class Constants {
     }
 
     /* Front Right Module - Module 1 */
-    public static final class Mod1 { // TODO: This must be tuned to specific robot
+    public static final class Mod1 {
 
       public static final int driveMotorID = 6;
       public static final int angleMotorID = 1;
@@ -165,7 +194,7 @@ public final class Constants {
     }
 
     /* Back Left Module - Module 2 */
-    public static final class Mod2 { // TODO: This must be tuned to specific robot
+    public static final class Mod2 {
 
       public static final int driveMotorID = 2;
       public static final int angleMotorID = 5;
@@ -180,7 +209,7 @@ public final class Constants {
     }
 
     /* Back Right Module - Module 3 */
-    public static final class Mod3 { // TODO: This must be tuned to specific robot
+    public static final class Mod3 {
 
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 0;
@@ -195,12 +224,10 @@ public final class Constants {
     }
   }
 
-  public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be tuned
+  public static final class AutoConstants {
 
-    // to specific robot
-
-    public static final double kMaxSpeedMetersPerSecond = 2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared =
       Math.PI;

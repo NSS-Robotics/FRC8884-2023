@@ -10,26 +10,31 @@ import frc.robot.subsystems.Swerve;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-public class GoToLimeLightManual extends PIDCommand {
+/** Aims at the target using the limelight TX value (turns tx deg) */
+public class AimLimelight extends PIDCommand {
 
   private Swerve swerve;
 
-  public GoToLimeLightManual(
-      PIDController controller,
-      DoubleSupplier measurementSource,
-      double setpoint,
-      DoubleConsumer useOutput,
-      Subsystem[] requirements) {
+  public AimLimelight(
+    PIDController controller,
+    DoubleSupplier measurementSource,
+    double setpoint,
+    DoubleConsumer useOutput,
+    Subsystem[] requirements
+  ) {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
-  public GoToLimeLightManual(Swerve s_Swerve, Limelight limelight) {
+  public AimLimelight(Swerve _swerve, Limelight limelight) {
     super(
-        new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-        limelight::estimateDistance,
-        1.5,
-        x -> s_Swerve.drive(new Translation2d(x, 0), 0, true, false),
-        s_Swerve);
+      new PIDController(Constants.kTurnP, Constants.kTurnI, Constants.kTurnD),
+      limelight::gettx,
+      0.0,
+      tx -> _swerve.turnStates(-tx),
+      _swerve
+    );
+    swerve = _swerve;
+    addRequirements(swerve, limelight);
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
@@ -37,12 +42,10 @@ public class GoToLimeLightManual extends PIDCommand {
     getController().setTolerance(Constants.turnTolerance);
 
     System.out.println("Align With Limelight - Start");
-    swerve = s_Swerve;
   }
 
   @Override
   public boolean isFinished() {
-    // End when the controller is at the reference.
     return getController().atSetpoint();
   }
 
@@ -50,6 +53,7 @@ public class GoToLimeLightManual extends PIDCommand {
   public void end(boolean interrupted) {
     swerve.drive(new Translation2d(0, 0), 0, false, false);
     System.out.println("Align With Limelight - End");
+
+    super.end(interrupted);
   }
 }
-/** A command that will turn the robot to the specified angle. */
