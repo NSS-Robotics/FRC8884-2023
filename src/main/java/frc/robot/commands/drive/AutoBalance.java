@@ -21,15 +21,21 @@ public class AutoBalance extends ProfiledPIDCommand {
         Constants.kBalanceD,
         new TrapezoidProfile.Constraints(999, 999)
       ),
-      swerve.gyro::getPitch,
+      swerve.gyro::getRoll,
       Constants.kLevel,
-      (output, setpoint) ->
+      (output, setpoint) -> {
         swerve.drive(
-          new Translation2d(swerve.gyro.getPitch() < 0 ? -output : output, 0),
+          new Translation2d(
+            Math.abs(swerve.gyro.getRoll()) < 11 ? 0 : output,
+            0
+          ),
           Constants.kAngleCorrectionP * headingDelta,
           true,
           false
-        ),
+        );
+        System.out.print("Output:" + output);
+        System.out.println("Angle" + swerve.gyro.getRoll());
+      },
       swerve
     );
     this.swerve = swerve;
@@ -51,7 +57,7 @@ public class AutoBalance extends ProfiledPIDCommand {
     headingDelta = 0;
     heading = swerve.gyro.getAngle();
 
-    if (swerve.gyro.getPitch() < Constants.kBalanceToleranceDeg) {
+    if (Math.abs(swerve.gyro.getRoll()) < Constants.kBalanceToleranceDeg) {
       System.out.println(
         "Starting assumption not met: Roll is " +
         swerve.gyro.getPitch() +

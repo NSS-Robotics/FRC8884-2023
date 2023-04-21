@@ -9,19 +9,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.commands.drive.AlignGyro;
+import frc.robot.commands.drive.AutoBalance;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.*;
 import frc.robot.subsystems.*;
 
-public class TwoPiece extends CommandBase {
+public class OnePieceMobility extends CommandBase {
 
   public boolean isFirstPath = true;
-  public boolean isLeft = false;
   public boolean isMidNode = false;
 
   protected final Swerve swerve;
@@ -30,7 +28,7 @@ public class TwoPiece extends CommandBase {
   protected final Elevator elevator;
   protected final Arm arm;
 
-  public TwoPiece(
+  public OnePieceMobility(
     Swerve swerve,
     ClawPivot pivot,
     Claw claw,
@@ -47,19 +45,17 @@ public class TwoPiece extends CommandBase {
     addRequirements(swerve, pivot, claw, elevator, arm);
   }
 
-  public TwoPiece isMidNode(boolean t) {
+  public OnePieceMobility isMidNode(boolean t) {
     this.isMidNode = t;
     return this;
   }
 
-  public TwoPiece isLeft(boolean t) {
-    this.isLeft = t;
-    return this;
-  }
+  @Override
+  public void initialize() {}
 
   public Command followPath() {
     PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "TwoPiece" + (isLeft ? "Left" : "Right"),
+      "OnePieceMobility",
       new PathConstraints(
         Constants.AutoConstants.kMaxSpeedMetersPerSecond,
         Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
@@ -78,7 +74,7 @@ public class TwoPiece extends CommandBase {
         new InstantCommand(claw::closeClaw),
         new InstantCommand(pivot::down)
       ),
-      new ParallelDeadlineGroup(new WaitCommand(2), elevatorNode),
+      new ParallelDeadlineGroup(new WaitCommand(1), elevatorNode),
       new ParallelDeadlineGroup(new WaitCommand(2), armNode),
       new ParallelDeadlineGroup(
         new WaitCommand(0.3),
@@ -87,8 +83,7 @@ public class TwoPiece extends CommandBase {
       new ParallelDeadlineGroup(new WaitCommand(2), new FullyRetract(arm)),
       new ParallelDeadlineGroup(new WaitCommand(1.5), new BottomNode(elevator)),
       new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new InstantCommand(claw::closeClaw),
+        new WaitCommand(0.3),
         new InstantCommand(pivot::up)
       ),
       new InstantCommand(() -> {
@@ -102,6 +97,7 @@ public class TwoPiece extends CommandBase {
           trajectory,
           swerve::getPose,
           Constants.Swerve.swerveKinematics,
+          // XY PID drive values, usually same
           new PIDController(
             Constants.Swerve.driveKP,
             Constants.Swerve.driveKI,
@@ -120,25 +116,19 @@ public class TwoPiece extends CommandBase {
           ),
           swerve::setModuleStates,
           // Alter path based on team colour (side of the field)
-          false,
+          true,
           swerve
         )
       ),
-      new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new AlignGyro(180, swerve, Constants.kGyroSlowerP)
-      ),
-      new InstantCommand(swerve::zeroGyro),
-      new ParallelDeadlineGroup(
-        new WaitCommand(0.5),
-        new InstantCommand(pivot::down),
-        new InstantCommand(claw::openClaw)
-      ),
-      new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new BottomExtend(arm),
-        new PrintCommand("hi")
-      )
+      new AutoBalance(swerve)
     );
+  }
+
+  @Override
+  public void end(boolean interrupted) {}
+
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }
