@@ -28,6 +28,7 @@ public class Claw extends SubsystemBase {
   public void closeClaw() {
     clawsolenoid.set(kForward);
   }
+
   public void startCompressor() {
     compressor.enableDigital();
   }

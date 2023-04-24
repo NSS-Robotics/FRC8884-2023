@@ -15,24 +15,22 @@ public class AlignLimeLight extends PIDCommand {
   private Swerve swerve;
 
   public AlignLimeLight(
-    PIDController controller,
-    DoubleSupplier measurementSource,
-    double setpoint,
-    DoubleConsumer useOutput,
-    Subsystem[] requirements
-  ) {
+      PIDController controller,
+      DoubleSupplier measurementSource,
+      double setpoint,
+      DoubleConsumer useOutput,
+      Subsystem[] requirements) {
     super(controller, measurementSource, setpoint, useOutput, requirements);
   }
 
   // TODO: Fix this constructor shit
   public AlignLimeLight(Swerve s_Swerve, Limelight limelight) {
     super(
-      new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
-      limelight::gettx,
-      0.0,
-      x -> s_Swerve.TurnStates(-x),
-      s_Swerve
-    );
+        new PIDController(Constants.turn_P, Constants.turn_I, Constants.turn_D),
+        limelight::gettx,
+        0.0,
+        x -> s_Swerve.TurnStates(-x),
+        s_Swerve);
     // Set the controller to be continuous (because it is an angle controller)
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the

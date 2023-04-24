@@ -16,7 +16,6 @@ import frc.robot.commands.claw.*;
 import frc.robot.commands.nodescoring.*;
 import frc.robot.commands.nodescoring.armscoring.BottomExtend;
 import frc.robot.commands.nodescoring.armscoring.MidExtend;
-import frc.robot.commands.nodescoring.armscoring.TopExtend;
 import frc.robot.subsystems.*;
 
 public class OnePiecePlsWork extends CommandBase {
@@ -30,13 +29,7 @@ public class OnePiecePlsWork extends CommandBase {
   protected final Arm arm;
 
   public OnePiecePlsWork(
-    Swerve swerve,
-    ClawPivot pivot,
-    Claw claw,
-    Elevator elevator,
-    Arm arm,
-    boolean isFirstPath
-  ) {
+      Swerve swerve, ClawPivot pivot, Claw claw, Elevator elevator, Arm arm, boolean isFirstPath) {
     this.swerve = swerve;
     this.pivot = pivot;
     this.claw = claw;
@@ -50,61 +43,44 @@ public class OnePiecePlsWork extends CommandBase {
   public void initialize() {}
 
   public Command followPath() {
-    PathPlannerTrajectory trajectory = PathPlanner.loadPath(
-      "OnePiece",
-      new PathConstraints(
-        Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-        Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
-      )
-    );
+    PathPlannerTrajectory trajectory =
+        PathPlanner.loadPath(
+            "OnePiece",
+            new PathConstraints(
+                Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+                Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared));
 
     return new SequentialCommandGroup(
-      new ParallelDeadlineGroup(
-        new WaitCommand(1),
-        new InstantCommand(claw::openClaw),
-        new InstantCommand(pivot::up)
-      ),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new MidNode(elevator)),
-      new ParallelDeadlineGroup(new WaitCommand(2.5), new MidExtend(arm)),
-      new ParallelDeadlineGroup(
-        new WaitCommand(0.5),
-        new InstantCommand(claw::closeClaw)
-      ),
-      new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
-      new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
-      new InstantCommand(() -> {
-        // Reset odometry for the first path ran during auto
-        if (isFirstPath) {
-          swerve.resetOdometry(trajectory.getInitialPose());
-        }
-      }),
-      new PPSwerveControllerCommand(
-        trajectory,
-        swerve::getPose,
-        Constants.Swerve.swerveKinematics,
-        // XY PID drive values, usually same
-        new PIDController(
-          Constants.Swerve.driveKP,
-          Constants.Swerve.driveKI,
-          Constants.Swerve.driveKD
-        ),
-        new PIDController(
-          Constants.Swerve.driveKP,
-          Constants.Swerve.driveKI,
-          Constants.Swerve.driveKD
-        ),
-        // rotation PID
-        new PIDController(
-          Constants.Swerve.angleKP,
-          Constants.Swerve.angleKI,
-          Constants.Swerve.angleKD
-        ),
-        swerve::setModuleStates,
-        // Alter path based on team colour (side of the field)
-        true,
-        swerve
-      )
-    );
+        new ParallelDeadlineGroup(
+            new WaitCommand(1), new InstantCommand(claw::openClaw), new InstantCommand(pivot::up)),
+        new ParallelDeadlineGroup(new WaitCommand(2.5), new MidNode(elevator)),
+        new ParallelDeadlineGroup(new WaitCommand(2.5), new MidExtend(arm)),
+        new ParallelDeadlineGroup(new WaitCommand(0.5), new InstantCommand(claw::closeClaw)),
+        new ParallelDeadlineGroup(new WaitCommand(1), new BottomExtend(arm)),
+        new ParallelDeadlineGroup(new WaitCommand(2), new BottomNode(elevator)),
+        new InstantCommand(
+            () -> {
+              // Reset odometry for the first path ran during auto
+              if (isFirstPath) {
+                swerve.resetOdometry(trajectory.getInitialPose());
+              }
+            }),
+        new PPSwerveControllerCommand(
+            trajectory,
+            swerve::getPose,
+            Constants.Swerve.swerveKinematics,
+            // XY PID drive values, usually same
+            new PIDController(
+                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
+            new PIDController(
+                Constants.Swerve.driveKP, Constants.Swerve.driveKI, Constants.Swerve.driveKD),
+            // rotation PID
+            new PIDController(
+                Constants.Swerve.angleKP, Constants.Swerve.angleKI, Constants.Swerve.angleKD),
+            swerve::setModuleStates,
+            // Alter path based on team colour (side of the field)
+            true,
+            swerve));
   }
 
   @Override

@@ -4,7 +4,6 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.claw.*;
@@ -26,14 +25,13 @@ public class OnePiece extends CommandBase {
   protected final Arm arm;
 
   public OnePiece(
-    Swerve _swerve,
-    ClawPivot pivot,
-    Claw claw,
-    Elevator elevator,
-    Arm arm,
-    boolean isFirstPath,
-    HashMap<String, Command> eventMap
-  ) {
+      Swerve _swerve,
+      ClawPivot pivot,
+      Claw claw,
+      Elevator elevator,
+      Arm arm,
+      boolean isFirstPath,
+      HashMap<String, Command> eventMap) {
     Swerve swerve = _swerve;
     this.pivot = pivot;
     this.claw = claw;
@@ -48,11 +46,11 @@ public class OnePiece extends CommandBase {
   public void initialize() {}
 
   public Command followPath() {
-    List<PathPlannerTrajectory> trajectory = PathPlanner.loadPathGroup(
-      "OnePiece",
-      Constants.AutoConstants.kMaxSpeedMetersPerSecond,
-      Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared
-    );
+    List<PathPlannerTrajectory> trajectory =
+        PathPlanner.loadPathGroup(
+            "OnePiece",
+            Constants.AutoConstants.kMaxSpeedMetersPerSecond,
+            Constants.AutoConstants.kMaxAccelerationMetersPerSecondSquared);
     eventMap.clear();
     eventMap.put("Close Claw", new CloseClaw(claw).asProxy());
     eventMap.put("Claw Down", new PivotDown(pivot).asProxy());
